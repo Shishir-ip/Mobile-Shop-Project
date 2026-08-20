@@ -1,0 +1,451 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\Semester 6\\C#\\MobileShop\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{C9602D7B-A8CF-4675-BB81-2AC5BC210A7F}|MobileShop\\MobileShop.csproj|d:\\semester 6\\c#\\mobileshop\\mobileshop\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C9602D7B-A8CF-4675-BB81-2AC5BC210A7F}|MobileShop\\MobileShop.csproj|solutionrelative:mobileshop\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C9602D7B-A8CF-4675-BB81-2AC5BC210A7F}|MobileShop\\MobileShop.csproj|D:\\Semester 6\\C#\\MobileShop\\mobileshop\\adminform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{C9602D7B-A8CF-4675-BB81-2AC5BC210A7F}|MobileShop\\MobileShop.csproj|solutionrelative:mobileshop\\adminform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C9602D7B-A8CF-4675-BB81-2AC5BC210A7F}|MobileShop\\MobileShop.csproj|d:\\semester 6\\c#\\mobileshop\\mobileshop\\adminform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C9602D7B-A8CF-4675-BB81-2AC5BC210A7F}|MobileShop\\MobileShop.csproj|solutionrelative:mobileshop\\adminform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C9602D7B-A8CF-4675-BB81-2AC5BC210A7F}|MobileShop\\MobileShop.csproj|D:\\Semester 6\\C#\\MobileShop\\mobileshop\\registerform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{C9602D7B-A8CF-4675-BB81-2AC5BC210A7F}|MobileShop\\MobileShop.csproj|solutionrelative:mobileshop\\registerform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C9602D7B-A8CF-4675-BB81-2AC5BC210A7F}|MobileShop\\MobileShop.csproj|d:\\semester 6\\c#\\mobileshop\\mobileshop\\registerform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C9602D7B-A8CF-4675-BB81-2AC5BC210A7F}|MobileShop\\MobileShop.csproj|solutionrelative:mobileshop\\registerform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Semester 6\\C#\\MobileShop\\csharp MobileShop\\CheckoutForm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:csharp MobileShop\\CheckoutForm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C9602D7B-A8CF-4675-BB81-2AC5BC210A7F}|MobileShop\\MobileShop.csproj|d:\\semester 6\\c#\\mobileshop\\mobileshop\\forgotpasswordform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C9602D7B-A8CF-4675-BB81-2AC5BC210A7F}|MobileShop\\MobileShop.csproj|solutionrelative:mobileshop\\forgotpasswordform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C9602D7B-A8CF-4675-BB81-2AC5BC210A7F}|MobileShop\\MobileShop.csproj|D:\\Semester 6\\C#\\MobileShop\\mobileshop\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{C9602D7B-A8CF-4675-BB81-2AC5BC210A7F}|MobileShop\\MobileShop.csproj|solutionrelative:mobileshop\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C9602D7B-A8CF-4675-BB81-2AC5BC210A7F}|MobileShop\\MobileShop.csproj|d:\\semester 6\\c#\\mobileshop\\mobileshop\\checkoutform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C9602D7B-A8CF-4675-BB81-2AC5BC210A7F}|MobileShop\\MobileShop.csproj|solutionrelative:mobileshop\\checkoutform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C9602D7B-A8CF-4675-BB81-2AC5BC210A7F}|MobileShop\\MobileShop.csproj|d:\\semester 6\\c#\\mobileshop\\mobileshop\\forgotpasswordform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C9602D7B-A8CF-4675-BB81-2AC5BC210A7F}|MobileShop\\MobileShop.csproj|solutionrelative:mobileshop\\forgotpasswordform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C9602D7B-A8CF-4675-BB81-2AC5BC210A7F}|MobileShop\\MobileShop.csproj|d:\\semester 6\\c#\\mobileshop\\mobileshop\\ordersuccessform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C9602D7B-A8CF-4675-BB81-2AC5BC210A7F}|MobileShop\\MobileShop.csproj|solutionrelative:mobileshop\\ordersuccessform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C9602D7B-A8CF-4675-BB81-2AC5BC210A7F}|MobileShop\\MobileShop.csproj|d:\\semester 6\\c#\\mobileshop\\mobileshop\\loginform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C9602D7B-A8CF-4675-BB81-2AC5BC210A7F}|MobileShop\\MobileShop.csproj|solutionrelative:mobileshop\\loginform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C9602D7B-A8CF-4675-BB81-2AC5BC210A7F}|MobileShop\\MobileShop.csproj|d:\\semester 6\\c#\\mobileshop\\mobileshop\\mobileshop.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{C9602D7B-A8CF-4675-BB81-2AC5BC210A7F}|MobileShop\\MobileShop.csproj|solutionrelative:mobileshop\\mobileshop.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C9602D7B-A8CF-4675-BB81-2AC5BC210A7F}|MobileShop\\MobileShop.csproj|d:\\semester 6\\c#\\mobileshop\\mobileshop\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C9602D7B-A8CF-4675-BB81-2AC5BC210A7F}|MobileShop\\MobileShop.csproj|solutionrelative:mobileshop\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C9602D7B-A8CF-4675-BB81-2AC5BC210A7F}|MobileShop\\MobileShop.csproj|d:\\semester 6\\c#\\mobileshop\\mobileshop\\adminform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C9602D7B-A8CF-4675-BB81-2AC5BC210A7F}|MobileShop\\MobileShop.csproj|solutionrelative:mobileshop\\adminform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C9602D7B-A8CF-4675-BB81-2AC5BC210A7F}|MobileShop\\MobileShop.csproj|D:\\Semester 6\\C#\\MobileShop\\mobileshop\\ordersuccessform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{C9602D7B-A8CF-4675-BB81-2AC5BC210A7F}|MobileShop\\MobileShop.csproj|solutionrelative:mobileshop\\ordersuccessform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C9602D7B-A8CF-4675-BB81-2AC5BC210A7F}|MobileShop\\MobileShop.csproj|d:\\semester 6\\c#\\mobileshop\\mobileshop\\ordersuccessform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C9602D7B-A8CF-4675-BB81-2AC5BC210A7F}|MobileShop\\MobileShop.csproj|solutionrelative:mobileshop\\ordersuccessform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C9602D7B-A8CF-4675-BB81-2AC5BC210A7F}|MobileShop\\MobileShop.csproj|D:\\Semester 6\\C#\\MobileShop\\mobileshop\\checkoutform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{C9602D7B-A8CF-4675-BB81-2AC5BC210A7F}|MobileShop\\MobileShop.csproj|solutionrelative:mobileshop\\checkoutform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C9602D7B-A8CF-4675-BB81-2AC5BC210A7F}|MobileShop\\MobileShop.csproj|d:\\semester 6\\c#\\mobileshop\\mobileshop\\checkoutform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C9602D7B-A8CF-4675-BB81-2AC5BC210A7F}|MobileShop\\MobileShop.csproj|solutionrelative:mobileshop\\checkoutform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C9602D7B-A8CF-4675-BB81-2AC5BC210A7F}|MobileShop\\MobileShop.csproj|d:\\semester 6\\c#\\mobileshop\\mobileshop\\productdetailsform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C9602D7B-A8CF-4675-BB81-2AC5BC210A7F}|MobileShop\\MobileShop.csproj|solutionrelative:mobileshop\\productdetailsform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C9602D7B-A8CF-4675-BB81-2AC5BC210A7F}|MobileShop\\MobileShop.csproj|D:\\Semester 6\\C#\\MobileShop\\mobileshop\\productdetailsform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{C9602D7B-A8CF-4675-BB81-2AC5BC210A7F}|MobileShop\\MobileShop.csproj|solutionrelative:mobileshop\\productdetailsform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C9602D7B-A8CF-4675-BB81-2AC5BC210A7F}|MobileShop\\MobileShop.csproj|d:\\semester 6\\c#\\mobileshop\\mobileshop\\productdetailsform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C9602D7B-A8CF-4675-BB81-2AC5BC210A7F}|MobileShop\\MobileShop.csproj|solutionrelative:mobileshop\\productdetailsform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C9602D7B-A8CF-4675-BB81-2AC5BC210A7F}|MobileShop\\MobileShop.csproj|D:\\Semester 6\\C#\\MobileShop\\mobileshop\\forgotpasswordform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{C9602D7B-A8CF-4675-BB81-2AC5BC210A7F}|MobileShop\\MobileShop.csproj|solutionrelative:mobileshop\\forgotpasswordform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C9602D7B-A8CF-4675-BB81-2AC5BC210A7F}|MobileShop\\MobileShop.csproj|d:\\semester 6\\c#\\mobileshop\\mobileshop\\registerform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C9602D7B-A8CF-4675-BB81-2AC5BC210A7F}|MobileShop\\MobileShop.csproj|solutionrelative:mobileshop\\registerform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C9602D7B-A8CF-4675-BB81-2AC5BC210A7F}|MobileShop\\MobileShop.csproj|D:\\Semester 6\\C#\\MobileShop\\mobileshop\\loginform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{C9602D7B-A8CF-4675-BB81-2AC5BC210A7F}|MobileShop\\MobileShop.csproj|solutionrelative:mobileshop\\loginform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C9602D7B-A8CF-4675-BB81-2AC5BC210A7F}|MobileShop\\MobileShop.csproj|d:\\semester 6\\c#\\mobileshop\\mobileshop\\loginform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C9602D7B-A8CF-4675-BB81-2AC5BC210A7F}|MobileShop\\MobileShop.csproj|solutionrelative:mobileshop\\loginform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C9602D7B-A8CF-4675-BB81-2AC5BC210A7F}|MobileShop\\MobileShop.csproj|d:\\semester 6\\c#\\mobileshop\\mobileshop\\form1.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C9602D7B-A8CF-4675-BB81-2AC5BC210A7F}|MobileShop\\MobileShop.csproj|solutionrelative:mobileshop\\form1.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "RegisterForm.cs [Design]",
+              "DocumentMoniker": "D:\\Semester 6\\C#\\MobileShop\\MobileShop\\RegisterForm.cs",
+              "RelativeDocumentMoniker": "MobileShop\\RegisterForm.cs",
+              "ToolTip": "D:\\Semester 6\\C#\\MobileShop\\MobileShop\\RegisterForm.cs [Design]",
+              "RelativeToolTip": "MobileShop\\RegisterForm.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-11T19:31:32.459Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Form1.cs",
+              "DocumentMoniker": "D:\\Semester 6\\C#\\MobileShop\\MobileShop\\Form1.cs",
+              "RelativeDocumentMoniker": "MobileShop\\Form1.cs",
+              "ToolTip": "D:\\Semester 6\\C#\\MobileShop\\MobileShop\\Form1.cs",
+              "RelativeToolTip": "MobileShop\\Form1.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMBAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-11T19:20:42.236Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "AdminForm.cs",
+              "DocumentMoniker": "D:\\Semester 6\\C#\\MobileShop\\MobileShop\\AdminForm.cs",
+              "RelativeDocumentMoniker": "MobileShop\\AdminForm.cs",
+              "ToolTip": "D:\\Semester 6\\C#\\MobileShop\\MobileShop\\AdminForm.cs",
+              "RelativeToolTip": "MobileShop\\AdminForm.cs",
+              "ViewState": "AgIAAHUAAAAAAAAAAAAEwIEAAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-11T19:45:35.532Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "AdminForm.cs [Design]",
+              "DocumentMoniker": "D:\\Semester 6\\C#\\MobileShop\\MobileShop\\AdminForm.cs",
+              "RelativeDocumentMoniker": "MobileShop\\AdminForm.cs",
+              "ToolTip": "D:\\Semester 6\\C#\\MobileShop\\MobileShop\\AdminForm.cs [Design]",
+              "RelativeToolTip": "MobileShop\\AdminForm.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-11T19:43:21.554Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "RegisterForm.cs",
+              "DocumentMoniker": "D:\\Semester 6\\C#\\MobileShop\\MobileShop\\RegisterForm.cs",
+              "RelativeDocumentMoniker": "MobileShop\\RegisterForm.cs",
+              "ToolTip": "D:\\Semester 6\\C#\\MobileShop\\MobileShop\\RegisterForm.cs",
+              "RelativeToolTip": "MobileShop\\RegisterForm.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-11T19:34:06.302Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "CheckoutForm.cs",
+              "DocumentMoniker": "D:\\Semester 6\\C#\\MobileShop\\csharp MobileShop\\CheckoutForm.cs",
+              "RelativeDocumentMoniker": "csharp MobileShop\\CheckoutForm.cs",
+              "ToolTip": "D:\\Semester 6\\C#\\MobileShop\\csharp MobileShop\\CheckoutForm.cs",
+              "RelativeToolTip": "csharp MobileShop\\CheckoutForm.cs",
+              "ViewState": "AgIAABwAAAAAAAAAAAAswDwAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-12T07:38:31.383Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "ForgotPasswordForm.cs",
+              "DocumentMoniker": "D:\\Semester 6\\C#\\MobileShop\\MobileShop\\ForgotPasswordForm.cs",
+              "RelativeDocumentMoniker": "MobileShop\\ForgotPasswordForm.cs",
+              "ToolTip": "D:\\Semester 6\\C#\\MobileShop\\MobileShop\\ForgotPasswordForm.cs",
+              "RelativeToolTip": "MobileShop\\ForgotPasswordForm.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-11T19:36:35.565Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Form1.cs [Design]",
+              "DocumentMoniker": "D:\\Semester 6\\C#\\MobileShop\\MobileShop\\Form1.cs",
+              "RelativeDocumentMoniker": "MobileShop\\Form1.cs",
+              "ToolTip": "D:\\Semester 6\\C#\\MobileShop\\MobileShop\\Form1.cs [Design]",
+              "RelativeToolTip": "MobileShop\\Form1.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-11T19:06:00.779Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "CheckoutForm.cs",
+              "DocumentMoniker": "D:\\Semester 6\\C#\\MobileShop\\MobileShop\\CheckoutForm.cs",
+              "RelativeDocumentMoniker": "MobileShop\\CheckoutForm.cs",
+              "ToolTip": "D:\\Semester 6\\C#\\MobileShop\\MobileShop\\CheckoutForm.cs",
+              "RelativeToolTip": "MobileShop\\CheckoutForm.cs",
+              "ViewState": "AgIAAG0AAAAAAAAAAAAYwHwAAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-11T19:40:50.887Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "ForgotPasswordForm.Designer.cs",
+              "DocumentMoniker": "D:\\Semester 6\\C#\\MobileShop\\MobileShop\\ForgotPasswordForm.Designer.cs",
+              "RelativeDocumentMoniker": "MobileShop\\ForgotPasswordForm.Designer.cs",
+              "ToolTip": "D:\\Semester 6\\C#\\MobileShop\\MobileShop\\ForgotPasswordForm.Designer.cs",
+              "RelativeToolTip": "MobileShop\\ForgotPasswordForm.Designer.cs",
+              "ViewState": "AgIAABEAAAAAAAAAAADwvwAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-11T19:36:06.945Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "LoginForm.cs",
+              "DocumentMoniker": "D:\\Semester 6\\C#\\MobileShop\\MobileShop\\LoginForm.cs",
+              "RelativeDocumentMoniker": "MobileShop\\LoginForm.cs",
+              "ToolTip": "D:\\Semester 6\\C#\\MobileShop\\MobileShop\\LoginForm.cs",
+              "RelativeToolTip": "MobileShop\\LoginForm.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACUAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-11T19:31:58.73Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "MobileShop.csproj",
+              "DocumentMoniker": "D:\\Semester 6\\C#\\MobileShop\\MobileShop\\MobileShop.csproj",
+              "RelativeDocumentMoniker": "MobileShop\\MobileShop.csproj",
+              "ToolTip": "D:\\Semester 6\\C#\\MobileShop\\MobileShop\\MobileShop.csproj",
+              "RelativeToolTip": "MobileShop\\MobileShop.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2026-08-11T19:56:04.947Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "OrderSuccessForm.cs",
+              "DocumentMoniker": "D:\\Semester 6\\C#\\MobileShop\\MobileShop\\OrderSuccessForm.cs",
+              "RelativeDocumentMoniker": "MobileShop\\OrderSuccessForm.cs",
+              "ToolTip": "D:\\Semester 6\\C#\\MobileShop\\MobileShop\\OrderSuccessForm.cs",
+              "RelativeToolTip": "MobileShop\\OrderSuccessForm.cs",
+              "ViewState": "AgIAAAQAAAAAAAAAAAAcwBYAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-11T19:42:50.023Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\Semester 6\\C#\\MobileShop\\MobileShop\\Program.cs",
+              "RelativeDocumentMoniker": "MobileShop\\Program.cs",
+              "ToolTip": "D:\\Semester 6\\C#\\MobileShop\\MobileShop\\Program.cs",
+              "RelativeToolTip": "MobileShop\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-11T19:48:06.341Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "AdminForm.Designer.cs",
+              "DocumentMoniker": "D:\\Semester 6\\C#\\MobileShop\\MobileShop\\AdminForm.Designer.cs",
+              "RelativeDocumentMoniker": "MobileShop\\AdminForm.Designer.cs",
+              "ToolTip": "D:\\Semester 6\\C#\\MobileShop\\MobileShop\\AdminForm.Designer.cs",
+              "RelativeToolTip": "MobileShop\\AdminForm.Designer.cs",
+              "ViewState": "AgIAAA0AAAAAAAAAAAASwCUAAAAlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-11T19:44:38.887Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "OrderSuccessForm.Designer.cs",
+              "DocumentMoniker": "D:\\Semester 6\\C#\\MobileShop\\MobileShop\\OrderSuccessForm.Designer.cs",
+              "RelativeDocumentMoniker": "MobileShop\\OrderSuccessForm.Designer.cs",
+              "ToolTip": "D:\\Semester 6\\C#\\MobileShop\\MobileShop\\OrderSuccessForm.Designer.cs",
+              "RelativeToolTip": "MobileShop\\OrderSuccessForm.Designer.cs",
+              "ViewState": "AgIAABEAAAAAAAAAAADwvwAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-11T19:42:22.299Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "OrderSuccessForm.cs [Design]",
+              "DocumentMoniker": "D:\\Semester 6\\C#\\MobileShop\\MobileShop\\OrderSuccessForm.cs",
+              "RelativeDocumentMoniker": "MobileShop\\OrderSuccessForm.cs",
+              "ToolTip": "D:\\Semester 6\\C#\\MobileShop\\MobileShop\\OrderSuccessForm.cs [Design]",
+              "RelativeToolTip": "MobileShop\\OrderSuccessForm.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-11T19:41:31.46Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "CheckoutForm.Designer.cs",
+              "DocumentMoniker": "D:\\Semester 6\\C#\\MobileShop\\MobileShop\\CheckoutForm.Designer.cs",
+              "RelativeDocumentMoniker": "MobileShop\\CheckoutForm.Designer.cs",
+              "ToolTip": "D:\\Semester 6\\C#\\MobileShop\\MobileShop\\CheckoutForm.Designer.cs",
+              "RelativeToolTip": "MobileShop\\CheckoutForm.Designer.cs",
+              "ViewState": "AgIAABEAAAAAAAAAAADwvwAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-11T19:40:23.679Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "CheckoutForm.cs [Design]",
+              "DocumentMoniker": "D:\\Semester 6\\C#\\MobileShop\\MobileShop\\CheckoutForm.cs",
+              "RelativeDocumentMoniker": "MobileShop\\CheckoutForm.cs",
+              "ToolTip": "D:\\Semester 6\\C#\\MobileShop\\MobileShop\\CheckoutForm.cs [Design]",
+              "RelativeToolTip": "MobileShop\\CheckoutForm.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-11T19:39:18.622Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "ProductDetailsForm.cs",
+              "DocumentMoniker": "D:\\Semester 6\\C#\\MobileShop\\MobileShop\\ProductDetailsForm.cs",
+              "RelativeDocumentMoniker": "MobileShop\\ProductDetailsForm.cs",
+              "ToolTip": "D:\\Semester 6\\C#\\MobileShop\\MobileShop\\ProductDetailsForm.cs",
+              "RelativeToolTip": "MobileShop\\ProductDetailsForm.cs",
+              "ViewState": "AgIAACsAAAAAAAAAAAAYwDAAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-11T19:38:44.992Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "ProductDetailsForm.Designer.cs",
+              "DocumentMoniker": "D:\\Semester 6\\C#\\MobileShop\\MobileShop\\ProductDetailsForm.Designer.cs",
+              "RelativeDocumentMoniker": "MobileShop\\ProductDetailsForm.Designer.cs",
+              "ToolTip": "D:\\Semester 6\\C#\\MobileShop\\MobileShop\\ProductDetailsForm.Designer.cs",
+              "RelativeToolTip": "MobileShop\\ProductDetailsForm.Designer.cs",
+              "ViewState": "AgIAAA4AAAAAAAAAAADwvwAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-11T19:38:13.78Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "ProductDetailsForm.cs [Design]",
+              "DocumentMoniker": "D:\\Semester 6\\C#\\MobileShop\\MobileShop\\ProductDetailsForm.cs",
+              "RelativeDocumentMoniker": "MobileShop\\ProductDetailsForm.cs",
+              "ToolTip": "D:\\Semester 6\\C#\\MobileShop\\MobileShop\\ProductDetailsForm.cs [Design]",
+              "RelativeToolTip": "MobileShop\\ProductDetailsForm.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-11T19:37:18.685Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "ForgotPasswordForm.cs [Design]",
+              "DocumentMoniker": "D:\\Semester 6\\C#\\MobileShop\\MobileShop\\ForgotPasswordForm.cs",
+              "RelativeDocumentMoniker": "MobileShop\\ForgotPasswordForm.cs",
+              "ToolTip": "D:\\Semester 6\\C#\\MobileShop\\MobileShop\\ForgotPasswordForm.cs [Design]",
+              "RelativeToolTip": "MobileShop\\ForgotPasswordForm.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-11T19:34:52.27Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "RegisterForm.Designer.cs",
+              "DocumentMoniker": "D:\\Semester 6\\C#\\MobileShop\\MobileShop\\RegisterForm.Designer.cs",
+              "RelativeDocumentMoniker": "MobileShop\\RegisterForm.Designer.cs",
+              "ToolTip": "D:\\Semester 6\\C#\\MobileShop\\MobileShop\\RegisterForm.Designer.cs",
+              "RelativeToolTip": "MobileShop\\RegisterForm.Designer.cs",
+              "ViewState": "AgIAABEAAAAAAAAAAADwvwAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-11T19:33:42.503Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "LoginForm.Designer.cs",
+              "DocumentMoniker": "D:\\Semester 6\\C#\\MobileShop\\MobileShop\\LoginForm.Designer.cs",
+              "RelativeDocumentMoniker": "MobileShop\\LoginForm.Designer.cs",
+              "ToolTip": "D:\\Semester 6\\C#\\MobileShop\\MobileShop\\LoginForm.Designer.cs",
+              "RelativeToolTip": "MobileShop\\LoginForm.Designer.cs",
+              "ViewState": "AgIAABEAAAAAAAAAAADwvxgAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-11T19:30:45.655Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "LoginForm.cs [Design]",
+              "DocumentMoniker": "D:\\Semester 6\\C#\\MobileShop\\MobileShop\\LoginForm.cs",
+              "RelativeDocumentMoniker": "MobileShop\\LoginForm.cs",
+              "ToolTip": "D:\\Semester 6\\C#\\MobileShop\\MobileShop\\LoginForm.cs [Design]",
+              "RelativeToolTip": "MobileShop\\LoginForm.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-11T19:30:37.723Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "Form1.Designer.cs",
+              "DocumentMoniker": "D:\\Semester 6\\C#\\MobileShop\\MobileShop\\Form1.Designer.cs",
+              "RelativeDocumentMoniker": "MobileShop\\Form1.Designer.cs",
+              "ToolTip": "D:\\Semester 6\\C#\\MobileShop\\MobileShop\\Form1.Designer.cs",
+              "RelativeToolTip": "MobileShop\\Form1.Designer.cs",
+              "ViewState": "AgIAALkAAAAAAAAAAAAnwMsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-11T19:25:01.01Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

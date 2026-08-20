@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MobileShop - Project Documentation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-card: #1e293b;
+            --bg-code: #0b1221;
+            --accent: #3b82f6;
+            --accent-glow: rgba(59, 130, 246, 0.3);
+            --accent-secondary: #8b5cf6;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --border: #334155;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --info: #06b6d4;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-primary); }
+        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+        /* Nav */
+        .nav {
+            position: fixed; top: 0; left: 0; right: 0;
+            background: rgba(15, 23, 42, 0.9);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            z-index: 1000; padding: 0 2rem;
+        }
+        .nav-inner {
+            max-width: 1400px; margin: 0 auto;
+            display: flex; align-items: center; justify-content: space-between; height: 64px;
+        }
+        .nav-logo {
+            font-weight: 800; font-size: 1.3rem;
+            background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            display: flex; align-items: center; gap: 0.5rem;
+        }
+        .nav-links { display: flex; gap: 2rem; list-style: none; }
+        .nav-links a {
+            color: var(--text-secondary); text-decoration: none;
+            font-size: 0.9rem; font-weight: 500; transition: color 0.2s; position: relative;
+        }
+        .nav-links a:hover { color: var(--accent); }
+        .nav-links a::after {
+            content: ''; position: absolute; bottom: -4px; left: 0;
+            width: 0; height: 2px; background: var(--accent); transition: width 0.2s;
+        }
+        .nav-links a:hover::after { width: 100%; }
+
+        /* Hero */
+        .hero {
+            min-height: 100vh; display: flex; align-items: center; justify-content: center;
+            text-align: center; padding: 6rem 2rem 4rem; position: relative; overflow: hidden;
+        }
+        .hero-bg {
+            position: absolute; inset: 0;
+            background:
+                radial-gradient(ellipse at 20% 50%, rgba(59,130,246,0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 50%, rgba(139,92,246,0.08) 0%, transparent 50%);
+        }
+        .hero-content { position: relative; z-index: 1; max-width: 900px; }
+        .hero-badge {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            padding: 0.5rem 1rem; background: var(--bg-secondary);
+            border: 1px solid var(--border); border-radius: 100px;
+            font-size: 0.85rem; color: var(--accent); margin-bottom: 2rem;
+        }
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 800;
+            line-height: 1.1; margin-bottom: 1.5rem;
+        }
+        .hero h1 span {
+            background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .hero p { font-size: 1.2rem; color: var(--text-secondary); max-width: 600px; margin: 0 auto 2.5rem; }
+        .hero-meta { display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; }
+        .hero-meta-item { display: flex; align-items: center; gap: 0.5rem; color: var(--text-muted); font-size: 0.9rem; }
+        .hero-meta-item svg { width: 18px; height: 18px; }
+
+        /* Sections */
+        section { padding: 5rem 2rem; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .section-header { text-align: center; margin-bottom: 3rem; }
+        .section-header h2 { font-size: 2.2rem; font-weight: 700; margin-bottom: 0.75rem; }
+        .section-header p { color: var(--text-secondary); max-width: 600px; margin: 0 auto; }
+        .section-tag {
+            display: inline-block; padding: 0.25rem 0.75rem;
+            background: var(--accent-glow); color: var(--accent);
+            border-radius: 4px; font-size: 0.75rem; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1rem;
+        }
+
+        /* Tech Grid */
+        .tech-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; }
+        .tech-card {
+            background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: 16px; padding: 2rem; text-align: center;
+            transition: all 0.3s ease; position: relative; overflow: hidden;
+        }
+        .tech-card::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0;
+            height: 3px; background: linear-gradient(90deg, var(--accent), var(--accent-secondary));
+            opacity: 0; transition: opacity 0.3s;
+        }
+        .tech-card:hover { transform: translateY(-4px); border-color: var(--accent); box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
+        .tech-card:hover::before { opacity: 1; }
+        .tech-icon { width: 56px; height: 56px; margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; background: var(--bg-primary); border-radius: 14px; border: 1px solid var(--border); font-size: 1.5rem; }
+        .tech-card h3 { font-size: 1.1rem; margin-bottom: 0.5rem; }
+        .tech-card p { font-size: 0.85rem; color: var(--text-muted); }
+
+        /* Architecture */
+        .arch-section { background: var(--bg-secondary); }
+        .arch-diagram {
+            background: var(--bg-primary); border: 1px solid var(--border);
+            border-radius: 20px; padding: 3rem; position: relative; overflow: hidden;
+        }
+        .arch-layers { display: flex; flex-direction: column; gap: 1.5rem; position: relative; z-index: 1; }
+        .arch-layer {
+            display: flex; align-items: center; gap: 1.5rem;
+            padding: 1.5rem 2rem; background: var(--bg-secondary);
+            border: 1px solid var(--border); border-radius: 12px; transition: all 0.3s;
+        }
+        .arch-layer:hover { border-color: var(--accent); background: rgba(59,130,246,0.05); }
+        .arch-layer-icon { width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; border-radius: 10px; font-size: 1.3rem; flex-shrink: 0; }
+        .arch-layer-icon.ui { background: rgba(59,130,246,0.15); }
+        .arch-layer-icon.logic { background: rgba(139,92,246,0.15); }
+        .arch-layer-icon.db { background: rgba(16,185,129,0.15); }
+        .arch-arrow { text-align: center; color: var(--text-muted); font-size: 1.2rem; }
+        .arch-files { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.5rem; }
+        .arch-file-tag {
+            padding: 0.2rem 0.6rem; background: var(--bg-primary);
+            border: 1px solid var(--border); border-radius: 4px;
+            font-size: 0.75rem; font-family: 'JetBrains Mono', monospace; color: var(--text-secondary);
+        }
+
+        /* Database */
+        .db-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
+        .db-table { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; transition: all 0.3s; }
+        .db-table:hover { border-color: var(--accent); transform: translateY(-2px); }
+        .db-table-header { padding: 1rem 1.5rem; background: var(--bg-primary); border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 0.75rem; }
+        .db-table-header .icon { font-size: 1.2rem; }
+        .db-table-header h3 { font-size: 1rem; font-family: 'JetBrains Mono', monospace; color: var(--accent); }
+        .db-table-header .badge { margin-left: auto; padding: 0.15rem 0.5rem; background: var(--accent-glow); color: var(--accent); border-radius: 4px; font-size: 0.7rem; font-weight: 600; }
+        .db-columns { padding: 0.5rem 0; }
+        .db-column { display: flex; align-items: center; padding: 0.6rem 1.5rem; gap: 0.75rem; font-size: 0.85rem; font-family: 'JetBrains Mono', monospace; }
+        .db-column:nth-child(even) { background: rgba(255,255,255,0.02); }
+        .db-col-name { color: var(--text-primary); min-width: 120px; }
+        .db-col-type { color: var(--text-muted); font-size: 0.8rem; }
+        .db-col-key { margin-left: auto; padding: 0.1rem 0.4rem; border-radius: 3px; font-size: 0.65rem; font-weight: 600; text-transform: uppercase; }
+        .db-col-key.pk { background: rgba(239,68,68,0.15); color: var(--danger); }
+        .db-col-key.fk { background: rgba(245,158,11,0.15); color: var(--warning); }
+        .db-col-key.ai { background: rgba(16,185,129,0.15); color: var(--success); }
+
+        /* Code */
+        .code-section { background: var(--bg-secondary); }
+        .code-block { background: var(--bg-code); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin-bottom: 1.5rem; }
+        .code-header { display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 1rem; background: rgba(255,255,255,0.03); border-bottom: 1px solid var(--border); }
+        .code-header-left { display: flex; align-items: center; gap: 0.5rem; }
+        .code-dots { display: flex; gap: 0.4rem; }
+        .code-dot { width: 10px; height: 10px; border-radius: 50%; }
+        .code-dot.red { background: var(--danger); }
+        .code-dot.yellow { background: var(--warning); }
+        .code-dot.green { background: var(--success); }
+        .code-filename { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: var(--text-secondary); }
+        .code-lang { padding: 0.2rem 0.6rem; background: var(--bg-primary); border-radius: 4px; font-size: 0.7rem; color: var(--text-muted); font-weight: 500; }
+        pre { padding: 1.25rem; overflow-x: auto; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; line-height: 1.6; }
+        .code-keyword { color: #c678dd; }
+        .code-type { color: #e5c07b; }
+        .code-string { color: #98c379; }
+        .code-comment { color: #5c6370; font-style: italic; }
+        .code-function { color: #61afef; }
+        .code-number { color: #d19a66; }
+
+        /* Flow */
+        .flow-timeline { position: relative; padding-left: 2rem; }
+        .flow-timeline::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: linear-gradient(180deg, var(--accent), var(--accent-secondary)); border-radius: 2px; }
+        .flow-step { position: relative; padding: 1.5rem 2rem; background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 1.5rem; transition: all 0.3s; }
+        .flow-step:hover { border-color: var(--accent); transform: translateX(4px); }
+        .flow-step::before { content: ''; position: absolute; left: -2.35rem; top: 1.8rem; width: 12px; height: 12px; background: var(--accent); border-radius: 50%; border: 3px solid var(--bg-primary); box-shadow: 0 0 0 3px var(--accent-glow); }
+        .flow-step h4 { font-size: 1.1rem; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem; }
+        .flow-step p { color: var(--text-secondary); font-size: 0.95rem; }
+
+        /* Security */
+        .security-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 1.5rem; }
+        .security-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 1.75rem; position: relative; overflow: hidden; }
+        .security-card::before { content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; }
+        .security-card.critical::before { background: var(--danger); }
+        .security-card.warning::before { background: var(--warning); }
+        .security-card.info::before { background: var(--info); }
+        .security-label { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.25rem 0.75rem; border-radius: 100px; font-size: 0.75rem; font-weight: 600; margin-bottom: 1rem; }
+        .security-label.critical { background: rgba(239,68,68,0.15); color: var(--danger); }
+        .security-label.warning { background: rgba(245,158,11,0.15); color: var(--warning); }
+        .security-label.info { background: rgba(6,182,212,0.15); color: var(--info); }
+        .security-card h3 { font-size: 1.1rem; margin-bottom: 0.75rem; }
+        .security-card p { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem; }
+        .security-fix { padding: 0.75rem 1rem; background: var(--bg-primary); border-radius: 8px; font-size: 0.85rem; color: var(--text-secondary); border-left: 3px solid var(--success); }
+        .security-fix strong { color: var(--success); }
+
+        /* Q&A */
+        .qa-item { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 1rem; overflow: hidden; transition: all 0.3s; }
+        .qa-item:hover { border-color: var(--accent); }
+        .qa-question { padding: 1.25rem 1.5rem; display: flex; align-items: center; justify-content: space-between; cursor: pointer; font-weight: 600; font-size: 1rem; transition: background 0.2s; }
+        .qa-question:hover { background: rgba(255,255,255,0.02); }
+        .qa-question .q-icon { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; background: var(--accent-glow); color: var(--accent); border-radius: 6px; font-size: 0.8rem; font-weight: 700; margin-right: 0.75rem; }
+        .qa-question .arrow { transition: transform 0.3s; color: var(--text-muted); }
+        .qa-item.active .arrow { transform: rotate(180deg); }
+        .qa-answer { max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.4s ease; }
+        .qa-item.active .qa-answer { max-height: 500px; padding: 0 1.5rem 1.5rem; }
+        .qa-answer p { color: var(--text-secondary); line-height: 1.7; }
+
+        /* Improvements */
+        .improve-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; }
+        .improve-item { display: flex; align-items: flex-start; gap: 1rem; padding: 1.25rem; background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; transition: all 0.3s; }
+        .improve-item:hover { border-color: var(--success); background: rgba(16,185,129,0.03); }
+        .improve-check { width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; background: rgba(16,185,129,0.15); color: var(--success); border-radius: 6px; font-size: 0.85rem; flex-shrink: 0; margin-top: 2px; }
+        .improve-item h4 { font-size: 0.95rem; margin-bottom: 0.25rem; }
+        .improve-item p { font-size: 0.85rem; color: var(--text-muted); }
+
+        /* File Tree */
+        .file-tree { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 2rem; }
+        .file-tree-item { display: flex; align-items: center; gap: 0.75rem; padding: 0.6rem 0; border-bottom: 1px solid rgba(255,255,255,0.03); font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; }
+        .file-tree-item:last-child { border-bottom: none; }
+        .file-icon { font-size: 1.1rem; }
+        .file-name { color: var(--text-primary); }
+        .file-desc { margin-left: auto; color: var(--text-muted); font-size: 0.8rem; }
+
+        /* Footer */
+        .footer { text-align: center; padding: 3rem 2rem; border-top: 1px solid var(--border); color: var(--text-muted); font-size: 0.9rem; }
+
+        /* Animations */
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .fade-in { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .arch-layer { flex-direction: column; text-align: center; }
+            .arch-files { justify-content: center; }
+            section { padding: 3rem 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="nav">
+    <div class="nav-inner">
+        <div class="nav-logo">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>
+            MobileShop
+        </div>
+        <ul class="nav-links">
+            <li><a href="#overview">Overview</a></li>
+            <li><a href="#tech">Tech Stack</a></li>
+            <li><a href="#architecture">Architecture</a></li>
+            <li><a href="#database">Database</a></li>
+            <li><a href="#flow">Demo Flow</a></li>
+            <li><a href="#security">Security</a></li>
+            <li><a href="#qa">Q&A</a></li>
+        </ul>
+    </div>
+</nav>
+
+<section class="hero" id="overview">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+        <div class="hero-badge">
+            <span style="width:8px;height:8px;background:var(--success);border-radius:50%;display:inline-block;"></span>
+            Windows Forms E-Commerce Application
+        </div>
+        <h1>MobileShop <span>Project</span></h1>
+        <p>A complete desktop e-commerce system for selling mobile phones, built with C# WinForms and SQL Server Express.</p>
+        <div class="hero-meta">
+            <div class="hero-meta-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                Shohidul Islam
+            </div>
+            <div class="hero-meta-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                August 15, 2026
+            </div>
+            <div class="hero-meta-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg>
+                .NET 8 / C#
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="tech">
+    <div class="container">
+        <div class="section-header fade-in">
+            <div class="section-tag">Technologies</div>
+            <h2>Tech Stack & Environment</h2>
+            <p>The tools and frameworks powering the MobileShop application</p>
+        </div>
+        <div class="tech-grid">
+            <div class="tech-card fade-in">
+                <div class="tech-icon">&#x1F5A5;</div>
+                <h3>Windows Forms</h3>
+                <p>Desktop UI framework for building the storefront, cart, and admin panels</p>
+            </div>
+            <div class="tech-card fade-in">
+                <div class="tech-icon" style="font-size:1.3rem;font-weight:700;color:#9b4f96;">C#</div>
+                <h3>C# Language</h3>
+                <p>Primary programming language targeting .NET 8 framework</p>
+            </div>
+            <div class="tech-card fade-in">
+                <div class="tech-icon" style="color:#e535ab;">&#x1F5C4;</div>
+                <h3>SQL Server Express</h3>
+                <p>Local database instance (\\SQLEXPRESS) with 5 core tables</p>
+            </div>
+            <div class="tech-card fade-in">
+                <div class="tech-icon" style="color:#5c2d91;">&#x1F537;</div>
+                <h3>Visual Studio 2022</h3>
+                <p>IDE for development, debugging, and project management</p>
+            </div>
+            <div class="tech-card fade-in">
+                <div class="tech-icon" style="color:#ff6f00;">&#x26A1;</div>
+                <h3>System.Data.SqlClient</h3>
+                <p>Raw SQL queries for database connectivity and operations</p>
+            </div>
+            <div class="tech-card fade-in">
+                <div class="tech-icon" style="color:#00d4aa;">&#x1F4C1;</div>
+                <h3>File System Images</h3>
+                <p>Product images stored on disk with paths referenced in database</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="arch-section" id="architecture">
+    <div class="container">
+        <div class="section-header fade-in">
+            <div class="section-tag">System Design</div>
+            <h2>Application Architecture</h2>
+            <p>Three-layer structure showing how UI, logic, and data interact</p>
+        </div>
+        <div class="arch-diagram fade-in">
+            <div class="arch-layers">
+                <div class="arch-layer">
+                    <div class="arch-layer-icon ui">&#x1F5BC;</div>
+                    <div style="flex:1">
+                        <h3>Presentation Layer (UI)</h3>
+                        <p style="color:var(--text-secondary);font-size:0.9rem;margin-top:0.25rem">Windows Forms windows handling user interaction and display</p>
+                        <div class="arch-files">
+                            <span class="arch-file-tag">Form1.cs</span>
+                            <span class="arch-file-tag">LoginForm.cs</span>
+                            <span class="arch-file-tag">RegisterForm.cs</span>
+                            <span class="arch-file-tag">ProductDetailsForm.cs</span>
+                            <span class="arch-file-tag">CheckoutForm.cs</span>
+                            <span class="arch-file-tag">AdminForm.cs</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="arch-arrow">&#x25BC;</div>
+                <div class="arch-layer">
+                    <div class="arch-layer-icon logic">&#x2699;</div>
+                    <div style="flex:1">
+                        <h3>Business Logic Layer</h3>
+                        <p style="color:var(--text-secondary);font-size:0.9rem;margin-top:0.25rem">Session management, cart calculations, order processing, authentication</p>
+                        <div class="arch-files">
+                            <span class="arch-file-tag">Session (static class)</span>
+                            <span class="arch-file-tag">AddToCart()</span>
+                            <span class="arch-file-tag">LoadPhones()</span>
+                            <span class="arch-file-tag">PlaceOrder()</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="arch-arrow">&#x25BC;</div>
+                <div class="arch-layer">
+                    <div class="arch-layer-icon db">&#x1F5C3;</div>
+                    <div style="flex:1">
+                        <h3>Data Access Layer</h3>
+                        <p style="color:var(--text-secondary);font-size:0.9rem;margin-top:0.25rem">SQL Server Express with 5 tables: Users, Products, Cart, Orders, OrderItems</p>
+                        <div class="arch-files">
+                            <span class="arch-file-tag">MobileShop DB</span>
+                            <span class="arch-file-tag">.\\SQLEXPRESS</span>
+                            <span class="arch-file-tag">Integrated Security</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="database">
+    <div class="container">
+        <div class="section-header fade-in">
+            <div class="section-tag">Data Model</div>
+            <h2>Database Schema</h2>
+            <p>Five interconnected tables powering the entire application</p>
+        </div>
+        <div class="db-grid">
+            <div class="db-table fade-in">
+                <div class="db-table-header">
+                    <span class="icon">&#x1F464;</span>
+                    <h3>Users</h3>
+                    <span class="badge">Auth</span>
+                </div>
+                <div class="db-columns">
+                    <div class="db-column"><span class="db-col-name">Id</span><span class="db-col-type">INT</span><span class="db-col-key pk">PK</span><span class="db-col-key ai">AI</span></div>
+                    <div class="db-column"><span class="db-col-name">Name</span><span class="db-col-type">NVARCHAR(200)</span></div>
+                    <div class="db-column"><span class="db-col-name">Email</span><span class="db-col-type">NVARCHAR(200)</span><span class="db-col-key" style="color:var(--info)">UNIQUE</span></div>
+                    <div class="db-column"><span class="db-col-name">Phone</span><span class="db-col-type">NVARCHAR(50)</span></div>
+                    <div class="db-column"><span class="db-col-name">Password</span><span class="db-col-type">NVARCHAR(200)</span></div>
+                    <div class="db-column"><span class="db-col-name">Role</span><span class="db-col-type">NVARCHAR(50)</span></div>
+                </div>
+            </div>
+            <div class="db-table fade-in">
+                <div class="db-table-header">
+                    <span class="icon">&#x1F4F1;</span>
+                    <h3>Products</h3>
+                    <span class="badge">Catalog</span>
+                </div>
+                <div class="db-columns">
+                    <div class="db-column"><span class="db-col-name">Id</span><span class="db-col-type">INT</span><span class="db-col-key pk">PK</span><span class="db-col-key ai">AI</span></div>
+                    <div class="db-column"><span class="db-col-name">Name</span><span class="db-col-type">NVARCHAR(200)</span></div>
+                    <div class="db-column"><span class="db-col-name">Brand</span><span class="db-col-type">NVARCHAR(100)</span></div>
+                    <div class="db-column"><span class="db-col-name">Model</span><span class="db-col-type">NVARCHAR(100)</span></div>
+                    <div class="db-column"><span class="db-col-name">Price</span><span class="db-col-type">DECIMAL(18,2)</span></div>
+                    <div class="db-column"><span class="db-col-name">Stock</span><span class="db-col-type">INT</span></div>
+                    <div class="db-column"><span class="db-col-name">ImagePath</span><span class="db-col-type">NVARCHAR(500)</span></div>
+                    <div class="db-column"><span class="db-col-name">Specifications</span><span class="db-col-type">NVARCHAR(MAX)</span></div>
+                </div>
+            </div>
+            <div class="db-table fade-in">
+                <div class="db-table-header">
+                    <span class="icon">&#x1F6D2;</span>
+                    <h3>Cart</h3>
+                    <span class="badge">Session</span>
+                </div>
+                <div class="db-columns">
+                    <div class="db-column"><span class="db-col-name">Id</span><span class="db-col-type">INT</span><span class="db-col-key pk">PK</span><span class="db-col-key ai">AI</span></div>
+                    <div class="db-column"><span class="db-col-name">UserId</span><span class="db-col-type">INT</span><span class="db-col-key fk">FK->Users</span></div>
+                    <div class="db-column"><span class="db-col-name">ProductId</span><span class="db-col-type">INT</span><span class="db-col-key fk">FK->Products</span></div>
+                    <div class="db-column"><span class="db-col-name">Quantity</span><span class="db-col-type">INT</span></div>
+                </div>
+            </div>
+            <div class="db-table fade-in">
+                <div class="db-table-header">
+                    <span class="icon">&#x1F4E6;</span>
+                    <h3>Orders</h3>
+                    <span class="badge">Transaction</span>
+                </div>
+                <div class="db-columns">
+                    <div class="db-column"><span class="db-col-name">Id</span><span class="db-col-type">INT</span><span class="db-col-key pk">PK</span><span class="db-col-key ai">AI</span></div>
+                    <div class="db-column"><span class="db-col-name">UserId</span><span class="db-col-type">INT</span><span class="db-col-key fk">FK->Users</span></div>
+                    <div class="db-column"><span class="db-col-name">CustomerName</span><span class="db-col-type">NVARCHAR(200)</span></div>
+                    <div class="db-column"><span class="db-col-name">Phone</span><span class="db-col-type">NVARCHAR(50)</span></div>
+                    <div class="db-column"><span class="db-col-name">Address</span><span class="db-col-type">NVARCHAR(500)</span></div>
+                    <div class="db-column"><span class="db-col-name">TotalAmount</span><span class="db-col-type">DECIMAL(18,2)</span></div>
+                    <div class="db-column"><span class="db-col-name">PaymentMethod</span><span class="db-col-type">NVARCHAR(50)</span></div>
+                    <div class="db-column"><span class="db-col-name">TransactionId</span><span class="db-col-type">NVARCHAR(200)</span></div>
+                    <div class="db-column"><span class="db-col-name">CreatedAt</span><span class="db-col-type">DATETIME</span><span class="db-col-key" style="color:var(--success)">DEFAULT</span></div>
+                </div>
+            </div>
+            <div class="db-table fade-in">
+                <div class="db-table-header">
+                    <span class="icon">&#x1F4DF;</span>
+                    <h3>OrderItems</h3>
+                    <span class="badge">Line Items</span>
+                </div>
+                <div class="db-columns">
+                    <div class="db-column"><span class="db-col-name">Id</span><span class="db-col-type">INT</span><span class="db-col-key pk">PK</span><span class="db-col-key ai">AI</span></div>
+                    <div class="db-column"><span class="db-col-name">OrderId</span><span class="db-col-type">INT</span><span class="db-col-key fk">FK->Orders</span></div>
+                    <div class="db-column"><span class="db-col-name">ProductId</span><span class="db-col-type">INT</span><span class="db-col-key fk">FK->Products</span></div>
+                    <div class="db-column"><span class="db-col-name">Quantity</span><span class="db-col-type">INT</span></div>
+                    <div class="db-column"><span class="db-col-name">Price</span><span class="db-col-type">DECIMAL(18,2)</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="code-section" id="code">
+    <div class="container">
+        <div class="section-header fade-in">
+            <div class="section-tag">Implementation</div>
+            <h2>Key Code Snippets</h2>
+            <p>Critical methods that drive the application functionality</p>
+        </div>
+
+        <div class="code-block fade-in">
+            <div class="code-header">
+                <div class="code-header-left">
+                    <div class="code-dots"><span class="code-dot red"></span><span class="code-dot yellow"></span><span class="code-dot green"></span></div>
+                    <span class="code-filename">CheckoutForm.cs - Order Placement</span>
+                </div>
+                <span class="code-lang">C#</span>
+            </div>
+            <pre><span class="code-comment">// 1. Insert into Orders (returns inserted ID)</span>
+<span class="code-type">string</span> orderSql = <span class="code-string">"INSERT INTO Orders (...) OUTPUT INSERTED.Id VALUES (...)"</span>;
+<span class="code-type">int</span> orderId = (<span class="code-type">int</span>)cmd.ExecuteScalar();
+
+<span class="code-comment">// 2. Read cart items for user</span>
+<span class="code-type">string</span> cartSql = <span class="code-string">"SELECT * FROM Cart WHERE UserId = "</span> + Session.UserId;
+
+<span class="code-comment">// 3. Insert each item into OrderItems</span>
+<span class="code-keyword">foreach</span> (<span class="code-type">var</span> item <span class="code-keyword">in</span> cartItems) {
+    <span class="code-type">string</span> itemSql = <span class="code-string">"INSERT INTO OrderItems (...) VALUES (...)"</span>;
+    cmd.ExecuteNonQuery();
+}
+
+<span class="code-comment">// 4. Decrease Products.Stock</span>
+<span class="code-type">string</span> stockSql = <span class="code-string">"UPDATE Products SET Stock = Stock - @qty WHERE Id = @pid"</span>;
+
+<span class="code-comment">// 5. Delete cart rows for user</span>
+<span class="code-type">string</span> deleteSql = <span class="code-string">"DELETE FROM Cart WHERE UserId = "</span> + Session.UserId;</pre>
+        </div>
+
+        <div class="code-block fade-in">
+            <div class="code-header">
+                <div class="code-header-left">
+                    <div class="code-dots"><span class="code-dot red"></span><span class="code-dot yellow"></span><span class="code-dot green"></span></div>
+                    <span class="code-filename">Form1.cs - Dynamic Product Cards</span>
+                </div>
+                <span class="code-lang">C#</span>
+            </div>
+            <pre><span class="code-keyword">private void</span> <span class="code-function">LoadPhones</span>() {
+    <span class="code-comment">// Read Products table</span>
+    <span class="code-keyword">using</span> (<span class="code-type">SqlConnection</span> con = <span class="code-keyword">new</span> <span class="code-type">SqlConnection</span>(conString)) {
+        <span class="code-type">SqlDataAdapter</span> da = <span class="code-keyword">new</span> <span class="code-type">SqlDataAdapter</span>(<span class="code-string">"SELECT * FROM Products"</span>, con);
+        <span class="code-type">DataTable</span> dt = <span class="code-keyword">new</span> <span class="code-type">DataTable</span>();
+        da.Fill(dt);
+
+        <span class="code-comment">// Dynamically create product cards</span>
+        <span class="code-keyword">foreach</span> (<span class="code-type">DataRow</span> row <span class="code-keyword">in</span> dt.Rows) {
+            <span class="code-type">Panel</span> card = <span class="code-keyword">new</span> <span class="code-type">Panel</span>();
+            <span class="code-comment">// Add image, name, price, buttons...</span>
+        }
+    }
+}</pre>
+        </div>
+
+        <div class="code-block fade-in">
+            <div class="code-header">
+                <div class="code-header-left">
+                    <div class="code-dots"><span class="code-dot red"></span><span class="code-dot yellow"></span><span class="code-dot green"></span></div>
+                    <span class="code-filename">LoginForm.cs - Authentication</span>
+                </div>
+                <span class="code-lang">C#</span>
+            </div>
+            <pre><span class="code-keyword">private void</span> <span class="code-function">btnLogin_Click</span>(<span class="code-type">object</span> sender, <span class="code-type">EventArgs</span> e) {
+    <span class="code-type">string</span> sql = <span class="code-string">"SELECT * FROM Users WHERE Email='"</span>
+               + txtEmail.Text + <span class="code-string">"' AND Password='"</span> + txtPassword.Text + <span class="code-string">"'"</span>;
+
+    <span class="code-comment">// Execute query...</span>
+    <span class="code-keyword">if</span> (reader.Read()) {
+        Session.UserId = reader.GetInt32(<span class="code-number">0</span>);
+        Session.UserName = reader.GetString(<span class="code-number">1</span>);
+        Session.Role = reader.GetString(<span class="code-number">5</span>);
+
+        <span class="code-keyword">if</span> (Session.Role == <span class="code-string">"Admin"</span>) {
+            <span class="code-keyword">new</span> <span class="code-type">AdminForm</span>().Show();
+        }
+    }
+}</pre>
+        </div>
+    </div>
+</section>
+
+<section id="flow">
+    <div class="container">
+        <div class="section-header fade-in">
+            <div class="section-tag">User Journey</div>
+            <h2>Demo Flow & Talking Points</h2>
+            <p>Recommended end-to-end demonstration sequence for your viva</p>
+        </div>
+        <div class="flow-timeline">
+            <div class="flow-step fade-in">
+                <h4>&#x1F680; 1. Launch & Setup</h4>
+                <p>Start SQL Server Express, verify the <code>MobileShop</code> database exists with all 5 tables. Open Visual Studio 2022 and run the solution. Entry point is <code>Program.Main()</code> launching <code>Form1</code>.</p>
+            </div>
+            <div class="flow-step fade-in">
+                <h4>&#x1F4DD; 2. Register & Login</h4>
+                <p>Show user registration inserting into <code>Users</code> table with Role='Customer'. Login queries email/password, sets static <code>Session</code> class. Show admin login opening <code>AdminForm</code>.</p>
+            </div>
+            <div class="flow-step fade-in">
+                <h4>&#x1F50D; 3. Browse & Search</h4>
+                <p>Demonstrate <code>LoadPhones()</code> creating dynamic product cards. Show search filtering and sorting combo box. Click a product to open <code>ProductDetailsForm</code> with image, specs, and price.</p>
+            </div>
+            <div class="flow-step fade-in">
+                <h4>&#x1F6D2; 4. Cart Operations</h4>
+                <p>Add items to cart - <code>AddToCart()</code> inserts/updates <code>Cart</code> table for <code>Session.UserId</code>. Show cart grid updating with quantities and total calculation in real-time.</p>
+            </div>
+            <div class="flow-step fade-in">
+                <h4>&#x1F4B3; 5. Checkout Process</h4>
+                <p>Open <code>CheckoutForm</code> with pre-filled customer info. Choose COD or Online (bKash). Step through order creation: <code>Orders</code> -> <code>OrderItems</code> -> Stock decrement -> Cart deletion.</p>
+            </div>
+            <div class="flow-step fade-in">
+                <h4>&#x2699; 6. Admin Panel</h4>
+                <p>Switch to admin role. Show CRUD on <code>Products</code> - add a new phone with image path via file dialog, update price, delete product. View all <code>Orders</code> in admin grid.</p>
+            </div>
+            <div class="flow-step fade-in">
+                <h4>&#x1F5C4; 7. Database Verification</h4>
+                <p>Open SSMS alongside the app. Show live table rows changing as you perform actions. Highlight the relationship between <code>Orders</code> and <code>OrderItems</code> with foreign keys.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="arch-section" id="security">
+    <div class="container">
+        <div class="section-header fade-in">
+            <div class="section-tag">Analysis</div>
+            <h2>Security & Limitations</h2>
+            <p>Critical issues examiners commonly ask about - and how to fix them</p>
+        </div>
+        <div class="security-grid">
+            <div class="security-card critical fade-in">
+                <span class="security-label critical">&#x1F534; Critical</span>
+                <h3>SQL Injection Vulnerability</h3>
+                <p>All SQL queries are built using string concatenation with raw user input (email, password, productId, text fields). Attackers can inject malicious SQL.</p>
+                <div class="security-fix">
+                    <strong>Fix:</strong> Use <code>SqlCommand.Parameters.AddWithValue("@email", txtEmail.Text)</code> or migrate to Entity Framework Core with LINQ queries.
+                </div>
+            </div>
+            <div class="security-card critical fade-in">
+                <span class="security-label critical">&#x1F534; Critical</span>
+                <h3>Plain Text Password Storage</h3>
+                <p>User passwords are stored directly in the database without any hashing or salting. Database breach exposes all credentials.</p>
+                <div class="security-fix">
+                    <strong>Fix:</strong> Hash passwords with bcrypt or Argon2. Use ASP.NET Core Identity or libraries like BCrypt.Net.
+                </div>
+            </div>
+            <div class="security-card warning fade-in">
+                <span class="security-label warning">&#x1F7E0; Warning</span>
+                <h3>No Database Transactions</h3>
+                <p>Order placement runs multiple queries sequentially without a transaction. Failure mid-process leaves inconsistent data (order exists but no items, or stock not updated).</p>
+                <div class="security-fix">
+                    <strong>Fix:</strong> Wrap order insert, item inserts, stock updates, and cart deletion in a <code>SqlTransaction</code> with Commit/Rollback.
+                </div>
+            </div>
+            <div class="security-card warning fade-in">
+                <span class="security-label warning">&#x1F7E0; Warning</span>
+                <h3>Stock Race Conditions</h3>
+                <p>Stock decrement uses <code>Stock = Stock - qty</code> without locking. Concurrent checkouts can oversell products.</p>
+                <div class="security-fix">
+                    <strong>Fix:</strong> Use transactions with proper isolation levels, or check stock availability immediately before decrement with row locking.
+                </div>
+            </div>
+            <div class="security-card info fade-in">
+                <span class="security-label info">&#x1F535; Info</span>
+                <h3>Hardcoded Connection Strings</h3>
+                <p>Connection string <code>Data Source=.\\SQLEXPRESS;...</code> is duplicated across multiple form files. Changes require editing every file.</p>
+                <div class="security-fix">
+                    <strong>Fix:</strong> Centralize in <code>appsettings.json</code> or project Settings. Use <code>ConfigurationManager</code> to read at runtime.
+                </div>
+            </div>
+            <div class="security-card info fade-in">
+                <span class="security-label info">&#x1F535; Info</span>
+                <h3>Minimal Input Validation</h3>
+                <p>Numeric fields, email format, and required fields lack comprehensive validation. Exceptions may crash the application.</p>
+                <div class="security-fix">
+                    <strong>Fix:</strong> Add client-side validation, server-side checks, try/catch blocks, and regex patterns for emails and phone numbers.
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="qa">
+    <div class="container">
+        <div class="section-header fade-in">
+            <div class="section-tag">Viva Prep</div>
+            <h2>Common Questions & Answers</h2>
+            <p>Short, confident responses for likely examiner questions</p>
+        </div>
+        <div class="qa-list">
+            <div class="qa-item fade-in">
+                <div class="qa-question" onclick="this.parentElement.classList.toggle('active')">
+                    <div style="display:flex;align-items:center"><span class="q-icon">Q</span>How do users authenticate?</div>
+                    <span class="arrow">&#x25BC;</span>
+                </div>
+                <div class="qa-answer">
+                    <p>Users register with name, email, phone, and password stored in the <code>Users</code> table with Role='Customer'. Login queries the table by email and password. On success, a static <code>Session</code> class stores <code>UserId</code>, <code>UserName</code>, and <code>Role</code> in memory. If Role is "Admin", the app opens <code>AdminForm</code> instead of the storefront.</p>
+                </div>
+            </div>
+            <div class="qa-item fade-in">
+                <div class="qa-question" onclick="this.parentElement.classList.toggle('active')">
+                    <div style="display:flex;align-items:center"><span class="q-icon">Q</span>How is payment handled?</div>
+                    <span class="arrow">&#x25BC;</span>
+                </div>
+                <div class="qa-answer">
+                    <p>For Cash on Delivery (COD), the app simply records <code>PaymentMethod = 'COD'</code>. For online payments via bKash, the user manually enters their bKash number and transaction ID, which the app stores in <code>Orders.TransactionId</code>. There is no external payment gateway integration - verification is manual/administrative.</p>
+                </div>
+            </div>
+            <div class="qa-item fade-in">
+                <div class="qa-question" onclick="this.parentElement.classList.toggle('active')">
+                    <div style="display:flex;align-items:center"><span class="q-icon">Q</span>How do you prevent SQL injection?</div>
+                    <span class="arrow">&#x25BC;</span>
+                </div>
+                <div class="qa-answer">
+                    <p>Currently the app is vulnerable because queries use string concatenation. The proper fix is to use parameterized queries with <code>SqlCommand.Parameters.AddWithValue("@param", value)</code>. Alternatively, using Entity Framework Core with LINQ would eliminate raw SQL entirely and provide built-in protection.</p>
+                </div>
+            </div>
+            <div class="qa-item fade-in">
+                <div class="qa-question" onclick="this.parentElement.classList.toggle('active')">
+                    <div style="display:flex;align-items:center"><span class="q-icon">Q</span>How does the app ensure order consistency?</div>
+                    <span class="arrow">&#x25BC;</span>
+                </div>
+                <div class="qa-answer">
+                    <p>Currently it does not use database transactions. Best practice is to wrap the entire checkout flow - inserting the order, inserting order items, updating stock, and deleting the cart - inside a <code>SqlTransaction</code>. This ensures atomic commit/rollback: either everything succeeds or nothing persists.</p>
+                </div>
+            </div>
+            <div class="qa-item fade-in">
+                <div class="qa-question" onclick="this.parentElement.classList.toggle('active')">
+                    <div style="display:flex;align-items:center"><span class="q-icon">Q</span>How are images stored?</div>
+                    <span class="arrow">&#x25BC;</span>
+                </div>
+                <div class="qa-answer">
+                    <p>Product images are stored as files on disk. The <code>Products.ImagePath</code> column stores the absolute file path (e.g., <code>C:\\Images\\phoneA.jpg</code>). The app loads images from these paths at runtime. If a path is invalid, a gray placeholder background is displayed. Alternatives include storing binary data in the database (VARBINARY) or using cloud blob storage.</p>
+                </div>
+            </div>
+            <div class="qa-item fade-in">
+                <div class="qa-question" onclick="this.parentElement.classList.toggle('active')">
+                    <div style="display:flex;align-items:center"><span class="q-icon">Q</span>What is the role of the Session class?</div>
+                    <span class="arrow">&#x25BC;</span>
+                </div>
+                <div class="qa-answer">
+                    <p><code>Session</code> is a static class that acts as an in-memory store for the currently logged-in user's state: <code>UserId</code>, <code>UserName</code>, and <code>Role</code>. It persists only during the application runtime and is lost when the app closes. It enables per-user cart operations and role-based navigation without persistent cookies.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="arch-section" id="improvements">
+    <div class="container">
+        <div class="section-header fade-in">
+            <div class="section-tag">Future Work</div>
+            <h2>Suggested Improvements</h2>
+            <p>Upgrades that would elevate the project to production-grade quality</p>
+        </div>
+        <div class="improve-list">
+            <div class="improve-item fade-in">
+                <div class="improve-check">&#x2713;</div>
+                <div>
+                    <h4>Parameterized Queries / EF Core</h4>
+                    <p>Replace all concatenated SQL with parameters or migrate to Entity Framework Core</p>
+                </div>
+            </div>
+            <div class="improve-item fade-in">
+                <div class="improve-check">&#x2713;</div>
+                <div>
+                    <h4>Password Hashing</h4>
+                    <p>Implement bcrypt/Argon2 hashing with salt for secure credential storage</p>
+                </div>
+            </div>
+            <div class="improve-item fade-in">
+                <div class="improve-check">&#x2713;</div>
+                <div>
+                    <h4>Database Transactions</h4>
+                    <p>Wrap checkout operations in SqlTransaction for atomic commit/rollback</p>
+                </div>
+            </div>
+            <div class="improve-item fade-in">
+                <div class="improve-check">&#x2713;</div>
+                <div>
+                    <h4>Async Database Operations</h4>
+                    <p>Use async/await (ExecuteReaderAsync) to keep the UI responsive</p>
+                </div>
+            </div>
+            <div class="improve-item fade-in">
+                <div class="improve-check">&#x2713;</div>
+                <div>
+                    <h4>Centralized Configuration</h4>
+                    <p>Move connection strings to appsettings.json or project Settings</p>
+                </div>
+            </div>
+            <div class="improve-item fade-in">
+                <div class="improve-check">&#x2713;</div>
+                <div>
+                    <h4>Input Validation</h4>
+                    <p>Add client-side and server-side validation for all user inputs</p>
+                </div>
+            </div>
+            <div class="improve-item fade-in">
+                <div class="improve-check">&#x2713;</div>
+                <div>
+                    <h4>Logging Framework</h4>
+                    <p>Integrate Serilog or NLog for error tracking and diagnostics</p>
+                </div>
+            </div>
+            <div class="improve-item fade-in">
+                <div class="improve-check">&#x2713;</div>
+                <div>
+                    <h4>Repository Pattern</h4>
+                    <p>Extract DB logic into repository classes for unit testing</p>
+                </div>
+            </div>
+            <div class="improve-item fade-in">
+                <div class="improve-check">&#x2713;</div>
+                <div>
+                    <h4>Role-Based UI</h4>
+                    <p>Hide/show admin controls dynamically based on user role</p>
+                </div>
+            </div>
+            <div class="improve-item fade-in">
+                <div class="improve-check">&#x2713;</div>
+                <div>
+                    <h4>Stored Procedures</h4>
+                    <p>Use prepared statements for critical operations like checkout</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="files">
+    <div class="container">
+        <div class="section-header fade-in">
+            <div class="section-tag">Project Structure</div>
+            <h2>Files & Responsibilities</h2>
+            <p>Complete file inventory with their roles in the application</p>
+        </div>
+        <div class="file-tree fade-in">
+            <div class="file-tree-item"><span class="file-icon">&#x1F4C4;</span><span class="file-name">Program.cs</span><span class="file-desc">App entry point - Application.Run(new Form1())</span></div>
+            <div class="file-tree-item"><span class="file-icon">&#x1F4C4;</span><span class="file-name">Form1.cs</span><span class="file-desc">Main storefront, product cards, search, sort, cart grid</span></div>
+            <div class="file-tree-item"><span class="file-icon">&#x1F4C4;</span><span class="file-name">ProductDetailsForm.cs</span><span class="file-desc">Single product view with image, specs, add-to-cart</span></div>
+            <div class="file-tree-item"><span class="file-icon">&#x1F4C4;</span><span class="file-name">CheckoutForm.cs</span><span class="file-desc">Order placement, payment options, stock update</span></div>
+            <div class="file-tree-item"><span class="file-icon">&#x1F4C4;</span><span class="file-name">LoginForm.cs</span><span class="file-desc">Email/password authentication, Session initialization</span></div>
+            <div class="file-tree-item"><span class="file-icon">&#x1F4C4;</span><span class="file-name">RegisterForm.cs</span><span class="file-desc">New user registration with Role='Customer'</span></div>
+            <div class="file-tree-item"><span class="file-icon">&#x1F4C4;</span><span class="file-name">ForgotPasswordForm.cs</span><span class="file-desc">Two-step recovery: email + phone verification</span></div>
+            <div class="file-tree-item"><span class="file-icon">&#x1F4C4;</span><span class="file-name">AdminForm.cs</span><span class="file-desc">Product CRUD, order viewing, image file dialogs</span></div>
+            <div class="file-tree-item"><span class="file-icon">&#x1F4C4;</span><span class="file-name">OrderSuccessForm.cs</span><span class="file-desc">Post-order confirmation screen</span></div>
+        </div>
+    </div>
+</section>
+
+<footer class="footer">
+    <p>MobileShop Project Documentation &middot; Shohidul Islam &middot; August 2026</p>
+    <p style="margin-top:0.5rem;font-size:0.8rem;">Built for viva preparation and project demonstration</p>
+</footer>
+
+<script>
+    // Scroll reveal animation
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    // Smooth scroll for nav links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    });
+</script>
+
+</body>
+</html>
