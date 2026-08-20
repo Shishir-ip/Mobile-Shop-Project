@@ -738,10 +738,9 @@
 }
 .er-entity {
     cursor: pointer;
-    transition: transform 0.3s ease;
 }
-.er-entity:hover {
-    transform: scale(1.02);
+.er-entity rect:first-child {
+    transition: stroke 0.25s ease, stroke-width 0.25s ease;
 }
 .er-entity:hover rect:first-child {
     stroke-width: 3;
