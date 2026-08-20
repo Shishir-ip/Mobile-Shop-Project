@@ -259,6 +259,7 @@
             section { padding: 3rem 1rem; }
         }
     </style>
+<base target="_blank">
 </head>
 <body>
 
@@ -492,6 +493,316 @@
         </div>
     </div>
 </section>
+
+
+<!-- E-R Diagram Section -->
+<section id="er-diagram">
+    <div class="container">
+        <div class="section-header fade-in">
+            <div class="section-tag">Data Relationships</div>
+            <h2>Entity-Relationship Diagram</h2>
+            <p>Visual representation of entities, attributes, and their cardinal relationships</p>
+        </div>
+        <div class="er-container fade-in">
+            <svg viewBox="0 0 1000 650" class="er-svg">
+                <defs>
+                    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+                        <polygon points="0 0, 10 3.5, 0 7" fill="#64748b" />
+                    </marker>
+                    <marker id="crowfoot" markerWidth="15" markerHeight="10" refX="15" refY="5" orient="auto">
+                        <path d="M0,0 L15,5 L0,10 M0,5 L15,5" stroke="#64748b" fill="none" stroke-width="1.5"/>
+                    </marker>
+                    <linearGradient id="entityGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#1e293b;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#0f172a;stop-opacity:1" />
+                    </linearGradient>
+                    <filter id="glow">
+                        <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                        <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                    </filter>
+                </defs>
+
+                <!-- Users Entity -->
+                <g class="er-entity" transform="translate(50, 50)">
+                    <rect x="0" y="0" width="180" height="220" rx="12" fill="url(#entityGrad)" stroke="#3b82f6" stroke-width="2" filter="url(#glow)"/>
+                    <rect x="0" y="0" width="180" height="36" rx="12" fill="#3b82f6" opacity="0.2"/>
+                    <rect x="0" y="24" width="180" height="12" fill="#3b82f6" opacity="0.2"/>
+                    <text x="90" y="24" text-anchor="middle" fill="#3b82f6" font-family="JetBrains Mono" font-size="14" font-weight="700">USERS</text>
+                    <line x1="0" y1="36" x2="180" y2="36" stroke="#3b82f6" stroke-width="1" opacity="0.5"/>
+
+                    <text x="15" y="58" fill="#f1f5f9" font-family="JetBrains Mono" font-size="11">🔑 Id <tspan fill="#64748b">INT PK AI</tspan></text>
+                    <text x="15" y="80" fill="#94a3b8" font-family="JetBrains Mono" font-size="11">Name <tspan fill="#64748b">NVARCHAR</tspan></text>
+                    <text x="15" y="102" fill="#94a3b8" font-family="JetBrains Mono" font-size="11">Email <tspan fill="#06b6d4">UNIQUE</tspan></text>
+                    <text x="15" y="124" fill="#94a3b8" font-family="JetBrains Mono" font-size="11">Phone <tspan fill="#64748b">NVARCHAR</tspan></text>
+                    <text x="15" y="146" fill="#94a3b8" font-family="JetBrains Mono" font-size="11">Password <tspan fill="#64748b">NVARCHAR</tspan></text>
+                    <text x="15" y="168" fill="#94a3b8" font-family="JetBrains Mono" font-size="11">Role <tspan fill="#64748b">NVARCHAR</tspan></text>
+                </g>
+
+                <!-- Products Entity -->
+                <g class="er-entity" transform="translate(400, 30)">
+                    <rect x="0" y="0" width="200" height="280" rx="12" fill="url(#entityGrad)" stroke="#8b5cf6" stroke-width="2" filter="url(#glow)"/>
+                    <rect x="0" y="0" width="200" height="36" rx="12" fill="#8b5cf6" opacity="0.2"/>
+                    <rect x="0" y="24" width="200" height="12" fill="#8b5cf6" opacity="0.2"/>
+                    <text x="100" y="24" text-anchor="middle" fill="#8b5cf6" font-family="JetBrains Mono" font-size="14" font-weight="700">PRODUCTS</text>
+                    <line x1="0" y1="36" x2="200" y2="36" stroke="#8b5cf6" stroke-width="1" opacity="0.5"/>
+
+                    <text x="15" y="58" fill="#f1f5f9" font-family="JetBrains Mono" font-size="11">🔑 Id <tspan fill="#64748b">INT PK AI</tspan></text>
+                    <text x="15" y="80" fill="#94a3b8" font-family="JetBrains Mono" font-size="11">Name <tspan fill="#64748b">NVARCHAR</tspan></text>
+                    <text x="15" y="102" fill="#94a3b8" font-family="JetBrains Mono" font-size="11">Brand <tspan fill="#64748b">NVARCHAR</tspan></text>
+                    <text x="15" y="124" fill="#94a3b8" font-family="JetBrains Mono" font-size="11">Model <tspan fill="#64748b">NVARCHAR</tspan></text>
+                    <text x="15" y="146" fill="#94a3b8" font-family="JetBrains Mono" font-size="11">Price <tspan fill="#64748b">DECIMAL</tspan></text>
+                    <text x="15" y="168" fill="#94a3b8" font-family="JetBrains Mono" font-size="11">Stock <tspan fill="#64748b">INT</tspan></text>
+                    <text x="15" y="190" fill="#94a3b8" font-family="JetBrains Mono" font-size="11">ImagePath <tspan fill="#64748b">NVARCHAR</tspan></text>
+                    <text x="15" y="212" fill="#94a3b8" font-family="JetBrains Mono" font-size="11">Specifications <tspan fill="#64748b">NVARCHAR(MAX)</tspan></text>
+                </g>
+
+                <!-- Cart Entity -->
+                <g class="er-entity" transform="translate(720, 80)">
+                    <rect x="0" y="0" width="180" height="140" rx="12" fill="url(#entityGrad)" stroke="#f59e0b" stroke-width="2" filter="url(#glow)"/>
+                    <rect x="0" y="0" width="180" height="36" rx="12" fill="#f59e0b" opacity="0.2"/>
+                    <rect x="0" y="24" width="180" height="12" fill="#f59e0b" opacity="0.2"/>
+                    <text x="90" y="24" text-anchor="middle" fill="#f59e0b" font-family="JetBrains Mono" font-size="14" font-weight="700">CART</text>
+                    <line x1="0" y1="36" x2="180" y2="36" stroke="#f59e0b" stroke-width="1" opacity="0.5"/>
+
+                    <text x="15" y="58" fill="#f1f5f9" font-family="JetBrains Mono" font-size="11">🔑 Id <tspan fill="#64748b">INT PK AI</tspan></text>
+                    <text x="15" y="80" fill="#f59e0b" font-family="JetBrains Mono" font-size="11">🔗 UserId <tspan fill="#64748b">INT FK</tspan></text>
+                    <text x="15" y="102" fill="#f59e0b" font-family="JetBrains Mono" font-size="11">🔗 ProductId <tspan fill="#64748b">INT FK</tspan></text>
+                    <text x="15" y="124" fill="#94a3b8" font-family="JetBrains Mono" font-size="11">Quantity <tspan fill="#64748b">INT</tspan></text>
+                </g>
+
+                <!-- Orders Entity -->
+                <g class="er-entity" transform="translate(50, 380)">
+                    <rect x="0" y="0" width="200" height="240" rx="12" fill="url(#entityGrad)" stroke="#10b981" stroke-width="2" filter="url(#glow)"/>
+                    <rect x="0" y="0" width="200" height="36" rx="12" fill="#10b981" opacity="0.2"/>
+                    <rect x="0" y="24" width="200" height="12" fill="#10b981" opacity="0.2"/>
+                    <text x="100" y="24" text-anchor="middle" fill="#10b981" font-family="JetBrains Mono" font-size="14" font-weight="700">ORDERS</text>
+                    <line x1="0" y1="36" x2="200" y2="36" stroke="#10b981" stroke-width="1" opacity="0.5"/>
+
+                    <text x="15" y="58" fill="#f1f5f9" font-family="JetBrains Mono" font-size="11">🔑 Id <tspan fill="#64748b">INT PK AI</tspan></text>
+                    <text x="15" y="80" fill="#10b981" font-family="JetBrains Mono" font-size="11">🔗 UserId <tspan fill="#64748b">INT FK</tspan></text>
+                    <text x="15" y="102" fill="#94a3b8" font-family="JetBrains Mono" font-size="11">CustomerName <tspan fill="#64748b">NVARCHAR</tspan></text>
+                    <text x="15" y="124" fill="#94a3b8" font-family="JetBrains Mono" font-size="11">Phone <tspan fill="#64748b">NVARCHAR</tspan></text>
+                    <text x="15" y="146" fill="#94a3b8" font-family="JetBrains Mono" font-size="11">Address <tspan fill="#64748b">NVARCHAR</tspan></text>
+                    <text x="15" y="168" fill="#94a3b8" font-family="JetBrains Mono" font-size="11">TotalAmount <tspan fill="#64748b">DECIMAL</tspan></text>
+                    <text x="15" y="190" fill="#94a3b8" font-family="JetBrains Mono" font-size="11">PaymentMethod <tspan fill="#64748b">NVARCHAR</tspan></text>
+                    <text x="15" y="212" fill="#94a3b8" font-family="JetBrains Mono" font-size="11">TransactionId <tspan fill="#64748b">NVARCHAR</tspan></text>
+                </g>
+
+                <!-- OrderItems Entity -->
+                <g class="er-entity" transform="translate(420, 400)">
+                    <rect x="0" y="0" width="200" height="160" rx="12" fill="url(#entityGrad)" stroke="#06b6d4" stroke-width="2" filter="url(#glow)"/>
+                    <rect x="0" y="0" width="200" height="36" rx="12" fill="#06b6d4" opacity="0.2"/>
+                    <rect x="0" y="24" width="200" height="12" fill="#06b6d4" opacity="0.2"/>
+                    <text x="100" y="24" text-anchor="middle" fill="#06b6d4" font-family="JetBrains Mono" font-size="14" font-weight="700">ORDERITEMS</text>
+                    <line x1="0" y1="36" x2="200" y2="36" stroke="#06b6d4" stroke-width="1" opacity="0.5"/>
+
+                    <text x="15" y="58" fill="#f1f5f9" font-family="JetBrains Mono" font-size="11">🔑 Id <tspan fill="#64748b">INT PK AI</tspan></text>
+                    <text x="15" y="80" fill="#06b6d4" font-family="JetBrains Mono" font-size="11">🔗 OrderId <tspan fill="#64748b">INT FK</tspan></text>
+                    <text x="15" y="102" fill="#06b6d4" font-family="JetBrains Mono" font-size="11">🔗 ProductId <tspan fill="#64748b">INT FK</tspan></text>
+                    <text x="15" y="124" fill="#94a3b8" font-family="JetBrains Mono" font-size="11">Quantity <tspan fill="#64748b">INT</tspan></text>
+                    <text x="15" y="146" fill="#94a3b8" font-family="JetBrains Mono" font-size="11">Price <tspan fill="#64748b">DECIMAL</tspan></text>
+                </g>
+
+                <!-- Relationship: Users -> Cart (1:N) -->
+                <g class="er-rel">
+                    <line x1="230" y1="140" x2="720" y2="140" stroke="#64748b" stroke-width="1.5" stroke-dasharray="5,5" marker-end="url(#crowfoot)" marker-start="url(#arrowhead)"/>
+                    <rect x="420" y="125" width="100" height="28" rx="6" fill="#0f172a" stroke="#3b82f6" stroke-width="1"/>
+                    <text x="470" y="143" text-anchor="middle" fill="#94a3b8" font-family="JetBrains Mono" font-size="10">places_in</text>
+                    <text x="300" y="120" fill="#64748b" font-family="Inter" font-size="11" font-weight="600">1</text>
+                    <text x="680" y="120" fill="#64748b" font-family="Inter" font-size="11" font-weight="600">N</text>
+                </g>
+
+                <!-- Relationship: Products -> Cart (1:N) -->
+                <g class="er-rel">
+                    <line x1="600" y1="150" x2="720" y2="150" stroke="#64748b" stroke-width="1.5" stroke-dasharray="5,5" marker-end="url(#crowfoot)" marker-start="url(#arrowhead)"/>
+                    <text x="640" y="170" fill="#64748b" font-family="Inter" font-size="11" font-weight="600">1</text>
+                    <text x="700" y="170" fill="#64748b" font-family="Inter" font-size="11" font-weight="600">N</text>
+                </g>
+
+                <!-- Relationship: Users -> Orders (1:N) -->
+                <g class="er-rel">
+                    <line x1="150" y1="270" x2="150" y2="380" stroke="#64748b" stroke-width="1.5" stroke-dasharray="5,5" marker-end="url(#crowfoot)" marker-start="url(#arrowhead)"/>
+                    <rect x="105" y="310" width="90" height="28" rx="6" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
+                    <text x="150" y="328" text-anchor="middle" fill="#94a3b8" font-family="JetBrains Mono" font-size="10">places</text>
+                    <text x="165" y="300" fill="#64748b" font-family="Inter" font-size="11" font-weight="600">1</text>
+                    <text x="165" y="370" fill="#64748b" font-family="Inter" font-size="11" font-weight="600">N</text>
+                </g>
+
+                <!-- Relationship: Orders -> OrderItems (1:N) -->
+                <g class="er-rel">
+                    <line x1="250" y1="500" x2="420" y2="500" stroke="#64748b" stroke-width="1.5" stroke-dasharray="5,5" marker-end="url(#crowfoot)" marker-start="url(#arrowhead)"/>
+                    <rect x="300" y="485" width="70" height="28" rx="6" fill="#0f172a" stroke="#06b6d4" stroke-width="1"/>
+                    <text x="335" y="503" text-anchor="middle" fill="#94a3b8" font-family="JetBrains Mono" font-size="10">contains</text>
+                    <text x="270" y="480" fill="#64748b" font-family="Inter" font-size="11" font-weight="600">1</text>
+                    <text x="400" y="480" fill="#64748b" font-family="Inter" font-size="11" font-weight="600">N</text>
+                </g>
+
+                <!-- Relationship: Products -> OrderItems (1:N) -->
+                <g class="er-rel">
+                    <line x1="500" y1="310" x2="520" y2="400" stroke="#64748b" stroke-width="1.5" stroke-dasharray="5,5" marker-end="url(#crowfoot)" marker-start="url(#arrowhead)"/>
+                    <text x="530" y="350" fill="#64748b" font-family="Inter" font-size="11" font-weight="600">1</text>
+                    <text x="510" y="390" fill="#64748b" font-family="Inter" font-size="11" font-weight="600">N</text>
+                </g>
+
+                <!-- Legend -->
+                <g transform="translate(720, 380)">
+                    <rect x="0" y="0" width="240" height="180" rx="10" fill="rgba(15,23,42,0.9)" stroke="#334155" stroke-width="1"/>
+                    <text x="120" y="25" text-anchor="middle" fill="#f1f5f9" font-family="Inter" font-size="12" font-weight="700">LEGEND</text>
+                    <line x1="10" y1="35" x2="230" y2="35" stroke="#334155" stroke-width="1"/>
+
+                    <text x="15" y="58" fill="#3b82f6" font-family="JetBrains Mono" font-size="11">● Users</text>
+                    <text x="15" y="78" fill="#8b5cf6" font-family="JetBrains Mono" font-size="11">● Products</text>
+                    <text x="15" y="98" fill="#f59e0b" font-family="JetBrains Mono" font-size="11">● Cart</text>
+                    <text x="15" y="118" fill="#10b981" font-family="JetBrains Mono" font-size="11">● Orders</text>
+                    <text x="15" y="138" fill="#06b6d4" font-family="JetBrains Mono" font-size="11">● OrderItems</text>
+
+                    <text x="130" y="58" fill="#64748b" font-family="JetBrains Mono" font-size="10">🔑 = Primary Key</text>
+                    <text x="130" y="78" fill="#64748b" font-family="JetBrains Mono" font-size="10">🔗 = Foreign Key</text>
+                    <text x="130" y="98" fill="#64748b" font-family="JetBrains Mono" font-size="10">1 = One</text>
+                    <text x="130" y="118" fill="#64748b" font-family="JetBrains Mono" font-size="10">N = Many</text>
+                    <text x="130" y="138" fill="#64748b" font-family="JetBrains Mono" font-size="10">--- = Relationship</text>
+                </g>
+            </svg>
+        </div>
+
+        <div class="er-relationships-table fade-in">
+            <h3 style="text-align:center;margin-bottom:1.5rem;color:var(--text-primary);font-size:1.2rem;">Relationship Cardinality Summary</h3>
+            <div class="rel-table-wrap">
+                <table class="rel-table">
+                    <thead>
+                        <tr>
+                            <th>Relationship</th>
+                            <th>From Entity</th>
+                            <th>To Entity</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="rel-badge places">places</span></td>
+                            <td>Users</td>
+                            <td>Orders</td>
+                            <td><span class="cardinality">1 : N</span></td>
+                            <td>One user can place many orders</td>
+                        </tr>
+                        <tr>
+                            <td><span class="rel-badge contains">contains</span></td>
+                            <td>Orders</td>
+                            <td>OrderItems</td>
+                            <td><span class="cardinality">1 : N</span></td>
+                            <td>One order contains many line items</td>
+                        </tr>
+                        <tr>
+                            <td><span class="rel-badge has">has</span></td>
+                            <td>Products</td>
+                            <td>OrderItems</td>
+                            <td><span class="cardinality">1 : N</span></td>
+                            <td>One product appears in many order items</td>
+                        </tr>
+                        <tr>
+                            <td><span class="rel-badge places-in">places_in</span></td>
+                            <td>Users</td>
+                            <td>Cart</td>
+                            <td><span class="cardinality">1 : N</span></td>
+                            <td>One user can have many cart entries</td>
+                        </tr>
+                        <tr>
+                            <td><span class="rel-badge added">added_to</span></td>
+                            <td>Products</td>
+                            <td>Cart</td>
+                            <td><span class="cardinality">1 : N</span></td>
+                            <td>One product can be in many user carts</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+.er-container {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 2rem;
+    overflow-x: auto;
+    margin-bottom: 2rem;
+}
+.er-svg {
+    width: 100%;
+    min-width: 900px;
+    height: auto;
+    display: block;
+}
+.er-entity {
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+.er-entity:hover {
+    transform: scale(1.02);
+}
+.er-entity:hover rect:first-child {
+    stroke-width: 3;
+    filter: url(#glow);
+}
+.er-rel {
+    opacity: 0.7;
+    transition: opacity 0.3s;
+}
+.er-rel:hover {
+    opacity: 1;
+}
+.er-relationships-table {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2rem;
+}
+.rel-table-wrap { overflow-x: auto; }
+.rel-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.9rem;
+}
+.rel-table th {
+    text-align: left;
+    padding: 1rem;
+    color: var(--text-secondary);
+    border-bottom: 2px solid var(--border);
+    font-weight: 600;
+}
+.rel-table td {
+    padding: 1rem;
+    color: var(--text-primary);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.rel-table tr:hover td {
+    background: rgba(59,130,246,0.03);
+}
+.rel-badge {
+    display: inline-block;
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+.rel-badge.places { background: rgba(16,185,129,0.15); color: var(--success); }
+.rel-badge.contains { background: rgba(6,182,212,0.15); color: var(--info); }
+.rel-badge.has { background: rgba(139,92,246,0.15); color: var(--accent-secondary); }
+.rel-badge.places-in { background: rgba(245,158,11,0.15); color: var(--warning); }
+.rel-badge.added { background: rgba(59,130,246,0.15); color: var(--accent); }
+.cardinality {
+    padding: 0.15rem 0.5rem;
+    background: var(--bg-primary);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+</style>
 
 <section class="code-section" id="code">
     <div class="container">
