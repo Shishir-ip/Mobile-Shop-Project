@@ -14,43 +14,148 @@ namespace MobileShop
         {
             InitializeComponent();
 
+            lblBkashNumber.AutoSize = true;
+            lblBkashPrompt.AutoSize = true;
+
             btnPlaceOrder.Click += btnPlaceOrder_Click;
             btnCopy.Click += btnCopy_Click;
             rbOnline.CheckedChanged += rbOnline_CheckedChanged;
+
+            btnIncrease.Click += btnIncrease_Click;
+            btnDecrease.Click += btnDecrease_Click;
+            btnRemove.Click += btnRemove_Click;
+
+            SetupSummaryGrid();
+        }
+
+        private void SetupSummaryGrid()
+        {
+            dgvSummary.AutoGenerateColumns = false;
+            dgvSummary.Columns.Clear();
+
+            dgvSummary.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                DataPropertyName = "ProductId",
+                Name = "ProductId",
+                HeaderText = "ProductId",
+                Visible = false
+            });
+            dgvSummary.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                DataPropertyName = "Name",
+                Name = "Name",
+                HeaderText = "Product"
+            });
+            dgvSummary.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                DataPropertyName = "Quantity",
+                Name = "Quantity",
+                HeaderText = "Qty"
+            });
+            dgvSummary.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                DataPropertyName = "Price",
+                Name = "Price",
+                HeaderText = "Price",
+                DefaultCellStyle = { Format = "N2" }
+            });
+            dgvSummary.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                DataPropertyName = "Total",
+                Name = "Total",
+                HeaderText = "Total",
+                DefaultCellStyle = { Format = "N2" }
+            });
+
+            dgvSummary.CellFormatting += DgvSummary_CellFormatting;
+        }
+
+        private void DgvSummary_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            try
+            {
+                if (dgvSummary.Columns[e.ColumnIndex].Name == "Price" ||
+                    dgvSummary.Columns[e.ColumnIndex].Name == "Total")
+                {
+                    if (e.Value != null && decimal.TryParse(e.Value.ToString(), out var dec))
+                    {
+                        e.Value = "\u09F3" + dec.ToString("N2");
+                        e.FormattingApplied = true;
+                    }
+                }
+            }
+            catch { }
         }
 
         private void CheckoutForm_Load(object sender, EventArgs e)
         {
+            lblBkashNumber.AutoSize = true;
+
             // Pre-fill user info
-            SqlConnection con = new SqlConnection(conString);
-            con.Open();
-            string q = "SELECT * FROM Users WHERE Id = " + Session.UserId;
-            SqlCommand cmd = new SqlCommand(q, con);
-            SqlDataReader r = cmd.ExecuteReader();
-            if (r.Read())
+            using (SqlConnection con = new SqlConnection(conString))
             {
-                txtName.Text = r["Name"].ToString();
-                txtPhone.Text = r["Phone"].ToString();
+                con.Open();
+                string q = "SELECT Name, Phone FROM Users WHERE Id = @id";
+                using (SqlCommand cmd = new SqlCommand(q, con))
+                {
+                    cmd.Parameters.AddWithValue("@id", Session.UserId);
+                    using (SqlDataReader r = cmd.ExecuteReader())
+                    {
+                        if (r.Read())
+                        {
+                            txtName.Text = r["Name"].ToString();
+                            txtPhone.Text = r["Phone"].ToString();
+                        }
+                    }
+                }
+
+                RefreshCart();
+
+                con.Close();
             }
-            r.Close();
-
-            // Load cart summary
-            string query = @"SELECT p.Name, c.Quantity, p.Price, (p.Price * c.Quantity) as Total 
-                             FROM Cart c JOIN Products p ON c.ProductId = p.Id 
-                             WHERE c.UserId = " + Session.UserId;
-            SqlDataAdapter da = new SqlDataAdapter(query, con);
-            DataTable dt = new DataTable();
-            da.Fill(dt);
-            dgvSummary.DataSource = dt;
-
-            string totalQ = "SELECT SUM(p.Price * c.Quantity) FROM Cart c JOIN Products p ON c.ProductId = p.Id WHERE c.UserId = " + Session.UserId;
-            SqlCommand cmdTotal = new SqlCommand(totalQ, con);
-            object result = cmdTotal.ExecuteScalar();
-            totalAmount = result == DBNull.Value ? 0 : Convert.ToDecimal(result);
-            lblOrderTotal.Text = "Total Amount: ৳" + totalAmount.ToString();
-            con.Close();
 
             rbCOD.Checked = true;
+        }
+
+        // Refresh the cart display and total
+        private void RefreshCart()
+        {
+            using (SqlConnection con = new SqlConnection(conString))
+            {
+                con.Open();
+
+                string query = @"SELECT p.Id AS ProductId,
+                                        p.Name,
+                                        c.Quantity,
+                                        (p.Price * (1 - ISNULL(p.Discount, 0) / 100.0)) AS Price,
+                                        (p.Price * (1 - ISNULL(p.Discount, 0) / 100.0) * c.Quantity) as Total
+                                 FROM Cart c JOIN Products p ON c.ProductId = p.Id
+                                 WHERE c.UserId = @uid";
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@uid", Session.UserId);
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    DataTable dt = new DataTable();
+                    da.Fill(dt);
+                    dgvSummary.DataSource = dt;
+                }
+
+                string totalQ = @"SELECT SUM(p.Price * (1 - ISNULL(p.Discount, 0) / 100.0) * c.Quantity)
+                                  FROM Cart c JOIN Products p ON c.ProductId = p.Id
+                                  WHERE c.UserId = @uid";
+                using (SqlCommand cmdTotal = new SqlCommand(totalQ, con))
+                {
+                    cmdTotal.Parameters.AddWithValue("@uid", Session.UserId);
+                    object result = cmdTotal.ExecuteScalar();
+                    totalAmount = result == DBNull.Value ? 0 : Convert.ToDecimal(result);
+                    lblOrderTotal.Text = "Total Amount: \u09F3" + totalAmount.ToString("N2");
+                    lblOrderTotal.BringToFront();
+                }
+
+                UpdateBkashPrompt();
+
+                con.Close();
+            }
         }
 
         private void rbOnline_CheckedChanged(object sender, EventArgs e)
@@ -59,7 +164,14 @@ namespace MobileShop
             if (rbOnline.Checked)
             {
                 lblBkashNumber.Text = "+8801676220935";
+                lblBkashNumber.AutoSize = true;
+                UpdateBkashPrompt();
             }
+        }
+
+        private void UpdateBkashPrompt()
+        {
+            lblBkashPrompt.Text = $"Send \u09F3{totalAmount:N2} to this bKash number:";
         }
 
         private void btnCopy_Click(object sender, EventArgs e)
@@ -112,23 +224,98 @@ namespace MobileShop
                 int qty = Convert.ToInt32(row["Quantity"]);
 
                 string itemQ = "INSERT INTO OrderItems (OrderId, ProductId, Quantity, Price) VALUES ("
-                    + orderId + ", " + pid + ", " + qty + ", (SELECT Price FROM Products WHERE Id = " + pid + "))";
-                using SqlCommand cmdItem = new SqlCommand(itemQ, con);
-                cmdItem.ExecuteNonQuery();
+                    + orderId + ", " + pid + ", " + qty + ", (SELECT Price * (1 - ISNULL(Discount, 0) / 100.0) FROM Products WHERE Id = " + pid + "))";
+                using (SqlCommand cmdItem = new SqlCommand(itemQ, con))
+                {
+                    cmdItem.ExecuteNonQuery();
+                }
 
                 string stockQ = "UPDATE Products SET Stock = Stock - " + qty + " WHERE Id = " + pid;
-                using SqlCommand cmdStock = new SqlCommand(stockQ, con);
-                cmdStock.ExecuteNonQuery();
+                using (SqlCommand cmdStock = new SqlCommand(stockQ, con))
+                {
+                    cmdStock.ExecuteNonQuery();
+                }
             }
 
             string delQ = "DELETE FROM Cart WHERE UserId = " + Session.UserId;
-            using SqlCommand cmdDel = new SqlCommand(delQ, con);
-            cmdDel.ExecuteNonQuery();
+            using (SqlCommand cmdDel = new SqlCommand(delQ, con))
+            {
+                cmdDel.ExecuteNonQuery();
+            }
 
             MessageBox.Show("Order placed successfully!");
             OrderSuccessForm success = new OrderSuccessForm();
             success.ShowDialog();
             Close();
+        }
+
+        // Increase selected cart item's quantity by 1
+        private void btnIncrease_Click(object sender, EventArgs e)
+        {
+            if (dgvSummary.CurrentRow == null) return;
+            int pid = Convert.ToInt32(dgvSummary.CurrentRow.Cells["ProductId"].Value);
+
+            using SqlConnection con = new SqlConnection(conString);
+            con.Open();
+            string q = "UPDATE Cart SET Quantity = Quantity + 1 WHERE UserId = " + Session.UserId + " AND ProductId = " + pid;
+            using (SqlCommand cmd = new SqlCommand(q, con))
+            {
+                cmd.ExecuteNonQuery();
+            }
+            con.Close();
+
+            RefreshCart();
+        }
+
+        // Decrease selected cart item's quantity by 1 (remove if it becomes 0)
+        private void btnDecrease_Click(object sender, EventArgs e)
+        {
+            if (dgvSummary.CurrentRow == null) return;
+            int pid = Convert.ToInt32(dgvSummary.CurrentRow.Cells["ProductId"].Value);
+            int qty = Convert.ToInt32(dgvSummary.CurrentRow.Cells["Quantity"].Value);
+
+            using SqlConnection con = new SqlConnection(conString);
+            con.Open();
+            if (qty > 1)
+            {
+                string q = "UPDATE Cart SET Quantity = Quantity - 1 WHERE UserId = " + Session.UserId + " AND ProductId = " + pid;
+                using (SqlCommand cmd = new SqlCommand(q, con))
+                {
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            else
+            {
+                string q = "DELETE FROM Cart WHERE UserId = " + Session.UserId + " AND ProductId = " + pid;
+                using (SqlCommand cmd = new SqlCommand(q, con))
+                {
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            con.Close();
+
+            RefreshCart();
+        }
+
+        // Remove selected cart item
+        private void btnRemove_Click(object sender, EventArgs e)
+        {
+            if (dgvSummary.CurrentRow == null) return;
+            int pid = Convert.ToInt32(dgvSummary.CurrentRow.Cells["ProductId"].Value);
+
+            var res = MessageBox.Show("Remove this item from cart?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (res != DialogResult.Yes) return;
+
+            using SqlConnection con = new SqlConnection(conString);
+            con.Open();
+            string q = "DELETE FROM Cart WHERE UserId = " + Session.UserId + " AND ProductId = " + pid;
+            using (SqlCommand cmd = new SqlCommand(q, con))
+            {
+                cmd.ExecuteNonQuery();
+            }
+            con.Close();
+
+            RefreshCart();
         }
     }
 }

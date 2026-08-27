@@ -1,0 +1,224 @@
+﻿csharp CafeManagement\Form1.Designer.cs
+using System.Windows.Forms;
+
+namespace CafeManagement
+{
+    partial class Form1
+    {
+        private System.ComponentModel.IContainer components = null;
+        private System.Windows.Forms.Label lblCustomerName;
+        private System.Windows.Forms.TextBox txtName;
+        private System.Windows.Forms.Label lblPhone;
+        private System.Windows.Forms.TextBox txtPhone;
+        private System.Windows.Forms.GroupBox grpGender;
+        private System.Windows.Forms.RadioButton rbMale;
+        private System.Windows.Forms.RadioButton rbFemale;
+        private System.Windows.Forms.Label lblMembership;
+        private System.Windows.Forms.ComboBox cmbMembership;
+        private System.Windows.Forms.Label lblMenu;
+        private System.Windows.Forms.ListBox lstMenu;
+        private System.Windows.Forms.DataGridView dgvOrder;
+        private System.Windows.Forms.Button btnPlaceOrder;
+        private System.Windows.Forms.Button btnSearch;
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        private void InitializeComponent()
+        {
+            this.lblCustomerName = new System.Windows.Forms.Label();
+            this.txtName = new System.Windows.Forms.TextBox();
+            this.lblPhone = new System.Windows.Forms.Label();
+            this.txtPhone = new System.Windows.Forms.TextBox();
+            this.grpGender = new System.Windows.Forms.GroupBox();
+            this.rbFemale = new System.Windows.Forms.RadioButton();
+            this.rbMale = new System.Windows.Forms.RadioButton();
+            this.lblMembership = new System.Windows.Forms.Label();
+            this.cmbMembership = new System.Windows.Forms.ComboBox();
+            this.lblMenu = new System.Windows.Forms.Label();
+            this.lstMenu = new System.Windows.Forms.ListBox();
+            this.dgvOrder = new System.Windows.Forms.DataGridView();
+            this.btnPlaceOrder = new System.Windows.Forms.Button();
+            this.btnSearch = new System.Windows.Forms.Button();
+            this.grpGender.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvOrder)).BeginInit();
+            this.SuspendLayout();
+            // 
+            // lblCustomerName
+            // 
+            this.lblCustomerName.AutoSize = true;
+            this.lblCustomerName.Location = new System.Drawing.Point(12, 15);
+            this.lblCustomerName.Name = "lblCustomerName";
+            this.lblCustomerName.Size = new System.Drawing.Size(99, 15);
+            this.lblCustomerName.TabIndex = 0;
+            this.lblCustomerName.Text = "Customer Name:";
+            // 
+            // txtName
+            // 
+            this.txtName.Location = new System.Drawing.Point(117, 12);
+            this.txtName.Name = "txtName";
+            this.txtName.Size = new System.Drawing.Size(240, 23);
+            this.txtName.TabIndex = 1;
+            // 
+            // lblPhone
+            // 
+            this.lblPhone.AutoSize = true;
+            this.lblPhone.Location = new System.Drawing.Point(12, 50);
+            this.lblPhone.Name = "lblPhone";
+            this.lblPhone.Size = new System.Drawing.Size(88, 15);
+            this.lblPhone.TabIndex = 2;
+            this.lblPhone.Text = "Phone Number:";
+            // 
+            // txtPhone
+            // 
+            this.txtPhone.Location = new System.Drawing.Point(117, 47);
+            this.txtPhone.Name = "txtPhone";
+            this.txtPhone.Size = new System.Drawing.Size(240, 23);
+            this.txtPhone.TabIndex = 3;
+            // 
+            // grpGender
+            // 
+            this.grpGender.Controls.Add(this.rbFemale);
+            this.grpGender.Controls.Add(this.rbMale);
+            this.grpGender.Location = new System.Drawing.Point(12, 82);
+            this.grpGender.Name = "grpGender";
+            this.grpGender.Size = new System.Drawing.Size(200, 50);
+            this.grpGender.TabIndex = 4;
+            this.grpGender.TabStop = false;
+            this.grpGender.Text = "Gender";
+            // 
+            // rbFemale
+            // 
+            this.rbFemale.AutoSize = true;
+            this.rbFemale.Location = new System.Drawing.Point(102, 22);
+            this.rbFemale.Name = "rbFemale";
+            this.rbFemale.Size = new System.Drawing.Size(63, 19);
+            this.rbFemale.TabIndex = 1;
+            this.rbFemale.Text = "Female";
+            this.rbFemale.UseVisualStyleBackColor = true;
+            // 
+            // rbMale
+            // 
+            this.rbMale.AutoSize = true;
+            this.rbMale.Checked = true;
+            this.rbMale.Location = new System.Drawing.Point(16, 22);
+            this.rbMale.Name = "rbMale";
+            this.rbMale.Size = new System.Drawing.Size(51, 19);
+            this.rbMale.TabIndex = 0;
+            this.rbMale.TabStop = true;
+            this.rbMale.Text = "Male";
+            this.rbMale.UseVisualStyleBackColor = true;
+            // 
+            // lblMembership
+            // 
+            this.lblMembership.AutoSize = true;
+            this.lblMembership.Location = new System.Drawing.Point(12, 145);
+            this.lblMembership.Name = "lblMembership";
+            this.lblMembership.Size = new System.Drawing.Size(102, 15);
+            this.lblMembership.TabIndex = 6;
+            this.lblMembership.Text = "Membership Type:";
+            // 
+            // cmbMembership
+            // 
+            this.cmbMembership.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbMembership.FormattingEnabled = true;
+            this.cmbMembership.Items.AddRange(new object[] {
+            "Regular",
+            "Premium"});
+            this.cmbMembership.Location = new System.Drawing.Point(120, 142);
+            this.cmbMembership.Name = "cmbMembership";
+            this.cmbMembership.Size = new System.Drawing.Size(121, 23);
+            this.cmbMembership.TabIndex = 7;
+            // 
+            // lblMenu
+            // 
+            this.lblMenu.AutoSize = true;
+            this.lblMenu.Location = new System.Drawing.Point(12, 185);
+            this.lblMenu.Name = "lblMenu";
+            this.lblMenu.Size = new System.Drawing.Size(39, 15);
+            this.lblMenu.TabIndex = 8;
+            this.lblMenu.Text = "Menu:";
+            // 
+            // lstMenu
+            // 
+            this.lstMenu.FormattingEnabled = true;
+            this.lstMenu.ItemHeight = 15;
+            this.lstMenu.Items.AddRange(new object[] {
+            "Coffee",
+            "Burger",
+            "French Fry",
+            "Juice",
+            "Sandwitch",
+            "Pasta",
+            "Water"});
+            this.lstMenu.Location = new System.Drawing.Point(12, 203);
+            this.lstMenu.Name = "lstMenu";
+            this.lstMenu.Size = new System.Drawing.Size(245, 169);
+            this.lstMenu.TabIndex = 9;
+            this.lstMenu.DoubleClick += new System.EventHandler(this.lstMenu_DoubleClick);
+            // 
+            // dgvOrder
+            // 
+            this.dgvOrder.AllowUserToAddRows = false;
+            this.dgvOrder.AllowUserToDeleteRows = false;
+            this.dgvOrder.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvOrder.Location = new System.Drawing.Point(280, 12);
+            this.dgvOrder.Name = "dgvOrder";
+            this.dgvOrder.ReadOnly = false;
+            this.dgvOrder.Size = new System.Drawing.Size(480, 360);
+            this.dgvOrder.TabIndex = 10;
+            this.dgvOrder.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvOrder_CellContentClick);
+            // 
+            // btnPlaceOrder
+            // 
+            this.btnPlaceOrder.Location = new System.Drawing.Point(12, 385);
+            this.btnPlaceOrder.Name = "btnPlaceOrder";
+            this.btnPlaceOrder.Size = new System.Drawing.Size(120, 30);
+            this.btnPlaceOrder.TabIndex = 11;
+            this.btnPlaceOrder.Text = "Place Order";
+            this.btnPlaceOrder.UseVisualStyleBackColor = true;
+            this.btnPlaceOrder.Click += new System.EventHandler(this.btnPlaceOrder_Click);
+            // 
+            // btnSearch
+            // 
+            this.btnSearch.Location = new System.Drawing.Point(147, 385);
+            this.btnSearch.Name = "btnSearch";
+            this.btnSearch.Size = new System.Drawing.Size(110, 30);
+            this.btnSearch.TabIndex = 12;
+            this.btnSearch.Text = "Search";
+            this.btnSearch.UseVisualStyleBackColor = true;
+            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
+            // 
+            // Form1
+            // 
+            this.ClientSize = new System.Drawing.Size(774, 427);
+            this.Controls.Add(this.btnSearch);
+            this.Controls.Add(this.btnPlaceOrder);
+            this.Controls.Add(this.dgvOrder);
+            this.Controls.Add(this.lstMenu);
+            this.Controls.Add(this.lblMenu);
+            this.Controls.Add(this.cmbMembership);
+            this.Controls.Add(this.lblMembership);
+            this.Controls.Add(this.grpGender);
+            this.Controls.Add(this.txtPhone);
+            this.Controls.Add(this.lblPhone);
+            this.Controls.Add(this.txtName);
+            this.Controls.Add(this.lblCustomerName);
+            this.Name = "Form1";
+            this.Text = "Cafe Management";
+            this.Load += new System.EventHandler(this.Form1_Load);
+            this.grpGender.ResumeLayout(false);
+            this.grpGender.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvOrder)).EndInit();
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
+        }
+    }
+}

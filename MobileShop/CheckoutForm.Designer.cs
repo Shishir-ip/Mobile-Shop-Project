@@ -90,7 +90,7 @@
             // 
             lblOrderTotal.AutoSize = true;
             lblOrderTotal.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            lblOrderTotal.Location = new Point(20, 335);
+            lblOrderTotal.Location = new Point(300, 335);
             lblOrderTotal.Name = "lblOrderTotal";
             lblOrderTotal.Size = new Size(130, 28);
             lblOrderTotal.TabIndex = 5;
@@ -138,23 +138,24 @@
             lblBkashPrompt.AutoSize = true;
             lblBkashPrompt.Location = new Point(10, 15);
             lblBkashPrompt.Name = "lblBkashPrompt";
-            lblBkashPrompt.Size = new Size(212, 20);
+            lblBkashPrompt.Size = new Size(260, 20);
             lblBkashPrompt.TabIndex = 0;
-            lblBkashPrompt.Text = "Send ৳X to this bKash number:";
+            lblBkashPrompt.Text = "Send ৳0.00 to this bKash number:";
             // 
             // lblBkashNumber
             // 
             lblBkashNumber.AutoSize = true;
             lblBkashNumber.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            lblBkashNumber.Location = new Point(220, 15);
+            lblBkashNumber.Location = new Point(270, 15);
             lblBkashNumber.Name = "lblBkashNumber";
             lblBkashNumber.Size = new Size(137, 20);
             lblBkashNumber.TabIndex = 1;
             lblBkashNumber.Text = "+8801676220935";
+            lblBkashNumber.MinimumSize = new Size(140, 20);
             // 
             // btnCopy
             // 
-            btnCopy.Location = new Point(360, 10);
+            btnCopy.Location = new Point(420, 10);
             btnCopy.Name = "btnCopy";
             btnCopy.Size = new Size(70, 30);
             btnCopy.TabIndex = 2;
@@ -184,6 +185,41 @@
             txtTransId.PlaceholderText = "Transaction ID (TrxID)";
             txtTransId.Size = new Size(280, 27);
             txtTransId.TabIndex = 5;
+
+            // Additional cart action buttons
+            btnIncrease = new Button();
+            btnDecrease = new Button();
+            btnRemove = new Button();
+
+            // 
+            // btnIncrease
+            // 
+            btnIncrease.Location = new Point(20, 330);
+            btnIncrease.Name = "btnIncrease";
+            btnIncrease.Size = new Size(80, 30);
+            btnIncrease.TabIndex = 11;
+            btnIncrease.Text = "Increase";
+            btnIncrease.UseVisualStyleBackColor = true;
+
+            // 
+            // btnDecrease
+            // 
+            btnDecrease.Location = new Point(110, 330);
+            btnDecrease.Name = "btnDecrease";
+            btnDecrease.Size = new Size(80, 30);
+            btnDecrease.TabIndex = 12;
+            btnDecrease.Text = "Decrease";
+            btnDecrease.UseVisualStyleBackColor = true;
+
+            // 
+            // btnRemove
+            // 
+            btnRemove.Location = new Point(200, 330);
+            btnRemove.Name = "btnRemove";
+            btnRemove.Size = new Size(80, 30);
+            btnRemove.TabIndex = 13;
+            btnRemove.Text = "Remove";
+            btnRemove.UseVisualStyleBackColor = true;
             // 
             // btnPlaceOrder
             // 
@@ -222,6 +258,10 @@
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(560, 710);
+            // Add cart action buttons to the form
+            Controls.Add(btnRemove);
+            Controls.Add(btnDecrease);
+            Controls.Add(btnIncrease);
             Controls.Add(btnPlaceOrder);
             Controls.Add(panelBkash);
             Controls.Add(rbOnline);
@@ -265,5 +305,8 @@
         private System.Windows.Forms.TextBox txtBkashNum;
         private System.Windows.Forms.TextBox txtTransId;
         private System.Windows.Forms.Button btnPlaceOrder;
+        private System.Windows.Forms.Button btnIncrease;
+        private System.Windows.Forms.Button btnDecrease;
+        private System.Windows.Forms.Button btnRemove;
     }
 }

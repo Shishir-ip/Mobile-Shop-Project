@@ -1,1190 +1,930 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MobileShop - Project Documentation</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg-primary: #0f172a;
-            --bg-secondary: #1e293b;
-            --bg-card: #1e293b;
-            --bg-code: #0b1221;
-            --accent: #3b82f6;
-            --accent-glow: rgba(59, 130, 246, 0.3);
-            --accent-secondary: #8b5cf6;
-            --text-primary: #f1f5f9;
-            --text-secondary: #94a3b8;
-            --text-muted: #64748b;
-            --border: #334155;
-            --success: #10b981;
-            --warning: #f59e0b;
-            --danger: #ef4444;
-            --info: #06b6d4;
-        }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'Inter', sans-serif;
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            line-height: 1.7;
-            overflow-x: hidden;
-        }
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: var(--bg-primary); }
-        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MobileShop — Project Visualization</title>
+<style>
+  :root {
+    --bg-0: #0a0e1a;
+    --bg-1: #111827;
+    --bg-2: #1a2236;
+    --accent: #6366f1;
+    --accent-2: #ec4899;
+    --accent-3: #10b981;
+    --warn: #f59e0b;
+    --danger: #ef4444;
+    --text: #e5e7eb;
+    --muted: #94a3b8;
+    --card: rgba(255,255,255,0.04);
+    --border: rgba(255,255,255,0.08);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: var(--bg-0);
+    color: var(--text);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(circle at 20% 10%, rgba(99,102,241,0.15), transparent 40%),
+      radial-gradient(circle at 80% 80%, rgba(236,72,153,0.12), transparent 40%),
+      radial-gradient(circle at 50% 50%, rgba(16,185,129,0.08), transparent 50%);
+    pointer-events: none;
+    z-index: -1;
+  }
 
-        /* Nav */
-        .nav {
-            position: fixed; top: 0; left: 0; right: 0;
-            background: rgba(15, 23, 42, 0.9);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--border);
-            z-index: 1000; padding: 0 2rem;
-        }
-        .nav-inner {
-            max-width: 1400px; margin: 0 auto;
-            display: flex; align-items: center; justify-content: space-between; height: 64px;
-        }
-        .nav-logo {
-            font-weight: 800; font-size: 1.3rem;
-            background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            display: flex; align-items: center; gap: 0.5rem;
-        }
-        .nav-links { display: flex; gap: 2rem; list-style: none; }
-        .nav-links a {
-            color: var(--text-secondary); text-decoration: none;
-            font-size: 0.9rem; font-weight: 500; transition: color 0.2s; position: relative;
-        }
-        .nav-links a:hover { color: var(--accent); }
-        .nav-links a::after {
-            content: ''; position: absolute; bottom: -4px; left: 0;
-            width: 0; height: 2px; background: var(--accent); transition: width 0.2s;
-        }
-        .nav-links a:hover::after { width: 100%; }
+  /* NAV */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    backdrop-filter: blur(12px);
+    background: rgba(10,14,26,0.75);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 32px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  nav .logo { font-weight: 700; font-size: 1.1rem; display: flex; align-items: center; gap: 8px; }
+  nav .logo span {
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  nav ul { list-style: none; display: flex; gap: 22px; }
+  nav a {
+    color: var(--muted); text-decoration: none; font-size: 0.9rem;
+    transition: color 0.2s;
+  }
+  nav a:hover { color: var(--text); }
 
-        /* Hero */
-        .hero {
-            min-height: 100vh; display: flex; align-items: center; justify-content: center;
-            text-align: center; padding: 6rem 2rem 4rem; position: relative; overflow: hidden;
-        }
-        .hero-bg {
-            position: absolute; inset: 0;
-            background:
-                radial-gradient(ellipse at 20% 50%, rgba(59,130,246,0.08) 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 50%, rgba(139,92,246,0.08) 0%, transparent 50%);
-        }
-        .hero-content { position: relative; z-index: 1; max-width: 900px; }
-        .hero-badge {
-            display: inline-flex; align-items: center; gap: 0.5rem;
-            padding: 0.5rem 1rem; background: var(--bg-secondary);
-            border: 1px solid var(--border); border-radius: 100px;
-            font-size: 0.85rem; color: var(--accent); margin-bottom: 2rem;
-        }
-        .hero h1 {
-            font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 800;
-            line-height: 1.1; margin-bottom: 1.5rem;
-        }
-        .hero h1 span {
-            background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-        }
-        .hero p { font-size: 1.2rem; color: var(--text-secondary); max-width: 600px; margin: 0 auto 2.5rem; }
-        .hero-meta { display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; }
-        .hero-meta-item { display: flex; align-items: center; gap: 0.5rem; color: var(--text-muted); font-size: 0.9rem; }
-        .hero-meta-item svg { width: 18px; height: 18px; }
+  /* HERO */
+  header.hero {
+    padding: 80px 32px 60px;
+    text-align: center;
+    position: relative;
+  }
+  .badge {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 999px;
+    background: rgba(99,102,241,0.15);
+    border: 1px solid rgba(99,102,241,0.3);
+    color: #a5b4fc;
+    font-size: 0.8rem;
+    margin-bottom: 20px;
+  }
+  header.hero h1 {
+    font-size: clamp(2rem, 5vw, 3.8rem);
+    font-weight: 800;
+    background: linear-gradient(135deg, #fff 0%, #a5b4fc 50%, #f9a8d4 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    margin-bottom: 16px;
+    letter-spacing: -1px;
+  }
+  header.hero p {
+    color: var(--muted);
+    max-width: 720px;
+    margin: 0 auto 32px;
+    font-size: 1.1rem;
+  }
+  .hero-stats {
+    display: flex; justify-content: center; gap: 32px; flex-wrap: wrap;
+    margin-top: 40px;
+  }
+  .stat {
+    padding: 16px 24px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    min-width: 140px;
+  }
+  .stat .num {
+    font-size: 1.8rem; font-weight: 700;
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .stat .label { color: var(--muted); font-size: 0.85rem; }
 
-        /* Sections */
-        section { padding: 5rem 2rem; }
-        .container { max-width: 1200px; margin: 0 auto; }
-        .section-header { text-align: center; margin-bottom: 3rem; }
-        .section-header h2 { font-size: 2.2rem; font-weight: 700; margin-bottom: 0.75rem; }
-        .section-header p { color: var(--text-secondary); max-width: 600px; margin: 0 auto; }
-        .section-tag {
-            display: inline-block; padding: 0.25rem 0.75rem;
-            background: var(--accent-glow); color: var(--accent);
-            border-radius: 4px; font-size: 0.75rem; font-weight: 600;
-            text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1rem;
-        }
+  /* SECTIONS */
+  section {
+    padding: 60px 32px;
+    max-width: 1300px;
+    margin: 0 auto;
+  }
+  .section-title {
+    font-size: 2rem;
+    margin-bottom: 8px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .section-title::before {
+    content: '';
+    width: 4px; height: 28px;
+    background: linear-gradient(180deg, var(--accent), var(--accent-2));
+    border-radius: 2px;
+  }
+  .section-sub { color: var(--muted); margin-bottom: 32px; }
 
-        /* Tech Grid */
-        .tech-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; }
-        .tech-card {
-            background: var(--bg-card); border: 1px solid var(--border);
-            border-radius: 16px; padding: 2rem; text-align: center;
-            transition: all 0.3s ease; position: relative; overflow: hidden;
-        }
-        .tech-card::before {
-            content: ''; position: absolute; top: 0; left: 0; right: 0;
-            height: 3px; background: linear-gradient(90deg, var(--accent), var(--accent-secondary));
-            opacity: 0; transition: opacity 0.3s;
-        }
-        .tech-card:hover { transform: translateY(-4px); border-color: var(--accent); box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
-        .tech-card:hover::before { opacity: 1; }
-        .tech-icon { width: 56px; height: 56px; margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; background: var(--bg-primary); border-radius: 14px; border: 1px solid var(--border); font-size: 1.5rem; }
-        .tech-card h3 { font-size: 1.1rem; margin-bottom: 0.5rem; }
-        .tech-card p { font-size: 0.85rem; color: var(--text-muted); }
+  /* TECH STACK */
+  .tech-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+  }
+  .tech-card {
+    padding: 20px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    transition: transform 0.2s, border-color 0.2s;
+  }
+  .tech-card:hover { transform: translateY(-4px); border-color: var(--accent); }
+  .tech-card .icon { font-size: 1.8rem; margin-bottom: 8px; }
+  .tech-card h3 { font-size: 1rem; margin-bottom: 4px; }
+  .tech-card p { color: var(--muted); font-size: 0.85rem; }
 
-        /* Architecture */
-        .arch-section { background: var(--bg-secondary); }
-        .arch-diagram {
-            background: var(--bg-primary); border: 1px solid var(--border);
-            border-radius: 20px; padding: 3rem; position: relative; overflow: hidden;
-        }
-        .arch-layers { display: flex; flex-direction: column; gap: 1.5rem; position: relative; z-index: 1; }
-        .arch-layer {
-            display: flex; align-items: center; gap: 1.5rem;
-            padding: 1.5rem 2rem; background: var(--bg-secondary);
-            border: 1px solid var(--border); border-radius: 12px; transition: all 0.3s;
-        }
-        .arch-layer:hover { border-color: var(--accent); background: rgba(59,130,246,0.05); }
-        .arch-layer-icon { width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; border-radius: 10px; font-size: 1.3rem; flex-shrink: 0; }
-        .arch-layer-icon.ui { background: rgba(59,130,246,0.15); }
-        .arch-layer-icon.logic { background: rgba(139,92,246,0.15); }
-        .arch-layer-icon.db { background: rgba(16,185,129,0.15); }
-        .arch-arrow { text-align: center; color: var(--text-muted); font-size: 1.2rem; }
-        .arch-files { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.5rem; }
-        .arch-file-tag {
-            padding: 0.2rem 0.6rem; background: var(--bg-primary);
-            border: 1px solid var(--border); border-radius: 4px;
-            font-size: 0.75rem; font-family: 'JetBrains Mono', monospace; color: var(--text-secondary);
-        }
+  /* ARCHITECTURE DIAGRAM */
+  .arch-diagram {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px;
+    overflow-x: auto;
+  }
+  .arch-svg { width: 100%; min-width: 700px; height: 420px; }
 
-        /* Database */
-        .db-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
-        .db-table { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; transition: all 0.3s; }
-        .db-table:hover { border-color: var(--accent); transform: translateY(-2px); }
-        .db-table-header { padding: 1rem 1.5rem; background: var(--bg-primary); border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 0.75rem; }
-        .db-table-header .icon { font-size: 1.2rem; }
-        .db-table-header h3 { font-size: 1rem; font-family: 'JetBrains Mono', monospace; color: var(--accent); }
-        .db-table-header .badge { margin-left: auto; padding: 0.15rem 0.5rem; background: var(--accent-glow); color: var(--accent); border-radius: 4px; font-size: 0.7rem; font-weight: 600; }
-        .db-columns { padding: 0.5rem 0; }
-        .db-column { display: flex; align-items: center; padding: 0.6rem 1.5rem; gap: 0.75rem; font-size: 0.85rem; font-family: 'JetBrains Mono', monospace; }
-        .db-column:nth-child(even) { background: rgba(255,255,255,0.02); }
-        .db-col-name { color: var(--text-primary); min-width: 120px; }
-        .db-col-type { color: var(--text-muted); font-size: 0.8rem; }
-        .db-col-key { margin-left: auto; padding: 0.1rem 0.4rem; border-radius: 3px; font-size: 0.65rem; font-weight: 600; text-transform: uppercase; }
-        .db-col-key.pk { background: rgba(239,68,68,0.15); color: var(--danger); }
-        .db-col-key.fk { background: rgba(245,158,11,0.15); color: var(--warning); }
-        .db-col-key.ai { background: rgba(16,185,129,0.15); color: var(--success); }
+  /* FILE CARDS */
+  .file-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
+  }
+  .file-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    transition: all 0.2s;
+    cursor: pointer;
+  }
+  .file-card:hover {
+    border-color: var(--accent);
+    background: rgba(99,102,241,0.05);
+  }
+  .file-card .fname {
+    display: flex; align-items: center; gap: 10px;
+    font-family: 'Consolas', monospace;
+    font-weight: 600;
+    color: #a5b4fc;
+    margin-bottom: 8px;
+  }
+  .file-card .ftype {
+    font-size: 0.7rem;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: rgba(16,185,129,0.15);
+    color: #6ee7b7;
+    margin-left: auto;
+  }
+  .file-card .ftype.form { background: rgba(236,72,153,0.15); color: #f9a8d4; }
+  .file-card .ftype.util { background: rgba(245,158,11,0.15); color: #fcd34d; }
+  .file-card p { color: var(--muted); font-size: 0.88rem; }
+  .file-card ul { margin-top: 10px; padding-left: 18px; }
+  .file-card li { color: var(--muted); font-size: 0.82rem; margin-bottom: 3px; }
 
-        /* Code */
-        .code-section { background: var(--bg-secondary); }
-        .code-block { background: var(--bg-code); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin-bottom: 1.5rem; }
-        .code-header { display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 1rem; background: rgba(255,255,255,0.03); border-bottom: 1px solid var(--border); }
-        .code-header-left { display: flex; align-items: center; gap: 0.5rem; }
-        .code-dots { display: flex; gap: 0.4rem; }
-        .code-dot { width: 10px; height: 10px; border-radius: 50%; }
-        .code-dot.red { background: var(--danger); }
-        .code-dot.yellow { background: var(--warning); }
-        .code-dot.green { background: var(--success); }
-        .code-filename { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: var(--text-secondary); }
-        .code-lang { padding: 0.2rem 0.6rem; background: var(--bg-primary); border-radius: 4px; font-size: 0.7rem; color: var(--text-muted); font-weight: 500; }
-        pre { padding: 1.25rem; overflow-x: auto; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; line-height: 1.6; }
-        .code-keyword { color: #c678dd; }
-        .code-type { color: #e5c07b; }
-        .code-string { color: #98c379; }
-        .code-comment { color: #5c6370; font-style: italic; }
-        .code-function { color: #61afef; }
-        .code-number { color: #d19a66; }
+  /* ER DIAGRAM */
+  .er-wrap {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px;
+    overflow-x: auto;
+  }
+  .er-svg { width: 100%; min-width: 800px; height: 520px; }
 
-        /* Flow */
-        .flow-timeline { position: relative; padding-left: 2rem; }
-        .flow-timeline::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: linear-gradient(180deg, var(--accent), var(--accent-secondary)); border-radius: 2px; }
-        .flow-step { position: relative; padding: 1.5rem 2rem; background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 1.5rem; transition: all 0.3s; }
-        .flow-step:hover { border-color: var(--accent); transform: translateX(4px); }
-        .flow-step::before { content: ''; position: absolute; left: -2.35rem; top: 1.8rem; width: 12px; height: 12px; background: var(--accent); border-radius: 50%; border: 3px solid var(--bg-primary); box-shadow: 0 0 0 3px var(--accent-glow); }
-        .flow-step h4 { font-size: 1.1rem; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem; }
-        .flow-step p { color: var(--text-secondary); font-size: 0.95rem; }
+  /* FLOWS */
+  .flows-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 20px;
+  }
+  .flow-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+  }
+  .flow-card h3 {
+    margin-bottom: 16px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .flow-steps {
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .flow-step {
+    display: flex; align-items: center; gap: 12px;
+    padding: 10px 14px;
+    background: rgba(255,255,255,0.03);
+    border-left: 3px solid var(--accent);
+    border-radius: 6px;
+    font-size: 0.88rem;
+  }
+  .flow-step .step-num {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.75rem; font-weight: 700;
+    flex-shrink: 0;
+  }
+  .flow-step.sql { border-left-color: var(--accent-3); }
+  .flow-step.warn { border-left-color: var(--danger); }
 
-        /* Security */
-        .security-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 1.5rem; }
-        .security-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 1.75rem; position: relative; overflow: hidden; }
-        .security-card::before { content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; }
-        .security-card.critical::before { background: var(--danger); }
-        .security-card.warning::before { background: var(--warning); }
-        .security-card.info::before { background: var(--info); }
-        .security-label { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.25rem 0.75rem; border-radius: 100px; font-size: 0.75rem; font-weight: 600; margin-bottom: 1rem; }
-        .security-label.critical { background: rgba(239,68,68,0.15); color: var(--danger); }
-        .security-label.warning { background: rgba(245,158,11,0.15); color: var(--warning); }
-        .security-label.info { background: rgba(6,182,212,0.15); color: var(--info); }
-        .security-card h3 { font-size: 1.1rem; margin-bottom: 0.75rem; }
-        .security-card p { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem; }
-        .security-fix { padding: 0.75rem 1rem; background: var(--bg-primary); border-radius: 8px; font-size: 0.85rem; color: var(--text-secondary); border-left: 3px solid var(--success); }
-        .security-fix strong { color: var(--success); }
+  /* SQL TABS */
+  .sql-tabs {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .tab-header {
+    display: flex;
+    overflow-x: auto;
+    border-bottom: 1px solid var(--border);
+    background: rgba(0,0,0,0.2);
+  }
+  .tab-btn {
+    padding: 14px 20px;
+    background: none;
+    border: none;
+    color: var(--muted);
+    cursor: pointer;
+    font-family: 'Consolas', monospace;
+    font-size: 0.85rem;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+  }
+  .tab-btn:hover { color: var(--text); }
+  .tab-btn.active {
+    color: #a5b4fc;
+    border-bottom-color: var(--accent);
+    background: rgba(99,102,241,0.08);
+  }
+  .tab-content { padding: 24px; display: none; }
+  .tab-content.active { display: block; }
+  .sql-query {
+    background: #0d1117;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin-bottom: 12px;
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 0.82rem;
+    color: #e6edf3;
+    overflow-x: auto;
+    line-height: 1.5;
+  }
+  .sql-query .kw { color: #ff7b72; }
+  .sql-query .str { color: #a5d6ff; }
+  .sql-query .fn { color: #d2a8ff; }
+  .sql-query .num { color: #79c0ff; }
+  .sql-query .comment { color: #8b949e; font-style: italic; }
 
-        /* Q&A */
-        .qa-item { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 1rem; overflow: hidden; transition: all 0.3s; }
-        .qa-item:hover { border-color: var(--accent); }
-        .qa-question { padding: 1.25rem 1.5rem; display: flex; align-items: center; justify-content: space-between; cursor: pointer; font-weight: 600; font-size: 1rem; transition: background 0.2s; }
-        .qa-question:hover { background: rgba(255,255,255,0.02); }
-        .qa-question .q-icon { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; background: var(--accent-glow); color: var(--accent); border-radius: 6px; font-size: 0.8rem; font-weight: 700; margin-right: 0.75rem; }
-        .qa-question .arrow { transition: transform 0.3s; color: var(--text-muted); }
-        .qa-item.active .arrow { transform: rotate(180deg); }
-        .qa-answer { max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.4s ease; }
-        .qa-item.active .qa-answer { max-height: 500px; padding: 0 1.5rem 1.5rem; }
-        .qa-answer p { color: var(--text-secondary); line-height: 1.7; }
+  /* SECURITY */
+  .security-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+  }
+  .sec-card {
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid;
+  }
+  .sec-card.danger {
+    background: rgba(239,68,68,0.08);
+    border-color: rgba(239,68,68,0.3);
+  }
+  .sec-card.warn {
+    background: rgba(245,158,11,0.08);
+    border-color: rgba(245,158,11,0.3);
+  }
+  .sec-card.info {
+    background: rgba(99,102,241,0.08);
+    border-color: rgba(99,102,241,0.3);
+  }
+  .sec-card h4 {
+    display: flex; align-items: center; gap: 8px;
+    margin-bottom: 8px;
+  }
+  .sec-card p { font-size: 0.88rem; color: var(--muted); }
+  .sec-card code {
+    background: rgba(0,0,0,0.3);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    color: #fca5a5;
+  }
 
-        /* Improvements */
-        .improve-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; }
-        .improve-item { display: flex; align-items: flex-start; gap: 1rem; padding: 1.25rem; background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; transition: all 0.3s; }
-        .improve-item:hover { border-color: var(--success); background: rgba(16,185,129,0.03); }
-        .improve-check { width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; background: rgba(16,185,129,0.15); color: var(--success); border-radius: 6px; font-size: 0.85rem; flex-shrink: 0; margin-top: 2px; }
-        .improve-item h4 { font-size: 0.95rem; margin-bottom: 0.25rem; }
-        .improve-item p { font-size: 0.85rem; color: var(--text-muted); }
+  footer {
+    padding: 40px 32px;
+    text-align: center;
+    color: var(--muted);
+    border-top: 1px solid var(--border);
+    font-size: 0.85rem;
+  }
 
-        /* File Tree */
-        .file-tree { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 2rem; }
-        .file-tree-item { display: flex; align-items: center; gap: 0.75rem; padding: 0.6rem 0; border-bottom: 1px solid rgba(255,255,255,0.03); font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; }
-        .file-tree-item:last-child { border-bottom: none; }
-        .file-icon { font-size: 1.1rem; }
-        .file-name { color: var(--text-primary); }
-        .file-desc { margin-left: auto; color: var(--text-muted); font-size: 0.8rem; }
-
-        /* Footer */
-        .footer { text-align: center; padding: 3rem 2rem; border-top: 1px solid var(--border); color: var(--text-muted); font-size: 0.9rem; }
-
-        /* Animations */
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        .fade-in { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
-        .fade-in.visible { opacity: 1; transform: translateY(0); }
-
-        @media (max-width: 768px) {
-            .nav-links { display: none; }
-            .arch-layer { flex-direction: column; text-align: center; }
-            .arch-files { justify-content: center; }
-            section { padding: 3rem 1rem; }
-        }
-    </style>
-<base target="_blank">
+  @media (max-width: 720px) {
+    nav { padding: 12px 16px; }
+    nav ul { gap: 14px; font-size: 0.8rem; }
+    section { padding: 40px 16px; }
+    header.hero { padding: 60px 16px 40px; }
+  }
+</style>
 </head>
 <body>
 
-<nav class="nav">
-    <div class="nav-inner">
-        <div class="nav-logo">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>
-            MobileShop
-        </div>
-        <ul class="nav-links">
-            <li><a href="#overview">Overview</a></li>
-            <li><a href="#tech">Tech Stack</a></li>
-            <li><a href="#architecture">Architecture</a></li>
-            <li><a href="#database">Database</a></li>
-            <li><a href="#flow">Demo Flow</a></li>
-            <li><a href="#security">Security</a></li>
-            <li><a href="#qa">Q&A</a></li>
-        </ul>
-    </div>
+<nav>
+  <div class="logo">📱 <span>MobileShop</span></div>
+  <ul>
+    <li><a href="#overview">Overview</a></li>
+    <li><a href="#arch">Architecture</a></li>
+    <li><a href="#files">Files</a></li>
+    <li><a href="#db">Database</a></li>
+    <li><a href="#flows">Flows</a></li>
+    <li><a href="#sql">SQL</a></li>
+    <li><a href="#security">Security</a></li>
+  </ul>
 </nav>
 
-<section class="hero" id="overview">
-    <div class="hero-bg"></div>
-    <div class="hero-content">
-        <div class="hero-badge">
-            <span style="width:8px;height:8px;background:var(--success);border-radius:50%;display:inline-block;"></span>
-            Windows Forms E-Commerce Application
-        </div>
-        <h1>MobileShop <span>Project</span></h1>
-        <p>A complete desktop e-commerce system for selling mobile phones, built with C# WinForms and SQL Server Express.</p>
-        <div class="hero-meta">
-            <div class="hero-meta-item">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-                Shohidul Islam
-            </div>
-            <div class="hero-meta-item">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-                August 15, 2026
-            </div>
-            <div class="hero-meta-item">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg>
-                .NET 8 / C#
-            </div>
-        </div>
-    </div>
+<header class="hero" id="overview">
+  <div class="badge">🎯 .NET 8 · Windows Forms · SQL Server</div>
+  <h1>MobileShop</h1>
+  <p>A desktop retail application for selling mobile phones — featuring product browsing, shopping cart, checkout, user authentication, and an admin dashboard backed by SQL Server.</p>
+
+  <div class="hero-stats">
+    <div class="stat"><div class="num">10+</div><div class="label">Source Files</div></div>
+    <div class="stat"><div class="num">5</div><div class="label">DB Tables</div></div>
+    <div class="stat"><div class="num">30+</div><div class="label">SQL Queries</div></div>
+    <div class="stat"><div class="num">2</div><div class="label">User Roles</div></div>
+  </div>
+</header>
+
+<!-- TECH STACK -->
+<section>
+  <h2 class="section-title">Technology Stack</h2>
+  <p class="section-sub">Core technologies powering the application</p>
+  <div class="tech-grid">
+    <div class="tech-card"><div class="icon">🪟</div><h3>Windows Forms</h3><p>Classic desktop UI framework</p></div>
+    <div class="tech-card"><div class="icon">⚡</div><h3>.NET 8</h3><p>Target: net8.0-windows</p></div>
+    <div class="tech-card"><div class="icon">🗄️</div><h3>SQL Server Express</h3><p>Local .\SQLEXPRESS instance</p></div>
+    <div class="tech-card"><div class="icon">🔌</div><h3>System.Data.SqlClient</h3><p>ADO.NET data access</p></div>
+    <div class="tech-card"><div class="icon">🎨</div><h3>GDI+ Imaging</h3><p>Product image rendering</p></div>
+    <div class="tech-card"><div class="icon">🔐</div><h3>Session Management</h3><p>Static Session holder class</p></div>
+  </div>
 </section>
 
-<section id="tech">
-    <div class="container">
-        <div class="section-header fade-in">
-            <div class="section-tag">Technologies</div>
-            <h2>Tech Stack & Environment</h2>
-            <p>The tools and frameworks powering the MobileShop application</p>
-        </div>
-        <div class="tech-grid">
-            <div class="tech-card fade-in">
-                <div class="tech-icon">&#x1F5A5;</div>
-                <h3>Windows Forms</h3>
-                <p>Desktop UI framework for building the storefront, cart, and admin panels</p>
-            </div>
-            <div class="tech-card fade-in">
-                <div class="tech-icon" style="font-size:1.3rem;font-weight:700;color:#9b4f96;">C#</div>
-                <h3>C# Language</h3>
-                <p>Primary programming language targeting .NET 8 framework</p>
-            </div>
-            <div class="tech-card fade-in">
-                <div class="tech-icon" style="color:#e535ab;">&#x1F5C4;</div>
-                <h3>SQL Server Express</h3>
-                <p>Local database instance (\\SQLEXPRESS) with 5 core tables</p>
-            </div>
-            <div class="tech-card fade-in">
-                <div class="tech-icon" style="color:#5c2d91;">&#x1F537;</div>
-                <h3>Visual Studio 2022</h3>
-                <p>IDE for development, debugging, and project management</p>
-            </div>
-            <div class="tech-card fade-in">
-                <div class="tech-icon" style="color:#ff6f00;">&#x26A1;</div>
-                <h3>System.Data.SqlClient</h3>
-                <p>Raw SQL queries for database connectivity and operations</p>
-            </div>
-            <div class="tech-card fade-in">
-                <div class="tech-icon" style="color:#00d4aa;">&#x1F4C1;</div>
-                <h3>File System Images</h3>
-                <p>Product images stored on disk with paths referenced in database</p>
-            </div>
-        </div>
-    </div>
+<!-- ARCHITECTURE -->
+<section id="arch">
+  <h2 class="section-title">System Architecture</h2>
+  <p class="section-sub">How the pieces connect — from UI forms to the database</p>
+  <div class="arch-diagram">
+    <svg class="arch-svg" viewBox="0 0 1000 420" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#6366f1"/>
+          <stop offset="100%" stop-color="#ec4899"/>
+        </linearGradient>
+        <linearGradient id="g2" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#10b981"/>
+          <stop offset="100%" stop-color="#06b6d4"/>
+        </linearGradient>
+        <linearGradient id="g3" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#f59e0b"/>
+          <stop offset="100%" stop-color="#ef4444"/>
+        </linearGradient>
+        <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+          <path d="M0,0 L10,5 L0,10 z" fill="#94a3b8"/>
+        </marker>
+      </defs>
+
+      <!-- Layers -->
+      <text x="30" y="40" fill="#94a3b8" font-size="12" font-weight="600">PRESENTATION (WinForms)</text>
+      <text x="30" y="200" fill="#94a3b8" font-size="12" font-weight="600">BUSINESS / LOGIC</text>
+      <text x="30" y="360" fill="#94a3b8" font-size="12" font-weight="600">DATA (SQL Server)</text>
+
+      <!-- Forms row -->
+      <g>
+        <rect x="60" y="60" width="130" height="70" rx="10" fill="url(#g1)" opacity="0.9"/>
+        <text x="125" y="90" fill="white" font-size="13" font-weight="700" text-anchor="middle">Form1</text>
+        <text x="125" y="110" fill="white" font-size="10" text-anchor="middle">Main / Products</text>
+      </g>
+      <g>
+        <rect x="210" y="60" width="130" height="70" rx="10" fill="url(#g1)" opacity="0.9"/>
+        <text x="275" y="90" fill="white" font-size="13" font-weight="700" text-anchor="middle">LoginForm</text>
+        <text x="275" y="110" fill="white" font-size="10" text-anchor="middle">Auth</text>
+      </g>
+      <g>
+        <rect x="360" y="60" width="130" height="70" rx="10" fill="url(#g1)" opacity="0.9"/>
+        <text x="425" y="90" fill="white" font-size="13" font-weight="700" text-anchor="middle">CheckoutForm</text>
+        <text x="425" y="110" fill="white" font-size="10" text-anchor="middle">Orders</text>
+      </g>
+      <g>
+        <rect x="510" y="60" width="130" height="70" rx="10" fill="url(#g1)" opacity="0.9"/>
+        <text x="575" y="90" fill="white" font-size="13" font-weight="700" text-anchor="middle">AdminForm</text>
+        <text x="575" y="110" fill="white" font-size="10" text-anchor="middle">Management</text>
+      </g>
+      <g>
+        <rect x="660" y="60" width="130" height="70" rx="10" fill="url(#g1)" opacity="0.9"/>
+        <text x="725" y="90" fill="white" font-size="13" font-weight="700" text-anchor="middle">DetailsForm</text>
+        <text x="725" y="110" fill="white" font-size="10" text-anchor="middle">Product Info</text>
+      </g>
+      <g>
+        <rect x="810" y="60" width="130" height="70" rx="10" fill="url(#g1)" opacity="0.9"/>
+        <text x="875" y="90" fill="white" font-size="13" font-weight="700" text-anchor="middle">RegisterForm</text>
+        <text x="875" y="110" fill="white" font-size="10" text-anchor="middle">Sign-up</text>
+      </g>
+
+      <!-- Session -->
+      <g>
+        <rect x="350" y="220" width="300" height="70" rx="10" fill="url(#g3)" opacity="0.9"/>
+        <text x="500" y="250" fill="white" font-size="14" font-weight="700" text-anchor="middle">Session (Static)</text>
+        <text x="500" y="270" fill="white" font-size="11" text-anchor="middle">UserId · UserName · Role</text>
+      </g>
+
+      <!-- SQL Client -->
+      <g>
+        <rect x="350" y="370" width="300" height="40" rx="8" fill="url(#g2)" opacity="0.9"/>
+        <text x="500" y="395" fill="white" font-size="13" font-weight="700" text-anchor="middle">SqlClient · ADO.NET</text>
+      </g>
+
+      <!-- DB -->
+      <g>
+        <ellipse cx="500" cy="370" rx="0" ry="0"/>
+      </g>
+
+      <!-- Arrows -->
+      <line x1="125" y1="130" x2="420" y2="220" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrow)"/>
+      <line x1="275" y1="130" x2="460" y2="220" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrow)"/>
+      <line x1="425" y1="130" x2="500" y2="220" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrow)"/>
+      <line x1="575" y1="130" x2="540" y2="220" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrow)"/>
+      <line x1="725" y1="130" x2="580" y2="220" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrow)"/>
+      <line x1="875" y1="130" x2="600" y2="220" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+      <line x1="500" y1="290" x2="500" y2="370" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)"/>
+      <text x="510" y="335" fill="#94a3b8" font-size="10">SQL Queries</text>
+
+      <!-- DB icon -->
+      <g transform="translate(780, 350)">
+        <ellipse cx="40" cy="10" rx="40" ry="10" fill="url(#g2)"/>
+        <path d="M0,10 L0,50 Q0,60 40,60 Q80,60 80,50 L80,10" fill="url(#g2)" opacity="0.8"/>
+        <ellipse cx="40" cy="50" rx="40" ry="10" fill="#064e3b"/>
+        <text x="40" y="38" fill="white" font-size="11" font-weight="700" text-anchor="middle">MobileShop DB</text>
+      </g>
+      <line x1="650" y1="390" x2="780" y2="385" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrow)"/>
+    </svg>
+  </div>
 </section>
 
-<section class="arch-section" id="architecture">
-    <div class="container">
-        <div class="section-header fade-in">
-            <div class="section-tag">System Design</div>
-            <h2>Application Architecture</h2>
-            <p>Three-layer structure showing how UI, logic, and data interact</p>
-        </div>
-        <div class="arch-diagram fade-in">
-            <div class="arch-layers">
-                <div class="arch-layer">
-                    <div class="arch-layer-icon ui">&#x1F5BC;</div>
-                    <div style="flex:1">
-                        <h3>Presentation Layer (UI)</h3>
-                        <p style="color:var(--text-secondary);font-size:0.9rem;margin-top:0.25rem">Windows Forms windows handling user interaction and display</p>
-                        <div class="arch-files">
-                            <span class="arch-file-tag">Form1.cs</span>
-                            <span class="arch-file-tag">LoginForm.cs</span>
-                            <span class="arch-file-tag">RegisterForm.cs</span>
-                            <span class="arch-file-tag">ProductDetailsForm.cs</span>
-                            <span class="arch-file-tag">CheckoutForm.cs</span>
-                            <span class="arch-file-tag">AdminForm.cs</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="arch-arrow">&#x25BC;</div>
-                <div class="arch-layer">
-                    <div class="arch-layer-icon logic">&#x2699;</div>
-                    <div style="flex:1">
-                        <h3>Business Logic Layer</h3>
-                        <p style="color:var(--text-secondary);font-size:0.9rem;margin-top:0.25rem">Session management, cart calculations, order processing, authentication</p>
-                        <div class="arch-files">
-                            <span class="arch-file-tag">Session (static class)</span>
-                            <span class="arch-file-tag">AddToCart()</span>
-                            <span class="arch-file-tag">LoadPhones()</span>
-                            <span class="arch-file-tag">PlaceOrder()</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="arch-arrow">&#x25BC;</div>
-                <div class="arch-layer">
-                    <div class="arch-layer-icon db">&#x1F5C3;</div>
-                    <div style="flex:1">
-                        <h3>Data Access Layer</h3>
-                        <p style="color:var(--text-secondary);font-size:0.9rem;margin-top:0.25rem">SQL Server Express with 5 tables: Users, Products, Cart, Orders, OrderItems</p>
-                        <div class="arch-files">
-                            <span class="arch-file-tag">MobileShop DB</span>
-                            <span class="arch-file-tag">.\\SQLEXPRESS</span>
-                            <span class="arch-file-tag">Integrated Security</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<section id="database">
-    <div class="container">
-        <div class="section-header fade-in">
-            <div class="section-tag">Data Model</div>
-            <h2>Database Schema</h2>
-            <p>Five interconnected tables powering the entire application</p>
-        </div>
-        <div class="db-grid">
-            <div class="db-table fade-in">
-                <div class="db-table-header">
-                    <span class="icon">&#x1F464;</span>
-                    <h3>Users</h3>
-                    <span class="badge">Auth</span>
-                </div>
-                <div class="db-columns">
-                    <div class="db-column"><span class="db-col-name">Id</span><span class="db-col-type">INT</span><span class="db-col-key pk">PK</span><span class="db-col-key ai">AI</span></div>
-                    <div class="db-column"><span class="db-col-name">Name</span><span class="db-col-type">NVARCHAR(200)</span></div>
-                    <div class="db-column"><span class="db-col-name">Email</span><span class="db-col-type">NVARCHAR(200)</span><span class="db-col-key" style="color:var(--info)">UNIQUE</span></div>
-                    <div class="db-column"><span class="db-col-name">Phone</span><span class="db-col-type">NVARCHAR(50)</span></div>
-                    <div class="db-column"><span class="db-col-name">Password</span><span class="db-col-type">NVARCHAR(200)</span></div>
-                    <div class="db-column"><span class="db-col-name">Role</span><span class="db-col-type">NVARCHAR(50)</span></div>
-                </div>
-            </div>
-            <div class="db-table fade-in">
-                <div class="db-table-header">
-                    <span class="icon">&#x1F4F1;</span>
-                    <h3>Products</h3>
-                    <span class="badge">Catalog</span>
-                </div>
-                <div class="db-columns">
-                    <div class="db-column"><span class="db-col-name">Id</span><span class="db-col-type">INT</span><span class="db-col-key pk">PK</span><span class="db-col-key ai">AI</span></div>
-                    <div class="db-column"><span class="db-col-name">Name</span><span class="db-col-type">NVARCHAR(200)</span></div>
-                    <div class="db-column"><span class="db-col-name">Brand</span><span class="db-col-type">NVARCHAR(100)</span></div>
-                    <div class="db-column"><span class="db-col-name">Model</span><span class="db-col-type">NVARCHAR(100)</span></div>
-                    <div class="db-column"><span class="db-col-name">Price</span><span class="db-col-type">DECIMAL(18,2)</span></div>
-                    <div class="db-column"><span class="db-col-name">Stock</span><span class="db-col-type">INT</span></div>
-                    <div class="db-column"><span class="db-col-name">ImagePath</span><span class="db-col-type">NVARCHAR(500)</span></div>
-                    <div class="db-column"><span class="db-col-name">Specifications</span><span class="db-col-type">NVARCHAR(MAX)</span></div>
-                </div>
-            </div>
-            <div class="db-table fade-in">
-                <div class="db-table-header">
-                    <span class="icon">&#x1F6D2;</span>
-                    <h3>Cart</h3>
-                    <span class="badge">Session</span>
-                </div>
-                <div class="db-columns">
-                    <div class="db-column"><span class="db-col-name">Id</span><span class="db-col-type">INT</span><span class="db-col-key pk">PK</span><span class="db-col-key ai">AI</span></div>
-                    <div class="db-column"><span class="db-col-name">UserId</span><span class="db-col-type">INT</span><span class="db-col-key fk">FK->Users</span></div>
-                    <div class="db-column"><span class="db-col-name">ProductId</span><span class="db-col-type">INT</span><span class="db-col-key fk">FK->Products</span></div>
-                    <div class="db-column"><span class="db-col-name">Quantity</span><span class="db-col-type">INT</span></div>
-                </div>
-            </div>
-            <div class="db-table fade-in">
-                <div class="db-table-header">
-                    <span class="icon">&#x1F4E6;</span>
-                    <h3>Orders</h3>
-                    <span class="badge">Transaction</span>
-                </div>
-                <div class="db-columns">
-                    <div class="db-column"><span class="db-col-name">Id</span><span class="db-col-type">INT</span><span class="db-col-key pk">PK</span><span class="db-col-key ai">AI</span></div>
-                    <div class="db-column"><span class="db-col-name">UserId</span><span class="db-col-type">INT</span><span class="db-col-key fk">FK->Users</span></div>
-                    <div class="db-column"><span class="db-col-name">CustomerName</span><span class="db-col-type">NVARCHAR(200)</span></div>
-                    <div class="db-column"><span class="db-col-name">Phone</span><span class="db-col-type">NVARCHAR(50)</span></div>
-                    <div class="db-column"><span class="db-col-name">Address</span><span class="db-col-type">NVARCHAR(500)</span></div>
-                    <div class="db-column"><span class="db-col-name">TotalAmount</span><span class="db-col-type">DECIMAL(18,2)</span></div>
-                    <div class="db-column"><span class="db-col-name">PaymentMethod</span><span class="db-col-type">NVARCHAR(50)</span></div>
-                    <div class="db-column"><span class="db-col-name">TransactionId</span><span class="db-col-type">NVARCHAR(200)</span></div>
-                    <div class="db-column"><span class="db-col-name">CreatedAt</span><span class="db-col-type">DATETIME</span><span class="db-col-key" style="color:var(--success)">DEFAULT</span></div>
-                </div>
-            </div>
-            <div class="db-table fade-in">
-                <div class="db-table-header">
-                    <span class="icon">&#x1F4DF;</span>
-                    <h3>OrderItems</h3>
-                    <span class="badge">Line Items</span>
-                </div>
-                <div class="db-columns">
-                    <div class="db-column"><span class="db-col-name">Id</span><span class="db-col-type">INT</span><span class="db-col-key pk">PK</span><span class="db-col-key ai">AI</span></div>
-                    <div class="db-column"><span class="db-col-name">OrderId</span><span class="db-col-type">INT</span><span class="db-col-key fk">FK->Orders</span></div>
-                    <div class="db-column"><span class="db-col-name">ProductId</span><span class="db-col-type">INT</span><span class="db-col-key fk">FK->Products</span></div>
-                    <div class="db-column"><span class="db-col-name">Quantity</span><span class="db-col-type">INT</span></div>
-                    <div class="db-column"><span class="db-col-name">Price</span><span class="db-col-type">DECIMAL(18,2)</span></div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-
-<!-- E-R Diagram Section -->
-<section id="er-diagram">
-    <div class="container">
-        <div class="section-header fade-in">
-            <div class="section-tag">Data Relationships</div>
-            <h2>Entity-Relationship Diagram</h2>
-            <p>Visual representation of entities, attributes, and their cardinal relationships</p>
-        </div>
-        <div class="er-container fade-in">
-            <svg viewBox="0 0 1000 650" class="er-svg">
-                <defs>
-                    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
-                        <polygon points="0 0, 10 3.5, 0 7" fill="#64748b" />
-                    </marker>
-                    <marker id="crowfoot" markerWidth="15" markerHeight="10" refX="15" refY="5" orient="auto">
-                        <path d="M0,0 L15,5 L0,10 M0,5 L15,5" stroke="#64748b" fill="none" stroke-width="1.5"/>
-                    </marker>
-                    <linearGradient id="entityGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" style="stop-color:#1e293b;stop-opacity:1" />
-                        <stop offset="100%" style="stop-color:#0f172a;stop-opacity:1" />
-                    </linearGradient>
-                    <filter id="glow">
-                        <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
-                        <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
-                    </filter>
-                </defs>
-
-                <!-- Users Entity -->
-                <g class="er-entity" transform="translate(50, 50)">
-                    <rect x="0" y="0" width="180" height="220" rx="12" fill="url(#entityGrad)" stroke="#3b82f6" stroke-width="2" filter="url(#glow)"/>
-                    <rect x="0" y="0" width="180" height="36" rx="12" fill="#3b82f6" opacity="0.2"/>
-                    <rect x="0" y="24" width="180" height="12" fill="#3b82f6" opacity="0.2"/>
-                    <text x="90" y="24" text-anchor="middle" fill="#3b82f6" font-family="JetBrains Mono" font-size="14" font-weight="700">USERS</text>
-                    <line x1="0" y1="36" x2="180" y2="36" stroke="#3b82f6" stroke-width="1" opacity="0.5"/>
-
-                    <text x="15" y="58" fill="#f1f5f9" font-family="JetBrains Mono" font-size="11">🔑 Id <tspan fill="#64748b">INT PK AI</tspan></text>
-                    <text x="15" y="80" fill="#94a3b8" font-family="JetBrains Mono" font-size="11">Name <tspan fill="#64748b">NVARCHAR</tspan></text>
-                    <text x="15" y="102" fill="#94a3b8" font-family="JetBrains Mono" font-size="11">Email <tspan fill="#06b6d4">UNIQUE</tspan></text>
-                    <text x="15" y="124" fill="#94a3b8" font-family="JetBrains Mono" font-size="11">Phone <tspan fill="#64748b">NVARCHAR</tspan></text>
-                    <text x="15" y="146" fill="#94a3b8" font-family="JetBrains Mono" font-size="11">Password <tspan fill="#64748b">NVARCHAR</tspan></text>
-                    <text x="15" y="168" fill="#94a3b8" font-family="JetBrains Mono" font-size="11">Role <tspan fill="#64748b">NVARCHAR</tspan></text>
-                </g>
-
-                <!-- Products Entity -->
-                <g class="er-entity" transform="translate(400, 30)">
-                    <rect x="0" y="0" width="200" height="280" rx="12" fill="url(#entityGrad)" stroke="#8b5cf6" stroke-width="2" filter="url(#glow)"/>
-                    <rect x="0" y="0" width="200" height="36" rx="12" fill="#8b5cf6" opacity="0.2"/>
-                    <rect x="0" y="24" width="200" height="12" fill="#8b5cf6" opacity="0.2"/>
-                    <text x="100" y="24" text-anchor="middle" fill="#8b5cf6" font-family="JetBrains Mono" font-size="14" font-weight="700">PRODUCTS</text>
-                    <line x1="0" y1="36" x2="200" y2="36" stroke="#8b5cf6" stroke-width="1" opacity="0.5"/>
-
-                    <text x="15" y="58" fill="#f1f5f9" font-family="JetBrains Mono" font-size="11">🔑 Id <tspan fill="#64748b">INT PK AI</tspan></text>
-                    <text x="15" y="80" fill="#94a3b8" font-family="JetBrains Mono" font-size="11">Name <tspan fill="#64748b">NVARCHAR</tspan></text>
-                    <text x="15" y="102" fill="#94a3b8" font-family="JetBrains Mono" font-size="11">Brand <tspan fill="#64748b">NVARCHAR</tspan></text>
-                    <text x="15" y="124" fill="#94a3b8" font-family="JetBrains Mono" font-size="11">Model <tspan fill="#64748b">NVARCHAR</tspan></text>
-                    <text x="15" y="146" fill="#94a3b8" font-family="JetBrains Mono" font-size="11">Price <tspan fill="#64748b">DECIMAL</tspan></text>
-                    <text x="15" y="168" fill="#94a3b8" font-family="JetBrains Mono" font-size="11">Stock <tspan fill="#64748b">INT</tspan></text>
-                    <text x="15" y="190" fill="#94a3b8" font-family="JetBrains Mono" font-size="11">ImagePath <tspan fill="#64748b">NVARCHAR</tspan></text>
-                    <text x="15" y="212" fill="#94a3b8" font-family="JetBrains Mono" font-size="11">Specifications <tspan fill="#64748b">NVARCHAR(MAX)</tspan></text>
-                </g>
-
-                <!-- Cart Entity -->
-                <g class="er-entity" transform="translate(720, 80)">
-                    <rect x="0" y="0" width="180" height="140" rx="12" fill="url(#entityGrad)" stroke="#f59e0b" stroke-width="2" filter="url(#glow)"/>
-                    <rect x="0" y="0" width="180" height="36" rx="12" fill="#f59e0b" opacity="0.2"/>
-                    <rect x="0" y="24" width="180" height="12" fill="#f59e0b" opacity="0.2"/>
-                    <text x="90" y="24" text-anchor="middle" fill="#f59e0b" font-family="JetBrains Mono" font-size="14" font-weight="700">CART</text>
-                    <line x1="0" y1="36" x2="180" y2="36" stroke="#f59e0b" stroke-width="1" opacity="0.5"/>
-
-                    <text x="15" y="58" fill="#f1f5f9" font-family="JetBrains Mono" font-size="11">🔑 Id <tspan fill="#64748b">INT PK AI</tspan></text>
-                    <text x="15" y="80" fill="#f59e0b" font-family="JetBrains Mono" font-size="11">🔗 UserId <tspan fill="#64748b">INT FK</tspan></text>
-                    <text x="15" y="102" fill="#f59e0b" font-family="JetBrains Mono" font-size="11">🔗 ProductId <tspan fill="#64748b">INT FK</tspan></text>
-                    <text x="15" y="124" fill="#94a3b8" font-family="JetBrains Mono" font-size="11">Quantity <tspan fill="#64748b">INT</tspan></text>
-                </g>
-
-                <!-- Orders Entity -->
-                <g class="er-entity" transform="translate(50, 380)">
-                    <rect x="0" y="0" width="200" height="240" rx="12" fill="url(#entityGrad)" stroke="#10b981" stroke-width="2" filter="url(#glow)"/>
-                    <rect x="0" y="0" width="200" height="36" rx="12" fill="#10b981" opacity="0.2"/>
-                    <rect x="0" y="24" width="200" height="12" fill="#10b981" opacity="0.2"/>
-                    <text x="100" y="24" text-anchor="middle" fill="#10b981" font-family="JetBrains Mono" font-size="14" font-weight="700">ORDERS</text>
-                    <line x1="0" y1="36" x2="200" y2="36" stroke="#10b981" stroke-width="1" opacity="0.5"/>
-
-                    <text x="15" y="58" fill="#f1f5f9" font-family="JetBrains Mono" font-size="11">🔑 Id <tspan fill="#64748b">INT PK AI</tspan></text>
-                    <text x="15" y="80" fill="#10b981" font-family="JetBrains Mono" font-size="11">🔗 UserId <tspan fill="#64748b">INT FK</tspan></text>
-                    <text x="15" y="102" fill="#94a3b8" font-family="JetBrains Mono" font-size="11">CustomerName <tspan fill="#64748b">NVARCHAR</tspan></text>
-                    <text x="15" y="124" fill="#94a3b8" font-family="JetBrains Mono" font-size="11">Phone <tspan fill="#64748b">NVARCHAR</tspan></text>
-                    <text x="15" y="146" fill="#94a3b8" font-family="JetBrains Mono" font-size="11">Address <tspan fill="#64748b">NVARCHAR</tspan></text>
-                    <text x="15" y="168" fill="#94a3b8" font-family="JetBrains Mono" font-size="11">TotalAmount <tspan fill="#64748b">DECIMAL</tspan></text>
-                    <text x="15" y="190" fill="#94a3b8" font-family="JetBrains Mono" font-size="11">PaymentMethod <tspan fill="#64748b">NVARCHAR</tspan></text>
-                    <text x="15" y="212" fill="#94a3b8" font-family="JetBrains Mono" font-size="11">TransactionId <tspan fill="#64748b">NVARCHAR</tspan></text>
-                </g>
-
-                <!-- OrderItems Entity -->
-                <g class="er-entity" transform="translate(420, 400)">
-                    <rect x="0" y="0" width="200" height="160" rx="12" fill="url(#entityGrad)" stroke="#06b6d4" stroke-width="2" filter="url(#glow)"/>
-                    <rect x="0" y="0" width="200" height="36" rx="12" fill="#06b6d4" opacity="0.2"/>
-                    <rect x="0" y="24" width="200" height="12" fill="#06b6d4" opacity="0.2"/>
-                    <text x="100" y="24" text-anchor="middle" fill="#06b6d4" font-family="JetBrains Mono" font-size="14" font-weight="700">ORDERITEMS</text>
-                    <line x1="0" y1="36" x2="200" y2="36" stroke="#06b6d4" stroke-width="1" opacity="0.5"/>
-
-                    <text x="15" y="58" fill="#f1f5f9" font-family="JetBrains Mono" font-size="11">🔑 Id <tspan fill="#64748b">INT PK AI</tspan></text>
-                    <text x="15" y="80" fill="#06b6d4" font-family="JetBrains Mono" font-size="11">🔗 OrderId <tspan fill="#64748b">INT FK</tspan></text>
-                    <text x="15" y="102" fill="#06b6d4" font-family="JetBrains Mono" font-size="11">🔗 ProductId <tspan fill="#64748b">INT FK</tspan></text>
-                    <text x="15" y="124" fill="#94a3b8" font-family="JetBrains Mono" font-size="11">Quantity <tspan fill="#64748b">INT</tspan></text>
-                    <text x="15" y="146" fill="#94a3b8" font-family="JetBrains Mono" font-size="11">Price <tspan fill="#64748b">DECIMAL</tspan></text>
-                </g>
-
-                <!-- Relationship: Users -> Cart (1:N) -->
-                <g class="er-rel">
-                    <line x1="230" y1="140" x2="720" y2="140" stroke="#64748b" stroke-width="1.5" stroke-dasharray="5,5" marker-end="url(#crowfoot)" marker-start="url(#arrowhead)"/>
-                    <rect x="420" y="125" width="100" height="28" rx="6" fill="#0f172a" stroke="#3b82f6" stroke-width="1"/>
-                    <text x="470" y="143" text-anchor="middle" fill="#94a3b8" font-family="JetBrains Mono" font-size="10">places_in</text>
-                    <text x="300" y="120" fill="#64748b" font-family="Inter" font-size="11" font-weight="600">1</text>
-                    <text x="680" y="120" fill="#64748b" font-family="Inter" font-size="11" font-weight="600">N</text>
-                </g>
-
-                <!-- Relationship: Products -> Cart (1:N) -->
-                <g class="er-rel">
-                    <line x1="600" y1="150" x2="720" y2="150" stroke="#64748b" stroke-width="1.5" stroke-dasharray="5,5" marker-end="url(#crowfoot)" marker-start="url(#arrowhead)"/>
-                    <text x="640" y="170" fill="#64748b" font-family="Inter" font-size="11" font-weight="600">1</text>
-                    <text x="700" y="170" fill="#64748b" font-family="Inter" font-size="11" font-weight="600">N</text>
-                </g>
-
-                <!-- Relationship: Users -> Orders (1:N) -->
-                <g class="er-rel">
-                    <line x1="150" y1="270" x2="150" y2="380" stroke="#64748b" stroke-width="1.5" stroke-dasharray="5,5" marker-end="url(#crowfoot)" marker-start="url(#arrowhead)"/>
-                    <rect x="105" y="310" width="90" height="28" rx="6" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
-                    <text x="150" y="328" text-anchor="middle" fill="#94a3b8" font-family="JetBrains Mono" font-size="10">places</text>
-                    <text x="165" y="300" fill="#64748b" font-family="Inter" font-size="11" font-weight="600">1</text>
-                    <text x="165" y="370" fill="#64748b" font-family="Inter" font-size="11" font-weight="600">N</text>
-                </g>
-
-                <!-- Relationship: Orders -> OrderItems (1:N) -->
-                <g class="er-rel">
-                    <line x1="250" y1="500" x2="420" y2="500" stroke="#64748b" stroke-width="1.5" stroke-dasharray="5,5" marker-end="url(#crowfoot)" marker-start="url(#arrowhead)"/>
-                    <rect x="300" y="485" width="70" height="28" rx="6" fill="#0f172a" stroke="#06b6d4" stroke-width="1"/>
-                    <text x="335" y="503" text-anchor="middle" fill="#94a3b8" font-family="JetBrains Mono" font-size="10">contains</text>
-                    <text x="270" y="480" fill="#64748b" font-family="Inter" font-size="11" font-weight="600">1</text>
-                    <text x="400" y="480" fill="#64748b" font-family="Inter" font-size="11" font-weight="600">N</text>
-                </g>
-
-                <!-- Relationship: Products -> OrderItems (1:N) -->
-                <g class="er-rel">
-                    <line x1="500" y1="310" x2="520" y2="400" stroke="#64748b" stroke-width="1.5" stroke-dasharray="5,5" marker-end="url(#crowfoot)" marker-start="url(#arrowhead)"/>
-                    <text x="530" y="350" fill="#64748b" font-family="Inter" font-size="11" font-weight="600">1</text>
-                    <text x="510" y="390" fill="#64748b" font-family="Inter" font-size="11" font-weight="600">N</text>
-                </g>
-
-                <!-- Legend -->
-                <g transform="translate(720, 380)">
-                    <rect x="0" y="0" width="240" height="180" rx="10" fill="rgba(15,23,42,0.9)" stroke="#334155" stroke-width="1"/>
-                    <text x="120" y="25" text-anchor="middle" fill="#f1f5f9" font-family="Inter" font-size="12" font-weight="700">LEGEND</text>
-                    <line x1="10" y1="35" x2="230" y2="35" stroke="#334155" stroke-width="1"/>
-
-                    <text x="15" y="58" fill="#3b82f6" font-family="JetBrains Mono" font-size="11">● Users</text>
-                    <text x="15" y="78" fill="#8b5cf6" font-family="JetBrains Mono" font-size="11">● Products</text>
-                    <text x="15" y="98" fill="#f59e0b" font-family="JetBrains Mono" font-size="11">● Cart</text>
-                    <text x="15" y="118" fill="#10b981" font-family="JetBrains Mono" font-size="11">● Orders</text>
-                    <text x="15" y="138" fill="#06b6d4" font-family="JetBrains Mono" font-size="11">● OrderItems</text>
-
-                    <text x="130" y="58" fill="#64748b" font-family="JetBrains Mono" font-size="10">🔑 = Primary Key</text>
-                    <text x="130" y="78" fill="#64748b" font-family="JetBrains Mono" font-size="10">🔗 = Foreign Key</text>
-                    <text x="130" y="98" fill="#64748b" font-family="JetBrains Mono" font-size="10">1 = One</text>
-                    <text x="130" y="118" fill="#64748b" font-family="JetBrains Mono" font-size="10">N = Many</text>
-                    <text x="130" y="138" fill="#64748b" font-family="JetBrains Mono" font-size="10">--- = Relationship</text>
-                </g>
-            </svg>
-        </div>
-
-        <div class="er-relationships-table fade-in">
-            <h3 style="text-align:center;margin-bottom:1.5rem;color:var(--text-primary);font-size:1.2rem;">Relationship Cardinality Summary</h3>
-            <div class="rel-table-wrap">
-                <table class="rel-table">
-                    <thead>
-                        <tr>
-                            <th>Relationship</th>
-                            <th>From Entity</th>
-                            <th>To Entity</th>
-                            <th>Type</th>
-                            <th>Description</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><span class="rel-badge places">places</span></td>
-                            <td>Users</td>
-                            <td>Orders</td>
-                            <td><span class="cardinality">1 : N</span></td>
-                            <td>One user can place many orders</td>
-                        </tr>
-                        <tr>
-                            <td><span class="rel-badge contains">contains</span></td>
-                            <td>Orders</td>
-                            <td>OrderItems</td>
-                            <td><span class="cardinality">1 : N</span></td>
-                            <td>One order contains many line items</td>
-                        </tr>
-                        <tr>
-                            <td><span class="rel-badge has">has</span></td>
-                            <td>Products</td>
-                            <td>OrderItems</td>
-                            <td><span class="cardinality">1 : N</span></td>
-                            <td>One product appears in many order items</td>
-                        </tr>
-                        <tr>
-                            <td><span class="rel-badge places-in">places_in</span></td>
-                            <td>Users</td>
-                            <td>Cart</td>
-                            <td><span class="cardinality">1 : N</span></td>
-                            <td>One user can have many cart entries</td>
-                        </tr>
-                        <tr>
-                            <td><span class="rel-badge added">added_to</span></td>
-                            <td>Products</td>
-                            <td>Cart</td>
-                            <td><span class="cardinality">1 : N</span></td>
-                            <td>One product can be in many user carts</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</section>
-
-<style>
-.er-container {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 2rem;
-    overflow-x: auto;
-    margin-bottom: 2rem;
-}
-.er-svg {
-    width: 100%;
-    min-width: 900px;
-    height: auto;
-    display: block;
-}
-.er-entity {
-    cursor: pointer;
-}
-.er-entity rect:first-child {
-    transition: stroke 0.25s ease, stroke-width 0.25s ease;
-}
-.er-entity:hover rect:first-child {
-    stroke-width: 3;
-    filter: url(#glow);
-}
-.er-rel {
-    opacity: 0.7;
-    transition: opacity 0.3s;
-}
-.er-rel:hover {
-    opacity: 1;
-}
-.er-relationships-table {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 2rem;
-}
-.rel-table-wrap { overflow-x: auto; }
-.rel-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.9rem;
-}
-.rel-table th {
-    text-align: left;
-    padding: 1rem;
-    color: var(--text-secondary);
-    border-bottom: 2px solid var(--border);
-    font-weight: 600;
-}
-.rel-table td {
-    padding: 1rem;
-    color: var(--text-primary);
-    border-bottom: 1px solid rgba(255,255,255,0.05);
-}
-.rel-table tr:hover td {
-    background: rgba(59,130,246,0.03);
-}
-.rel-badge {
-    display: inline-block;
-    padding: 0.2rem 0.6rem;
-    border-radius: 4px;
-    font-size: 0.75rem;
-    font-weight: 600;
-}
-.rel-badge.places { background: rgba(16,185,129,0.15); color: var(--success); }
-.rel-badge.contains { background: rgba(6,182,212,0.15); color: var(--info); }
-.rel-badge.has { background: rgba(139,92,246,0.15); color: var(--accent-secondary); }
-.rel-badge.places-in { background: rgba(245,158,11,0.15); color: var(--warning); }
-.rel-badge.added { background: rgba(59,130,246,0.15); color: var(--accent); }
-.cardinality {
-    padding: 0.15rem 0.5rem;
-    background: var(--bg-primary);
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    font-size: 0.8rem;
-    color: var(--text-secondary);
-}
-</style>
-
-<section class="code-section" id="code">
-    <div class="container">
-        <div class="section-header fade-in">
-            <div class="section-tag">Implementation</div>
-            <h2>Key Code Snippets</h2>
-            <p>Critical methods that drive the application functionality</p>
-        </div>
-
-        <div class="code-block fade-in">
-            <div class="code-header">
-                <div class="code-header-left">
-                    <div class="code-dots"><span class="code-dot red"></span><span class="code-dot yellow"></span><span class="code-dot green"></span></div>
-                    <span class="code-filename">CheckoutForm.cs - Order Placement</span>
-                </div>
-                <span class="code-lang">C#</span>
-            </div>
-            <pre><span class="code-comment">// 1. Insert into Orders (returns inserted ID)</span>
-<span class="code-type">string</span> orderSql = <span class="code-string">"INSERT INTO Orders (...) OUTPUT INSERTED.Id VALUES (...)"</span>;
-<span class="code-type">int</span> orderId = (<span class="code-type">int</span>)cmd.ExecuteScalar();
-
-<span class="code-comment">// 2. Read cart items for user</span>
-<span class="code-type">string</span> cartSql = <span class="code-string">"SELECT * FROM Cart WHERE UserId = "</span> + Session.UserId;
-
-<span class="code-comment">// 3. Insert each item into OrderItems</span>
-<span class="code-keyword">foreach</span> (<span class="code-type">var</span> item <span class="code-keyword">in</span> cartItems) {
-    <span class="code-type">string</span> itemSql = <span class="code-string">"INSERT INTO OrderItems (...) VALUES (...)"</span>;
-    cmd.ExecuteNonQuery();
-}
-
-<span class="code-comment">// 4. Decrease Products.Stock</span>
-<span class="code-type">string</span> stockSql = <span class="code-string">"UPDATE Products SET Stock = Stock - @qty WHERE Id = @pid"</span>;
-
-<span class="code-comment">// 5. Delete cart rows for user</span>
-<span class="code-type">string</span> deleteSql = <span class="code-string">"DELETE FROM Cart WHERE UserId = "</span> + Session.UserId;</pre>
-        </div>
-
-        <div class="code-block fade-in">
-            <div class="code-header">
-                <div class="code-header-left">
-                    <div class="code-dots"><span class="code-dot red"></span><span class="code-dot yellow"></span><span class="code-dot green"></span></div>
-                    <span class="code-filename">Form1.cs - Dynamic Product Cards</span>
-                </div>
-                <span class="code-lang">C#</span>
-            </div>
-            <pre><span class="code-keyword">private void</span> <span class="code-function">LoadPhones</span>() {
-    <span class="code-comment">// Read Products table</span>
-    <span class="code-keyword">using</span> (<span class="code-type">SqlConnection</span> con = <span class="code-keyword">new</span> <span class="code-type">SqlConnection</span>(conString)) {
-        <span class="code-type">SqlDataAdapter</span> da = <span class="code-keyword">new</span> <span class="code-type">SqlDataAdapter</span>(<span class="code-string">"SELECT * FROM Products"</span>, con);
-        <span class="code-type">DataTable</span> dt = <span class="code-keyword">new</span> <span class="code-type">DataTable</span>();
-        da.Fill(dt);
-
-        <span class="code-comment">// Dynamically create product cards</span>
-        <span class="code-keyword">foreach</span> (<span class="code-type">DataRow</span> row <span class="code-keyword">in</span> dt.Rows) {
-            <span class="code-type">Panel</span> card = <span class="code-keyword">new</span> <span class="code-type">Panel</span>();
-            <span class="code-comment">// Add image, name, price, buttons...</span>
-        }
-    }
-}</pre>
-        </div>
-
-        <div class="code-block fade-in">
-            <div class="code-header">
-                <div class="code-header-left">
-                    <div class="code-dots"><span class="code-dot red"></span><span class="code-dot yellow"></span><span class="code-dot green"></span></div>
-                    <span class="code-filename">LoginForm.cs - Authentication</span>
-                </div>
-                <span class="code-lang">C#</span>
-            </div>
-            <pre><span class="code-keyword">private void</span> <span class="code-function">btnLogin_Click</span>(<span class="code-type">object</span> sender, <span class="code-type">EventArgs</span> e) {
-    <span class="code-type">string</span> sql = <span class="code-string">"SELECT * FROM Users WHERE Email='"</span>
-               + txtEmail.Text + <span class="code-string">"' AND Password='"</span> + txtPassword.Text + <span class="code-string">"'"</span>;
-
-    <span class="code-comment">// Execute query...</span>
-    <span class="code-keyword">if</span> (reader.Read()) {
-        Session.UserId = reader.GetInt32(<span class="code-number">0</span>);
-        Session.UserName = reader.GetString(<span class="code-number">1</span>);
-        Session.Role = reader.GetString(<span class="code-number">5</span>);
-
-        <span class="code-keyword">if</span> (Session.Role == <span class="code-string">"Admin"</span>) {
-            <span class="code-keyword">new</span> <span class="code-type">AdminForm</span>().Show();
-        }
-    }
-}</pre>
-        </div>
-    </div>
-</section>
-
-<section id="flow">
-    <div class="container">
-        <div class="section-header fade-in">
-            <div class="section-tag">User Journey</div>
-            <h2>Demo Flow & Talking Points</h2>
-            <p>Recommended end-to-end demonstration sequence for your viva</p>
-        </div>
-        <div class="flow-timeline">
-            <div class="flow-step fade-in">
-                <h4>&#x1F680; 1. Launch & Setup</h4>
-                <p>Start SQL Server Express, verify the <code>MobileShop</code> database exists with all 5 tables. Open Visual Studio 2022 and run the solution. Entry point is <code>Program.Main()</code> launching <code>Form1</code>.</p>
-            </div>
-            <div class="flow-step fade-in">
-                <h4>&#x1F4DD; 2. Register & Login</h4>
-                <p>Show user registration inserting into <code>Users</code> table with Role='Customer'. Login queries email/password, sets static <code>Session</code> class. Show admin login opening <code>AdminForm</code>.</p>
-            </div>
-            <div class="flow-step fade-in">
-                <h4>&#x1F50D; 3. Browse & Search</h4>
-                <p>Demonstrate <code>LoadPhones()</code> creating dynamic product cards. Show search filtering and sorting combo box. Click a product to open <code>ProductDetailsForm</code> with image, specs, and price.</p>
-            </div>
-            <div class="flow-step fade-in">
-                <h4>&#x1F6D2; 4. Cart Operations</h4>
-                <p>Add items to cart - <code>AddToCart()</code> inserts/updates <code>Cart</code> table for <code>Session.UserId</code>. Show cart grid updating with quantities and total calculation in real-time.</p>
-            </div>
-            <div class="flow-step fade-in">
-                <h4>&#x1F4B3; 5. Checkout Process</h4>
-                <p>Open <code>CheckoutForm</code> with pre-filled customer info. Choose COD or Online (bKash). Step through order creation: <code>Orders</code> -> <code>OrderItems</code> -> Stock decrement -> Cart deletion.</p>
-            </div>
-            <div class="flow-step fade-in">
-                <h4>&#x2699; 6. Admin Panel</h4>
-                <p>Switch to admin role. Show CRUD on <code>Products</code> - add a new phone with image path via file dialog, update price, delete product. View all <code>Orders</code> in admin grid.</p>
-            </div>
-            <div class="flow-step fade-in">
-                <h4>&#x1F5C4; 7. Database Verification</h4>
-                <p>Open SSMS alongside the app. Show live table rows changing as you perform actions. Highlight the relationship between <code>Orders</code> and <code>OrderItems</code> with foreign keys.</p>
-            </div>
-        </div>
-    </div>
-</section>
-
-<section class="arch-section" id="security">
-    <div class="container">
-        <div class="section-header fade-in">
-            <div class="section-tag">Analysis</div>
-            <h2>Security & Limitations</h2>
-            <p>Critical issues examiners commonly ask about - and how to fix them</p>
-        </div>
-        <div class="security-grid">
-            <div class="security-card critical fade-in">
-                <span class="security-label critical">&#x1F534; Critical</span>
-                <h3>SQL Injection Vulnerability</h3>
-                <p>All SQL queries are built using string concatenation with raw user input (email, password, productId, text fields). Attackers can inject malicious SQL.</p>
-                <div class="security-fix">
-                    <strong>Fix:</strong> Use <code>SqlCommand.Parameters.AddWithValue("@email", txtEmail.Text)</code> or migrate to Entity Framework Core with LINQ queries.
-                </div>
-            </div>
-            <div class="security-card critical fade-in">
-                <span class="security-label critical">&#x1F534; Critical</span>
-                <h3>Plain Text Password Storage</h3>
-                <p>User passwords are stored directly in the database without any hashing or salting. Database breach exposes all credentials.</p>
-                <div class="security-fix">
-                    <strong>Fix:</strong> Hash passwords with bcrypt or Argon2. Use ASP.NET Core Identity or libraries like BCrypt.Net.
-                </div>
-            </div>
-            <div class="security-card warning fade-in">
-                <span class="security-label warning">&#x1F7E0; Warning</span>
-                <h3>No Database Transactions</h3>
-                <p>Order placement runs multiple queries sequentially without a transaction. Failure mid-process leaves inconsistent data (order exists but no items, or stock not updated).</p>
-                <div class="security-fix">
-                    <strong>Fix:</strong> Wrap order insert, item inserts, stock updates, and cart deletion in a <code>SqlTransaction</code> with Commit/Rollback.
-                </div>
-            </div>
-            <div class="security-card warning fade-in">
-                <span class="security-label warning">&#x1F7E0; Warning</span>
-                <h3>Stock Race Conditions</h3>
-                <p>Stock decrement uses <code>Stock = Stock - qty</code> without locking. Concurrent checkouts can oversell products.</p>
-                <div class="security-fix">
-                    <strong>Fix:</strong> Use transactions with proper isolation levels, or check stock availability immediately before decrement with row locking.
-                </div>
-            </div>
-            <div class="security-card info fade-in">
-                <span class="security-label info">&#x1F535; Info</span>
-                <h3>Hardcoded Connection Strings</h3>
-                <p>Connection string <code>Data Source=.\\SQLEXPRESS;...</code> is duplicated across multiple form files. Changes require editing every file.</p>
-                <div class="security-fix">
-                    <strong>Fix:</strong> Centralize in <code>appsettings.json</code> or project Settings. Use <code>ConfigurationManager</code> to read at runtime.
-                </div>
-            </div>
-            <div class="security-card info fade-in">
-                <span class="security-label info">&#x1F535; Info</span>
-                <h3>Minimal Input Validation</h3>
-                <p>Numeric fields, email format, and required fields lack comprehensive validation. Exceptions may crash the application.</p>
-                <div class="security-fix">
-                    <strong>Fix:</strong> Add client-side validation, server-side checks, try/catch blocks, and regex patterns for emails and phone numbers.
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<section id="qa">
-    <div class="container">
-        <div class="section-header fade-in">
-            <div class="section-tag">Viva Prep</div>
-            <h2>Common Questions & Answers</h2>
-            <p>Short, confident responses for likely examiner questions</p>
-        </div>
-        <div class="qa-list">
-            <div class="qa-item fade-in">
-                <div class="qa-question" onclick="this.parentElement.classList.toggle('active')">
-                    <div style="display:flex;align-items:center"><span class="q-icon">Q</span>How do users authenticate?</div>
-                    <span class="arrow">&#x25BC;</span>
-                </div>
-                <div class="qa-answer">
-                    <p>Users register with name, email, phone, and password stored in the <code>Users</code> table with Role='Customer'. Login queries the table by email and password. On success, a static <code>Session</code> class stores <code>UserId</code>, <code>UserName</code>, and <code>Role</code> in memory. If Role is "Admin", the app opens <code>AdminForm</code> instead of the storefront.</p>
-                </div>
-            </div>
-            <div class="qa-item fade-in">
-                <div class="qa-question" onclick="this.parentElement.classList.toggle('active')">
-                    <div style="display:flex;align-items:center"><span class="q-icon">Q</span>How is payment handled?</div>
-                    <span class="arrow">&#x25BC;</span>
-                </div>
-                <div class="qa-answer">
-                    <p>For Cash on Delivery (COD), the app simply records <code>PaymentMethod = 'COD'</code>. For online payments via bKash, the user manually enters their bKash number and transaction ID, which the app stores in <code>Orders.TransactionId</code>. There is no external payment gateway integration - verification is manual/administrative.</p>
-                </div>
-            </div>
-            <div class="qa-item fade-in">
-                <div class="qa-question" onclick="this.parentElement.classList.toggle('active')">
-                    <div style="display:flex;align-items:center"><span class="q-icon">Q</span>How do you prevent SQL injection?</div>
-                    <span class="arrow">&#x25BC;</span>
-                </div>
-                <div class="qa-answer">
-                    <p>Currently the app is vulnerable because queries use string concatenation. The proper fix is to use parameterized queries with <code>SqlCommand.Parameters.AddWithValue("@param", value)</code>. Alternatively, using Entity Framework Core with LINQ would eliminate raw SQL entirely and provide built-in protection.</p>
-                </div>
-            </div>
-            <div class="qa-item fade-in">
-                <div class="qa-question" onclick="this.parentElement.classList.toggle('active')">
-                    <div style="display:flex;align-items:center"><span class="q-icon">Q</span>How does the app ensure order consistency?</div>
-                    <span class="arrow">&#x25BC;</span>
-                </div>
-                <div class="qa-answer">
-                    <p>Currently it does not use database transactions. Best practice is to wrap the entire checkout flow - inserting the order, inserting order items, updating stock, and deleting the cart - inside a <code>SqlTransaction</code>. This ensures atomic commit/rollback: either everything succeeds or nothing persists.</p>
-                </div>
-            </div>
-            <div class="qa-item fade-in">
-                <div class="qa-question" onclick="this.parentElement.classList.toggle('active')">
-                    <div style="display:flex;align-items:center"><span class="q-icon">Q</span>How are images stored?</div>
-                    <span class="arrow">&#x25BC;</span>
-                </div>
-                <div class="qa-answer">
-                    <p>Product images are stored as files on disk. The <code>Products.ImagePath</code> column stores the absolute file path (e.g., <code>C:\\Images\\phoneA.jpg</code>). The app loads images from these paths at runtime. If a path is invalid, a gray placeholder background is displayed. Alternatives include storing binary data in the database (VARBINARY) or using cloud blob storage.</p>
-                </div>
-            </div>
-            <div class="qa-item fade-in">
-                <div class="qa-question" onclick="this.parentElement.classList.toggle('active')">
-                    <div style="display:flex;align-items:center"><span class="q-icon">Q</span>What is the role of the Session class?</div>
-                    <span class="arrow">&#x25BC;</span>
-                </div>
-                <div class="qa-answer">
-                    <p><code>Session</code> is a static class that acts as an in-memory store for the currently logged-in user's state: <code>UserId</code>, <code>UserName</code>, and <code>Role</code>. It persists only during the application runtime and is lost when the app closes. It enables per-user cart operations and role-based navigation without persistent cookies.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<section class="arch-section" id="improvements">
-    <div class="container">
-        <div class="section-header fade-in">
-            <div class="section-tag">Future Work</div>
-            <h2>Suggested Improvements</h2>
-            <p>Upgrades that would elevate the project to production-grade quality</p>
-        </div>
-        <div class="improve-list">
-            <div class="improve-item fade-in">
-                <div class="improve-check">&#x2713;</div>
-                <div>
-                    <h4>Parameterized Queries / EF Core</h4>
-                    <p>Replace all concatenated SQL with parameters or migrate to Entity Framework Core</p>
-                </div>
-            </div>
-            <div class="improve-item fade-in">
-                <div class="improve-check">&#x2713;</div>
-                <div>
-                    <h4>Password Hashing</h4>
-                    <p>Implement bcrypt/Argon2 hashing with salt for secure credential storage</p>
-                </div>
-            </div>
-            <div class="improve-item fade-in">
-                <div class="improve-check">&#x2713;</div>
-                <div>
-                    <h4>Database Transactions</h4>
-                    <p>Wrap checkout operations in SqlTransaction for atomic commit/rollback</p>
-                </div>
-            </div>
-            <div class="improve-item fade-in">
-                <div class="improve-check">&#x2713;</div>
-                <div>
-                    <h4>Async Database Operations</h4>
-                    <p>Use async/await (ExecuteReaderAsync) to keep the UI responsive</p>
-                </div>
-            </div>
-            <div class="improve-item fade-in">
-                <div class="improve-check">&#x2713;</div>
-                <div>
-                    <h4>Centralized Configuration</h4>
-                    <p>Move connection strings to appsettings.json or project Settings</p>
-                </div>
-            </div>
-            <div class="improve-item fade-in">
-                <div class="improve-check">&#x2713;</div>
-                <div>
-                    <h4>Input Validation</h4>
-                    <p>Add client-side and server-side validation for all user inputs</p>
-                </div>
-            </div>
-            <div class="improve-item fade-in">
-                <div class="improve-check">&#x2713;</div>
-                <div>
-                    <h4>Logging Framework</h4>
-                    <p>Integrate Serilog or NLog for error tracking and diagnostics</p>
-                </div>
-            </div>
-            <div class="improve-item fade-in">
-                <div class="improve-check">&#x2713;</div>
-                <div>
-                    <h4>Repository Pattern</h4>
-                    <p>Extract DB logic into repository classes for unit testing</p>
-                </div>
-            </div>
-            <div class="improve-item fade-in">
-                <div class="improve-check">&#x2713;</div>
-                <div>
-                    <h4>Role-Based UI</h4>
-                    <p>Hide/show admin controls dynamically based on user role</p>
-                </div>
-            </div>
-            <div class="improve-item fade-in">
-                <div class="improve-check">&#x2713;</div>
-                <div>
-                    <h4>Stored Procedures</h4>
-                    <p>Use prepared statements for critical operations like checkout</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
+<!-- FILES -->
 <section id="files">
-    <div class="container">
-        <div class="section-header fade-in">
-            <div class="section-tag">Project Structure</div>
-            <h2>Files & Responsibilities</h2>
-            <p>Complete file inventory with their roles in the application</p>
-        </div>
-        <div class="file-tree fade-in">
-            <div class="file-tree-item"><span class="file-icon">&#x1F4C4;</span><span class="file-name">Program.cs</span><span class="file-desc">App entry point - Application.Run(new Form1())</span></div>
-            <div class="file-tree-item"><span class="file-icon">&#x1F4C4;</span><span class="file-name">Form1.cs</span><span class="file-desc">Main storefront, product cards, search, sort, cart grid</span></div>
-            <div class="file-tree-item"><span class="file-icon">&#x1F4C4;</span><span class="file-name">ProductDetailsForm.cs</span><span class="file-desc">Single product view with image, specs, add-to-cart</span></div>
-            <div class="file-tree-item"><span class="file-icon">&#x1F4C4;</span><span class="file-name">CheckoutForm.cs</span><span class="file-desc">Order placement, payment options, stock update</span></div>
-            <div class="file-tree-item"><span class="file-icon">&#x1F4C4;</span><span class="file-name">LoginForm.cs</span><span class="file-desc">Email/password authentication, Session initialization</span></div>
-            <div class="file-tree-item"><span class="file-icon">&#x1F4C4;</span><span class="file-name">RegisterForm.cs</span><span class="file-desc">New user registration with Role='Customer'</span></div>
-            <div class="file-tree-item"><span class="file-icon">&#x1F4C4;</span><span class="file-name">ForgotPasswordForm.cs</span><span class="file-desc">Two-step recovery: email + phone verification</span></div>
-            <div class="file-tree-item"><span class="file-icon">&#x1F4C4;</span><span class="file-name">AdminForm.cs</span><span class="file-desc">Product CRUD, order viewing, image file dialogs</span></div>
-            <div class="file-tree-item"><span class="file-icon">&#x1F4C4;</span><span class="file-name">OrderSuccessForm.cs</span><span class="file-desc">Post-order confirmation screen</span></div>
-        </div>
+  <h2 class="section-title">Project Files</h2>
+  <p class="section-sub">Every source file and what it does</p>
+  <div class="file-grid">
+
+    <div class="file-card">
+      <div class="fname">📄 Program.cs <span class="ftype">entry</span></div>
+      <p>Application entry point. Launches the main form.</p>
+      <ul><li><code>Application.Run(new Form1())</code></li></ul>
     </div>
+
+    <div class="file-card">
+      <div class="fname">📄 Session.cs <span class="ftype util">utility</span></div>
+      <p>Static session holder shared across forms.</p>
+      <ul>
+        <li>UserId (int)</li>
+        <li>UserName (string)</li>
+        <li>Role (string)</li>
+      </ul>
+    </div>
+
+    <div class="file-card">
+      <div class="fname">🖼️ Form1.cs <span class="ftype form">form</span></div>
+      <p>Main UI — product listing, search, sort, cart grid.</p>
+      <ul>
+        <li>LoadProducts(search, sort)</li>
+        <li>Add_Click → Cart insert/update</li>
+        <li>RefreshCartSummary()</li>
+        <li>RefreshCartGrid()</li>
+      </ul>
+    </div>
+
+    <div class="file-card">
+      <div class="fname">🔐 LoginForm.cs <span class="ftype form">form</span></div>
+      <p>Email + password authentication.</p>
+      <ul>
+        <li>Validates against Users table</li>
+        <li>Populates Session on success</li>
+        <li>Links to Register / Forgot</li>
+      </ul>
+    </div>
+
+    <div class="file-card">
+      <div class="fname">📝 RegisterForm.cs <span class="ftype form">form</span></div>
+      <p>New user registration with role 'Customer'.</p>
+      <ul>
+        <li>Name, Email, Phone, Password</li>
+        <li>INSERT INTO Users</li>
+      </ul>
+    </div>
+
+    <div class="file-card">
+      <div class="fname">🔑 ForgotPasswordForm.cs <span class="ftype form">form</span></div>
+      <p>Multi-step password recovery flow.</p>
+      <ul>
+        <li>Verify email → Verify phone</li>
+        <li>Update password</li>
+      </ul>
+    </div>
+
+    <div class="file-card">
+      <div class="fname">📱 ProductDetailsForm.cs <span class="ftype form">form</span></div>
+      <p>Single product detail view with specs.</p>
+      <ul>
+        <li>Fetches by Id</li>
+        <li>Add to cart (mirrors Form1)</li>
+      </ul>
+    </div>
+
+    <div class="file-card">
+      <div class="fname">💳 CheckoutForm.cs <span class="ftype form">form</span></div>
+      <p>Order placement — COD or bKash online.</p>
+      <ul>
+        <li>Creates Order record</li>
+        <li>Writes OrderItems</li>
+        <li>Decrements stock</li>
+        <li>Clears cart</li>
+      </ul>
+    </div>
+
+    <div class="file-card">
+      <div class="fname">⚙️ AdminForm.cs <span class="ftype form">form</span></div>
+      <p>Admin dashboard for products & orders.</p>
+      <ul>
+        <li>CRUD products</li>
+        <li>View orders</li>
+        <li>Image upload support</li>
+      </ul>
+    </div>
+
+    <div class="file-card">
+      <div class="fname">✅ OrderSuccessForm.cs <span class="ftype form">form</span></div>
+      <p>Confirmation screen after placing an order.</p>
+    </div>
+
+    <div class="file-card">
+      <div class="fname">📋 *.Designer.cs <span class="ftype util">generated</span></div>
+      <p>Auto-generated UI control definitions for each form.</p>
+    </div>
+
+  </div>
 </section>
 
-<footer class="footer">
-    <p>MobileShop Project Documentation &middot; Shohidul Islam &middot; August 2026</p>
-    <p style="margin-top:0.5rem;font-size:0.8rem;">Built for viva preparation and project demonstration</p>
+<!-- DATABASE -->
+<section id="db">
+  <h2 class="section-title">Database Schema</h2>
+  <p class="section-sub">Inferred ER diagram from SQL usage in code</p>
+  <div class="er-wrap">
+    <svg class="er-svg" viewBox="0 0 1000 520" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="t1" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#1e293b"/>
+          <stop offset="100%" stop-color="#0f172a"/>
+        </linearGradient>
+      </defs>
+
+      <!-- Users -->
+      <g transform="translate(40,40)">
+        <rect width="220" height="200" rx="8" fill="url(#t1)" stroke="#6366f1" stroke-width="2"/>
+        <rect width="220" height="36" rx="8" fill="#6366f1"/>
+        <text x="110" y="24" fill="white" font-size="14" font-weight="700" text-anchor="middle">👤 Users</text>
+        <text x="14" y="60" fill="#fca5a5" font-size="12">🔑 Id (int) PK</text>
+        <text x="14" y="82" fill="#e5e7eb" font-size="12">Name (nvarchar)</text>
+        <text x="14" y="104" fill="#e5e7eb" font-size="12">Email (nvarchar)</text>
+        <text x="14" y="126" fill="#e5e7eb" font-size="12">Phone (nvarchar)</text>
+        <text x="14" y="148" fill="#fca5a5" font-size="12">⚠ Password (plaintext!)</text>
+        <text x="14" y="170" fill="#e5e7eb" font-size="12">Role (Customer/Admin)</text>
+      </g>
+
+      <!-- Products -->
+      <g transform="translate(390,40)">
+        <rect width="220" height="240" rx="8" fill="url(#t1)" stroke="#10b981" stroke-width="2"/>
+        <rect width="220" height="36" rx="8" fill="#10b981"/>
+        <text x="110" y="24" fill="white" font-size="14" font-weight="700" text-anchor="middle">📱 Products</text>
+        <text x="14" y="60" fill="#fca5a5" font-size="12">🔑 Id (int) PK</text>
+        <text x="14" y="82" fill="#e5e7eb" font-size="12">Name (nvarchar)</text>
+        <text x="14" y="104" fill="#e5e7eb" font-size="12">Brand (nvarchar)</text>
+        <text x="14" y="126" fill="#e5e7eb" font-size="12">Model (nvarchar)</text>
+        <text x="14" y="148" fill="#e5e7eb" font-size="12">Price (decimal)</text>
+        <text x="14" y="170" fill="#e5e7eb" font-size="12">Discount (decimal?)</text>
+        <text x="14" y="192" fill="#e5e7eb" font-size="12">Stock (int)</text>
+        <text x="14" y="214" fill="#e5e7eb" font-size="12">ImagePath / Specs</text>
+      </g>
+
+      <!-- Cart -->
+      <g transform="translate(740,40)">
+        <rect width="220" height="160" rx="8" fill="url(#t1)" stroke="#ec4899" stroke-width="2"/>
+        <rect width="220" height="36" rx="8" fill="#ec4899"/>
+        <text x="110" y="24" fill="white" font-size="14" font-weight="700" text-anchor="middle">🛒 Cart</text>
+        <text x="14" y="60" fill="#fca5a5" font-size="12">🔑 Id (int) PK</text>
+        <text x="14" y="82" fill="#fbbf24" font-size="12">🔗 UserId (FK → Users)</text>
+        <text x="14" y="104" fill="#fbbf24" font-size="12">🔗 ProductId (FK → Products)</text>
+        <text x="14" y="126" fill="#e5e7eb" font-size="12">Quantity (int)</text>
+      </g>
+
+      <!-- Orders -->
+      <g transform="translate(40,300)">
+        <rect width="240" height="200" rx="8" fill="url(#t1)" stroke="#f59e0b" stroke-width="2"/>
+        <rect width="240" height="36" rx="8" fill="#f59e0b"/>
+        <text x="120" y="24" fill="white" font-size="14" font-weight="700" text-anchor="middle">📦 Orders</text>
+        <text x="14" y="60" fill="#fca5a5" font-size="12">🔑 Id (int) PK</text>
+        <text x="14" y="82" fill="#fbbf24" font-size="12">🔗 UserId (FK)</text>
+        <text x="14" y="104" fill="#e5e7eb" font-size="12">CustomerName / Phone</text>
+        <text x="14" y="126" fill="#e5e7eb" font-size="12">Address (nvarchar)</text>
+        <text x="14" y="148" fill="#e5e7eb" font-size="12">TotalAmount (decimal)</text>
+        <text x="14" y="170" fill="#e5e7eb" font-size="12">PaymentMethod</text>
+        <text x="14" y="192" fill="#e5e7eb" font-size="12">TransactionId</text>
+      </g>
+
+      <!-- OrderItems -->
+      <g transform="translate(390,340)">
+        <rect width="220" height="160" rx="8" fill="url(#t1)" stroke="#06b6d4" stroke-width="2"/>
+        <rect width="220" height="36" rx="8" fill="#06b6d4"/>
+        <text x="110" y="24" fill="white" font-size="14" font-weight="700" text-anchor="middle">🧾 OrderItems</text>
+        <text x="14" y="60" fill="#fca5a5" font-size="12">🔑 Id (int) PK</text>
+        <text x="14" y="82" fill="#fbbf24" font-size="12">🔗 OrderId (FK)</text>
+        <text x="14" y="104" fill="#fbbf24" font-size="12">🔗 ProductId (FK)</text>
+        <text x="14" y="126" fill="#e5e7eb" font-size="12">Quantity (int)</text>
+        <text x="14" y="148" fill="#e5e7eb" font-size="12">Price (decimal)</text>
+      </g>
+
+      <!-- Relationships -->
+      <g stroke="#94a3b8" stroke-width="1.5" fill="none">
+        <!-- Users -> Cart -->
+        <path d="M 260 100 Q 500 60 740 100" stroke-dasharray="5,3"/>
+        <text x="490" y="75" fill="#94a3b8" font-size="11">1 : N</text>
+        <!-- Products -> Cart -->
+        <path d="M 610 140 Q 680 140 740 140"/>
+        <text x="655" y="132" fill="#94a3b8" font-size="11">1 : N</text>
+        <!-- Users -> Orders -->
+        <path d="M 150 240 L 150 300"/>
+        <text x="160" y="275" fill="#94a3b8" font-size="11">1 : N</text>
+        <!-- Orders -> OrderItems -->
+        <path d="M 280 400 Q 340 400 390 420"/>
+        <text x="310" y="395" fill="#94a3b8" font-size="11">1 : N</text>
+        <!-- Products -> OrderItems -->
+        <path d="M 500 280 Q 500 310 500 340"/>
+        <text x="510" y="315" fill="#94a3b8" font-size="11">1 : N</text>
+      </g>
+    </svg>
+  </div>
+</section>
+
+<!-- FLOWS -->
+<section id="flows">
+  <h2 class="section-title">User Flows</h2>
+  <p class="section-sub">Step-by-step journeys through the application</p>
+  <div class="flows-grid">
+
+    <div class="flow-card">
+      <h3>🔐 Login Flow</h3>
+      <div class="flow-steps">
+        <div class="flow-step"><div class="step-num">1</div>Enter email + password</div>
+        <div class="flow-step sql"><div class="step-num">2</div>SELECT * FROM Users WHERE Email=@email AND Password=@pass</div>
+        <div class="flow-step"><div class="step-num">3</div>Set Session.UserId / UserName / Role</div>
+        <div class="flow-step"><div class="step-num">4</div>Redirect to Form1 (main screen)</div>
+      </div>
+    </div>
+
+    <div class="flow-card">
+      <h3>🛒 Add to Cart</h3>
+      <div class="flow-steps">
+        <div class="flow-step"><div class="step-num">1</div>Click "Add" on a product</div>
+        <div class="flow-step"><div class="step-num">2</div>Check login (Session.UserId)</div>
+        <div class="flow-step sql"><div class="step-num">3</div>SELECT Quantity FROM Cart WHERE UserId=@uid AND ProductId=@pid</div>
+        <div class="flow-step sql"><div class="step-num">4</div>If exists → UPDATE Quantity+1 · Else → INSERT</div>
+        <div class="flow-step"><div class="step-num">5</div>Refresh cart summary + grid</div>
+      </div>
+    </div>
+
+    <div class="flow-card">
+      <h3>💳 Checkout Flow</h3>
+      <div class="flow-steps">
+        <div class="flow-step"><div class="step-num">1</div>Review cart + enter address</div>
+        <div class="flow-step"><div class="step-num">2</div>Select COD or bKash</div>
+        <div class="flow-step sql"><div class="step-num">3</div>INSERT INTO Orders (OUTPUT INSERTED.Id)</div>
+        <div class="flow-step sql"><div class="step-num">4</div>For each cart item → INSERT OrderItems</div>
+        <div class="flow-step sql"><div class="step-num">5</div>UPDATE Products SET Stock = Stock - qty</div>
+        <div class="flow-step sql"><div class="step-num">6</div>DELETE FROM Cart WHERE UserId=@uid</div>
+        <div class="flow-step"><div class="step-num">7</div>Show OrderSuccessForm</div>
+      </div>
+    </div>
+
+    <div class="flow-card">
+      <h3>⚙️ Admin Product CRUD</h3>
+      <div class="flow-steps">
+        <div class="flow-step"><div class="step-num">1</div>Open AdminForm (Role = 'Admin')</div>
+        <div class="flow-step sql"><div class="step-num">2</div>Load products + orders</div>
+        <div class="flow-step sql"><div class="step-num">3</div>INSERT / UPDATE / DELETE Products</div>
+        <div class="flow-step"><div class="step-num">4</div>Browse image files locally</div>
+        <div class="flow-step"><div class="step-num">5</div>Parse discount strings (% suffix)</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SQL QUERIES -->
+<section id="sql">
+  <h2 class="section-title">SQL Queries by File</h2>
+  <p class="section-sub">Every query extracted from source code, grouped by file</p>
+  <div class="sql-tabs">
+    <div class="tab-header">
+      <button class="tab-btn active" data-tab="f1">Form1</button>
+      <button class="tab-btn" data-tab="login">LoginForm</button>
+      <button class="tab-btn" data-tab="reg">RegisterForm</button>
+      <button class="tab-btn" data-tab="forgot">ForgotPassword</button>
+      <button class="tab-btn" data-tab="details">ProductDetails</button>
+      <button class="tab-btn" data-tab="checkout">Checkout</button>
+      <button class="tab-btn" data-tab="admin">Admin</button>
+    </div>
+
+    <div class="tab-content active" id="f1">
+      <div class="sql-query"><span class="comment">-- Load products with optional search/sort</span>
+<span class="kw">SELECT</span> Id, Name, Price, Discount, ImagePath
+<span class="kw">FROM</span> Products
+[<span class="kw">WHERE</span> Name <span class="kw">LIKE</span> <span class="str">@s</span>]
+[<span class="kw">ORDER BY</span> ...]</div>
+      <div class="sql-query"><span class="kw">SELECT</span> Quantity <span class="kw">FROM</span> Cart
+<span class="kw">WHERE</span> UserId = <span class="str">@uid</span> <span class="kw">AND</span> ProductId = <span class="str">@pid</span></div>
+      <div class="sql-query"><span class="kw">UPDATE</span> Cart <span class="kw">SET</span> Quantity = Quantity + <span class="num">1</span>
+<span class="kw">WHERE</span> UserId = <span class="str">@uid</span> <span class="kw">AND</span> ProductId = <span class="str">@pid</span></div>
+      <div class="sql-query"><span class="kw">INSERT INTO</span> Cart (UserId, ProductId, Quantity)
+<span class="kw">VALUES</span> (<span class="str">@uid</span>, <span class="str">@pid</span>, <span class="num">1</span>)</div>
+      <div class="sql-query"><span class="comment">-- Cart total with discount applied</span>
+<span class="kw">SELECT</span> <span class="fn">SUM</span>(p.Price * (<span class="num">1</span> - <span class="fn">ISNULL</span>(p.Discount,<span class="num">0</span>)/<span class="num">100.0</span>) * c.Quantity)
+<span class="kw">FROM</span> Cart c <span class="kw">JOIN</span> Products p <span class="kw">ON</span> c.ProductId = p.Id
+<span class="kw">WHERE</span> c.UserId = <span class="str">@uid</span></div>
+      <div class="sql-query"><span class="kw">SELECT</span> <span class="fn">SUM</span>(Quantity) <span class="kw">FROM</span> Cart <span class="kw">WHERE</span> UserId = <span class="str">@uid</span></div>
+      <div class="sql-query"><span class="kw">SELECT</span> p.Id <span class="kw">AS</span> ProductId, p.Name, c.Quantity,
+  (p.Price * (<span class="num">1</span> - <span class="fn">ISNULL</span>(p.Discount,<span class="num">0</span>)/<span class="num">100.0</span>)) <span class="kw">AS</span> Price,
+  (...) <span class="kw">AS</span> Total
+<span class="kw">FROM</span> Cart c <span class="kw">JOIN</span> Products p <span class="kw">ON</span> c.ProductId = p.Id
+<span class="kw">WHERE</span> c.UserId = <span class="str">@uid</span></div>
+    </div>
+
+    <div class="tab-content" id="login">
+      <div class="sql-query"><span class="kw">SELECT</span> * <span class="kw">FROM</span> Users
+<span class="kw">WHERE</span> Email = <span class="str">@email</span> <span class="kw">AND</span> Password = <span class="str">@pass</span></div>
+    </div>
+
+    <div class="tab-content" id="reg">
+      <div class="sql-query"><span class="kw">INSERT INTO</span> Users (Name, Email, Phone, Password, Role)
+<span class="kw">VALUES</span> (<span class="str">@name</span>, <span class="str">@email</span>, <span class="str">@phone</span>, <span class="str">@pass</span>, <span class="str">'Customer'</span>)</div>
+    </div>
+
+    <div class="tab-content" id="forgot">
+      <div class="sql-query"><span class="comment">-- Step 1: verify email exists</span>
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> Users <span class="kw">WHERE</span> Email = <span class="str">@email</span></div>
+      <div class="sql-query"><span class="comment">-- Step 2: verify phone matches</span>
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> Users
+<span class="kw">WHERE</span> Email = <span class="str">@email</span> <span class="kw">AND</span> Phone = <span class="str">@phone</span></div>
+      <div class="sql-query"><span class="comment">-- Step 3: update password</span>
+<span class="kw">UPDATE</span> Users <span class="kw">SET</span> Password = <span class="str">@pass</span>
+<span class="kw">WHERE</span> Email = <span class="str">@email</span></div>
+    </div>
+
+    <div class="tab-content" id="details">
+      <div class="sql-query"><span class="kw">SELECT</span> * <span class="kw">FROM</span> Products <span class="kw">WHERE</span> Id = <span class="str">@id</span></div>
+      <div class="sql-query"><span class="kw">SELECT</span> Quantity <span class="kw">FROM</span> Cart
+<span class="kw">WHERE</span> UserId = <span class="str">@uid</span> <span class="kw">AND</span> ProductId = <span class="str">@pid</span></div>
+      <div class="sql-query"><span class="kw">INSERT INTO</span> Cart (UserId, ProductId, Quantity)
+<span class="kw">VALUES</span> (<span class="str">@uid</span>, <span class="str">@pid</span>, <span class="num">1</span>)</div>
+      <div class="sql-query"><span class="kw">UPDATE</span> Cart <span class="kw">SET</span> Quantity = Quantity + <span class="num">1</span>
+<span class="kw">WHERE</span> UserId = <span class="str">@uid</span> <span class="kw">AND</span> ProductId = <span class="str">@pid</span></div>
+    </div>
+
+    <div class="tab-content" id="checkout">
+      <div class="sql-query"><span class="kw">SELECT</span> Name, Phone <span class="kw">FROM</span> Users <span class="kw">WHERE</span> Id = <span class="str">@id</span></div>
+      <div class="sql-query"><span class="kw">SELECT</span> p.Id, p.Name, c.Quantity,
+  (p.Price * (<span class="num">1</span> - <span class="fn">ISNULL</span>(p.Discount,<span class="num">0</span>)/<span class="num">100.0</span>)) <span class="kw">AS</span> Price,
+  (...) <span class="kw">AS</span> Total
+<span class="kw">FROM</span> Cart c <span class="kw">JOIN</span> Products p <span class="kw">ON</span> c.ProductId = p.Id
+<span class="kw">WHERE</span> c.UserId = <span class="str">@uid</span></div>
+      <div class="sql-query"><span class="comment">-- ⚠️ Uses string concatenation (security risk)</span>
+<span class="kw">INSERT INTO</span> Orders (UserId, CustomerName, Phone, Address,
+  TotalAmount, PaymentMethod, TransactionId)
+<span class="kw">OUTPUT</span> <span class="fn">INSERTED</span>.Id
+<span class="kw">VALUES</span> (...)</div>
+      <div class="sql-query"><span class="kw">SELECT</span> ProductId, Quantity <span class="kw">FROM</span> Cart
+<span class="kw">WHERE</span> UserId = {Session.UserId}</div>
+      <div class="sql-query"><span class="kw">INSERT INTO</span> OrderItems (OrderId, ProductId, Quantity, Price)
+<span class="kw">VALUES</span> (orderId, pid, qty,
+  (<span class="kw">SELECT</span> Price * (<span class="num">1</span> - <span class="fn">ISNULL</span>(Discount, <span class="num">0</span>) / <span class="num">100.0</span>)
+   <span class="kw">FROM</span> Products <span class="kw">WHERE</span> Id = pid))</div>
+      <div class="sql-query"><span class="kw">UPDATE</span> Products <span class="kw">SET</span> Stock = Stock - qty
+<span class="kw">WHERE</span> Id = pid</div>
+      <div class="sql-query"><span class="kw">DELETE FROM</span> Cart <span class="kw">WHERE</span> UserId = {Session.UserId}</div>
+    </div>
+
+    <div class="tab-content" id="admin">
+      <div class="sql-query"><span class="kw">SELECT</span> * <span class="kw">FROM</span> Products</div>
+      <div class="sql-query"><span class="kw">SELECT</span> * <span class="kw">FROM</span> Orders</div>
+      <div class="sql-query"><span class="kw">INSERT INTO</span> Products (Name, Brand, Model, Price, Discount,
+  Stock, ImagePath, Specifications)
+<span class="kw">VALUES</span> (<span class="str">@...</span>)</div>
+      <div class="sql-query"><span class="kw">UPDATE</span> Products <span class="kw">SET</span> ... <span class="kw">WHERE</span> Id = <span class="str">@id</span></div>
+      <div class="sql-query"><span class="kw">DELETE FROM</span> Products <span class="kw">WHERE</span> Id = <span class="str">@id</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- SECURITY -->
+<section id="security">
+  <h2 class="section-title">Security & Maintenance Notes</h2>
+  <p class="section-sub">Issues identified during code review</p>
+  <div class="security-grid">
+
+    <div class="sec-card danger">
+      <h4>🔴 Plaintext Passwords</h4>
+      <p>Passwords are stored and compared as raw strings in the <code>Users</code> table. Use bcrypt/Argon2 with per-user salt.</p>
+    </div>
+
+    <div class="sec-card danger">
+      <h4>🔴 SQL Injection in CheckoutForm</h4>
+      <p>Queries <code>orderQ</code>, <code>cartQ</code>, <code>itemQ</code>, <code>stockQ</code>, <code>delQ</code> are built via string concatenation. Replace with <code>SqlParameter</code>.</p>
+    </div>
+
+    <div class="sec-card warn">
+      <h4>🟡 Missing Input Validation</h4>
+      <p>Discount parsing supports '%' suffix but other inputs (email format, phone length) aren't consistently validated.</p>
+    </div>
+
+    <div class="sec-card warn">
+      <h4>🟡 Connection String Hardcoded</h4>
+      <p>The connection string is duplicated across files. Move to <code>appsettings.json</code> or <code>ConfigurationManager</code>.</p>
+    </div>
+
+    <div class="sec-card info">
+      <h4>🔵 Good: using/Dispose Pattern</h4>
+      <p>Most code correctly uses <code>using</code> blocks for <code>SqlConnection</code> and <code>SqlCommand</code>.</p>
+    </div>
+
+    <div class="sec-card info">
+      <h4>🔵 Good: Parameterized Queries (mostly)</h4>
+      <p>Form1, LoginForm, RegisterForm, and AdminForm use parameters correctly — only CheckoutForm needs fixing.</p>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  📱 MobileShop · .NET 8 Windows Forms · Project Visualization Report
 </footer>
 
 <script>
-    // Scroll reveal animation
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-            }
-        });
-    }, { threshold: 0.1 });
-
-    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
-
-    // Smooth scroll for nav links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
-            e.preventDefault();
-            document.querySelector(this.getAttribute('href')).scrollIntoView({
-                behavior: 'smooth'
-            });
-        });
+  // Tab switching
+  const tabBtns = document.querySelectorAll('.tab-btn');
+  const tabContents = document.querySelectorAll('.tab-content');
+  tabBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      tabBtns.forEach(b => b.classList.remove('active'));
+      tabContents.forEach(c => c.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById(btn.dataset.tab).classList.add('active');
     });
+  });
+
+  // Subtle fade-in on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('section').forEach(s => {
+    s.style.opacity = '0';
+    s.style.transform = 'translateY(20px)';
+    s.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    observer.observe(s);
+  });
 </script>
 
 </body>

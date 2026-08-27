@@ -22,6 +22,7 @@
             lblSpecs = new Label();
             lblImage = new Label();
             lblStock = new Label();
+            lblDiscount = new Label();
             lblPrice = new Label();
             lblModel = new Label();
             lblBrand = new Label();
@@ -34,6 +35,7 @@
             txtSpecs = new TextBox();
             txtImage = new TextBox();
             txtStock = new TextBox();
+            txtDiscount = new TextBox();
             txtPrice = new TextBox();
             txtModel = new TextBox();
             txtBrand = new TextBox();
@@ -64,6 +66,7 @@
             tabProducts.Controls.Add(lblSpecs);
             tabProducts.Controls.Add(lblImage);
             tabProducts.Controls.Add(lblStock);
+            tabProducts.Controls.Add(lblDiscount);
             tabProducts.Controls.Add(lblPrice);
             tabProducts.Controls.Add(lblModel);
             tabProducts.Controls.Add(lblBrand);
@@ -76,6 +79,7 @@
             tabProducts.Controls.Add(txtSpecs);
             tabProducts.Controls.Add(txtImage);
             tabProducts.Controls.Add(txtStock);
+            tabProducts.Controls.Add(txtDiscount);
             tabProducts.Controls.Add(txtPrice);
             tabProducts.Controls.Add(txtModel);
             tabProducts.Controls.Add(txtBrand);
@@ -92,7 +96,7 @@
             // lblSpecs
             // 
             lblSpecs.AutoSize = true;
-            lblSpecs.Location = new Point(20, 270);
+            lblSpecs.Location = new Point(20, 310);
             lblSpecs.Name = "lblSpecs";
             lblSpecs.Size = new Size(47, 20);
             lblSpecs.TabIndex = 19;
@@ -101,7 +105,7 @@
             // lblImage
             // 
             lblImage.AutoSize = true;
-            lblImage.Location = new Point(20, 230);
+            lblImage.Location = new Point(20, 270);
             lblImage.Name = "lblImage";
             lblImage.Size = new Size(51, 20);
             lblImage.TabIndex = 18;
@@ -110,11 +114,20 @@
             // lblStock
             // 
             lblStock.AutoSize = true;
-            lblStock.Location = new Point(20, 190);
+            lblStock.Location = new Point(20, 230);
             lblStock.Name = "lblStock";
             lblStock.Size = new Size(45, 20);
             lblStock.TabIndex = 17;
             lblStock.Text = "Stock";
+            // 
+            // lblDiscount
+            // 
+            lblDiscount.AutoSize = true;
+            lblDiscount.Location = new Point(20, 190);
+            lblDiscount.Name = "lblDiscount";
+            lblDiscount.Size = new Size(67, 20);
+            lblDiscount.TabIndex = 16;
+            lblDiscount.Text = "Discount";
             // 
             // lblPrice
             // 
@@ -190,7 +203,7 @@
             // 
             // btnBrowse
             // 
-            btnBrowse.Location = new Point(275, 225);
+            btnBrowse.Location = new Point(275, 265);
             btnBrowse.Name = "btnBrowse";
             btnBrowse.Size = new Size(65, 29);
             btnBrowse.TabIndex = 8;
@@ -199,25 +212,33 @@
             // 
             // txtSpecs
             // 
-            txtSpecs.Location = new Point(90, 265);
+            txtSpecs.Location = new Point(90, 305);
             txtSpecs.Multiline = true;
             txtSpecs.Name = "txtSpecs";
-            txtSpecs.Size = new Size(250, 150);
+            txtSpecs.Size = new Size(250, 120);
             txtSpecs.TabIndex = 7;
             // 
             // txtImage
             // 
-            txtImage.Location = new Point(90, 225);
+            txtImage.Location = new Point(90, 265);
             txtImage.Name = "txtImage";
             txtImage.Size = new Size(180, 27);
             txtImage.TabIndex = 6;
             // 
             // txtStock
             // 
-            txtStock.Location = new Point(90, 185);
+            txtStock.Location = new Point(90, 225);
             txtStock.Name = "txtStock";
             txtStock.Size = new Size(250, 27);
             txtStock.TabIndex = 5;
+            // 
+            // txtDiscount
+            // 
+            txtDiscount.Location = new Point(90, 185);
+            txtDiscount.Name = "txtDiscount";
+            txtDiscount.PlaceholderText = "0";
+            txtDiscount.Size = new Size(250, 27);
+            txtDiscount.TabIndex = 4;
             // 
             // txtPrice
             // 
@@ -315,6 +336,7 @@
         private System.Windows.Forms.TextBox txtBrand;
         private System.Windows.Forms.TextBox txtModel;
         private System.Windows.Forms.TextBox txtPrice;
+        private System.Windows.Forms.TextBox txtDiscount;
         private System.Windows.Forms.TextBox txtStock;
         private System.Windows.Forms.TextBox txtImage;
         private System.Windows.Forms.TextBox txtSpecs;
@@ -327,6 +349,7 @@
         private System.Windows.Forms.Label lblSpecs;
         private System.Windows.Forms.Label lblImage;
         private System.Windows.Forms.Label lblStock;
+        private System.Windows.Forms.Label lblDiscount;
         private System.Windows.Forms.Label lblPrice;
         private System.Windows.Forms.Label lblModel;
         private System.Windows.Forms.Label lblBrand;

@@ -22,32 +22,37 @@ namespace MobileShop
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            SqlConnection con = new SqlConnection(conString);
-            con.Open();
-            string query = "SELECT * FROM Users WHERE Email = '" + txtEmail.Text + "' AND Password = '" + txtPassword.Text + "'";
-            SqlCommand cmd = new SqlCommand(query, con);
-            SqlDataReader reader = cmd.ExecuteReader();
-
-            if (reader.Read())
+            using (SqlConnection con = new SqlConnection(conString))
             {
-                Session.UserId = Convert.ToInt32(reader["Id"]);
-                Session.UserName = reader["Name"].ToString();
-                Session.Role = reader["Role"].ToString();
-                MessageBox.Show("Successfully Logged in!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                con.Close();
-                this.Close();
-
-                if (Session.Role == "Admin")
+                con.Open();
+                string query = "SELECT * FROM Users WHERE Email = @email AND Password = @pass";
+                using (SqlCommand cmd = new SqlCommand(query, con))
                 {
-                    AdminForm admin = new AdminForm();
-                    admin.ShowDialog();
+                    cmd.Parameters.AddWithValue("@email", txtEmail.Text.Trim());
+                    cmd.Parameters.AddWithValue("@pass", txtPassword.Text);
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            Session.UserId = Convert.ToInt32(reader["Id"]);
+                            Session.UserName = reader["Name"].ToString();
+                            Session.Role = reader["Role"].ToString();
+                            MessageBox.Show("Successfully Logged in!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            con.Close();
+                            this.Close();
+
+                            if (Session.Role == "Admin")
+                            {
+                                AdminForm admin = new AdminForm();
+                                admin.ShowDialog();
+                            }
+                            return;
+                        }
+                    }
                 }
+                con.Close();
             }
-            else
-            {
-                MessageBox.Show("Username or Password not found or Wrong username or password", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            con.Close();
+            MessageBox.Show("Username or Password not found or Wrong username or password", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         private void lnkRegister_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

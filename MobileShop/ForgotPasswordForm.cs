@@ -23,55 +23,74 @@ namespace MobileShop
 
         private void btnVerifyEmail_Click(object sender, EventArgs e)
         {
-            SqlConnection con = new SqlConnection(conString);
-            con.Open();
-            string query = "SELECT * FROM Users WHERE Email = '" + txtEmail.Text + "'";
-            SqlCommand cmd = new SqlCommand(query, con);
-            SqlDataReader reader = cmd.ExecuteReader();
-
-            if (reader.Read())
+            using (SqlConnection con = new SqlConnection(conString))
             {
-                verifiedEmail = txtEmail.Text;
-                MessageBox.Show("Email found! Now enter your phone number.");
-                txtPhone.Enabled = true;
-                btnVerifyPhone.Enabled = true;
+                con.Open();
+                string query = "SELECT * FROM Users WHERE Email = @email";
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@email", txtEmail.Text.Trim());
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            verifiedEmail = txtEmail.Text.Trim();
+                            MessageBox.Show("Email found! Now enter your phone number.");
+                            txtPhone.Enabled = true;
+                            btnVerifyPhone.Enabled = true;
+                        }
+                        else
+                        {
+                            MessageBox.Show("Email not found!");
+                        }
+                    }
+                }
+                con.Close();
             }
-            else
-            {
-                MessageBox.Show("Email not found!");
-            }
-            con.Close();
         }
 
         private void btnVerifyPhone_Click(object sender, EventArgs e)
         {
-            SqlConnection con = new SqlConnection(conString);
-            con.Open();
-            string query = "SELECT * FROM Users WHERE Email = '" + verifiedEmail + "' AND Phone = '" + txtPhone.Text + "'";
-            SqlCommand cmd = new SqlCommand(query, con);
-            SqlDataReader reader = cmd.ExecuteReader();
-
-            if (reader.Read())
+            using (SqlConnection con = new SqlConnection(conString))
             {
-                MessageBox.Show("Phone verified! Enter new password.");
-                txtNewPass.Enabled = true;
-                btnChangePass.Enabled = true;
+                con.Open();
+                string query = "SELECT * FROM Users WHERE Email = @email AND Phone = @phone";
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@email", verifiedEmail);
+                    cmd.Parameters.AddWithValue("@phone", txtPhone.Text.Trim());
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            MessageBox.Show("Phone verified! Enter new password.");
+                            txtNewPass.Enabled = true;
+                            btnChangePass.Enabled = true;
+                        }
+                        else
+                        {
+                            MessageBox.Show("Phone number does not match!");
+                        }
+                    }
+                }
+                con.Close();
             }
-            else
-            {
-                MessageBox.Show("Phone number does not match!");
-            }
-            con.Close();
         }
 
         private void btnChangePass_Click(object sender, EventArgs e)
         {
-            SqlConnection con = new SqlConnection(conString);
-            con.Open();
-            string query = "UPDATE Users SET Password = '" + txtNewPass.Text + "' WHERE Email = '" + verifiedEmail + "'";
-            SqlCommand cmd = new SqlCommand(query, con);
-            cmd.ExecuteNonQuery();
-            con.Close();
+            using (SqlConnection con = new SqlConnection(conString))
+            {
+                con.Open();
+                string query = "UPDATE Users SET Password = @pass WHERE Email = @email";
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@pass", txtNewPass.Text);
+                    cmd.Parameters.AddWithValue("@email", verifiedEmail);
+                    cmd.ExecuteNonQuery();
+                }
+                con.Close();
+            }
 
             MessageBox.Show("Password changed successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             this.Close();

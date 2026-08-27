@@ -1,0 +1,465 @@
+﻿using System;
+using System.Data;
+using System.Data.SqlClient;
+using System.Drawing;
+using System.Windows.Forms;
+
+namespace MobileShop
+{
+    public partial class Form1 : Form
+    {
+        string conString = @"Data Source=.\SQLEXPRESS;Initial Catalog=MobileShop;Integrated Security=True";
+
+        public Form1()
+        {
+            InitializeComponent();
+
+            // Wire additional handlers
+            cmbSort.SelectedIndexChanged += CmbSort_SelectedIndexChanged;
+            btnCartBuyNow.Click += BtnCartBuyNow_Click;
+            btnLogin.Click += btnLogin_Click_1;
+
+            // Setup cart grid action columns
+            dgvCart.AutoGenerateColumns = false;
+            dgvCart.Columns.Clear();
+
+            // Hidden ProductId column
+            var colId = new DataGridViewTextBoxColumn();
+            colId.DataPropertyName = "ProductId";
+            colId.Name = "ProductId";
+            colId.Visible = false;
+            dgvCart.Columns.Add(colId);
+
+            // Product name
+            var colProduct = new DataGridViewTextBoxColumn();
+            colProduct.DataPropertyName = "Product";
+            colProduct.Name = "Product";
+            colProduct.HeaderText = "Product";
+            dgvCart.Columns.Add(colProduct);
+
+            // Quantity
+            var colQty = new DataGridViewTextBoxColumn();
+            colQty.DataPropertyName = "Quantity";
+            colQty.Name = "Quantity";
+            colQty.HeaderText = "Qty";
+            dgvCart.Columns.Add(colQty);
+
+            // Price
+            var colPrice = new DataGridViewTextBoxColumn();
+            colPrice.DataPropertyName = "Price";
+            colPrice.Name = "Price";
+            colPrice.HeaderText = "Price";
+            dgvCart.Columns.Add(colPrice);
+
+            // Total
+            var colTotal = new DataGridViewTextBoxColumn();
+            colTotal.DataPropertyName = "Total";
+            colTotal.Name = "Total";
+            colTotal.HeaderText = "Total";
+            dgvCart.Columns.Add(colTotal);
+
+            // Increase button
+            var btnInc = new DataGridViewButtonColumn();
+            btnInc.Name = "Inc";
+            btnInc.HeaderText = "";
+            btnInc.Text = "+";
+            btnInc.UseColumnTextForButtonValue = true;
+            dgvCart.Columns.Add(btnInc);
+
+            // Decrease button
+            var btnDec = new DataGridViewButtonColumn();
+            btnDec.Name = "Dec";
+            btnDec.HeaderText = "";
+            btnDec.Text = "-";
+            btnDec.UseColumnTextForButtonValue = true;
+            dgvCart.Columns.Add(btnDec);
+
+            // Remove button
+            var btnRem = new DataGridViewButtonColumn();
+            btnRem.Name = "Rem";
+            btnRem.HeaderText = "";
+            btnRem.Text = "Remove";
+            btnRem.UseColumnTextForButtonValue = true;
+            dgvCart.Columns.Add(btnRem);
+
+            dgvCart.CellContentClick += DgvCart_CellContentClick;
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            lblWelcome.Text = string.IsNullOrEmpty(Session.UserName) ? "Welcome" : "Welcome, " + Session.UserName;
+            // load products to main panel
+            LoadProducts();
+            RefreshCartSummary();
+            RefreshCartGrid();
+        }
+
+        private void LoadProducts(string search = null, string sort = null)
+        {
+            flowPhones.Controls.Clear();
+
+            using (SqlConnection con = new SqlConnection(conString))
+            {
+                con.Open();
+                string q = "SELECT Id, Name, Price, ImagePath FROM Products";
+                if (!string.IsNullOrEmpty(search))
+                {
+                    q += " WHERE Name LIKE @s";
+                }
+                if (!string.IsNullOrEmpty(sort))
+                {
+                    if (sort == "Price: Low to High") q += " ORDER BY Price ASC";
+                    else if (sort == "Price: High to Low") q += " ORDER BY Price DESC";
+                }
+
+                using (SqlCommand cmd = new SqlCommand(q, con))
+                {
+                    if (!string.IsNullOrEmpty(search)) cmd.Parameters.AddWithValue("@s", "%" + search + "%");
+
+                    using (SqlDataReader r = cmd.ExecuteReader())
+                    {
+                        while (r.Read())
+                        {
+                            string id = r["Id"].ToString();
+
+                            Panel p = new Panel()
+                            {
+                                Width = 220,
+                                Height = 300,
+                                Margin = new Padding(10),
+                                BorderStyle = BorderStyle.FixedSingle
+                            };
+
+                            PictureBox pic = new PictureBox()
+                            {
+                                Size = new Size(200, 150),
+                                Location = new Point(10, 10),
+                                SizeMode = PictureBoxSizeMode.Zoom
+                            };
+                            try { pic.Image = Image.FromFile(r["ImagePath"].ToString()); } catch { }
+
+                            Label name = new Label()
+                            {
+                                Text = r["Name"].ToString(),
+                                Location = new Point(10, 170),
+                                Size = new Size(200, 40)
+                            };
+
+                            // Use Unicode codepoint for Taka sign to ensure correct rendering
+                            Label price = new Label()
+                            {
+                                Text = "\u09F3" + r["Price"].ToString(),
+                                Location = new Point(10, 210),
+                                AutoSize = true
+                            };
+
+                            Button details = new Button()
+                            {
+                                Text = "Details",
+                                Location = new Point(10, 240),
+                                Size = new Size(90, 30),
+                                Tag = id
+                            };
+                            details.Click += (s, e) =>
+                            {
+                                var f = new ProductDetailsForm(id);
+                                f.ShowDialog();
+                                LoadProducts(search, sort);
+                                RefreshCartSummary();
+                                RefreshCartGrid();
+                            };
+
+                            Button add = new Button()
+                            {
+                                Text = "Add",
+                                Location = new Point(120, 240),
+                                Size = new Size(90, 30),
+                                Tag = id
+                            };
+                            add.Click += Add_Click;
+
+                            p.Controls.Add(pic);
+                            p.Controls.Add(name);
+                            p.Controls.Add(price);
+                            p.Controls.Add(details);
+                            p.Controls.Add(add);
+
+                            flowPhones.Controls.Add(p);
+                        }
+                    }
+                }
+
+                con.Close();
+            }
+        }
+
+        private void Add_Click(object sender, EventArgs e)
+        {
+            Button btn = sender as Button;
+            if (btn == null) return;
+            string pid = btn.Tag.ToString();
+
+            if (Session.UserId == 0)
+            {
+                MessageBox.Show("Please login first!");
+                LoginForm login = new LoginForm();
+                login.ShowDialog();
+                if (Session.UserId == 0) return;
+            }
+
+            using (SqlConnection con = new SqlConnection(conString))
+            {
+                con.Open();
+                string checkQ = "SELECT Quantity FROM Cart WHERE UserId = @uid AND ProductId = @pid";
+                using (SqlCommand cmdCheck = new SqlCommand(checkQ, con))
+                {
+                    cmdCheck.Parameters.AddWithValue("@uid", Session.UserId);
+                    cmdCheck.Parameters.AddWithValue("@pid", pid);
+                    object existing = cmdCheck.ExecuteScalar();
+                    if (existing != null)
+                    {
+                        string updQ = "UPDATE Cart SET Quantity = Quantity + 1 WHERE UserId = @uid AND ProductId = @pid";
+                        using (SqlCommand cmdUpd = new SqlCommand(updQ, con))
+                        {
+                            cmdUpd.Parameters.AddWithValue("@uid", Session.UserId);
+                            cmdUpd.Parameters.AddWithValue("@pid", pid);
+                            cmdUpd.ExecuteNonQuery();
+                        }
+                        MessageBox.Show("Cart updated!");
+                    }
+                    else
+                    {
+                        string q = "INSERT INTO Cart (UserId, ProductId, Quantity) VALUES (@uid, @pid, 1)";
+                        using (SqlCommand cmd = new SqlCommand(q, con))
+                        {
+                            cmd.Parameters.AddWithValue("@uid", Session.UserId);
+                            cmd.Parameters.AddWithValue("@pid", pid);
+                            cmd.ExecuteNonQuery();
+                        }
+                        MessageBox.Show("Added to Cart!");
+                    }
+                }
+                con.Close();
+            }
+
+            RefreshCartSummary();
+            RefreshCartGrid();
+        }
+
+        private void btnLogin_Click_1(object sender, EventArgs e)
+        {
+            LoginForm f = new LoginForm();
+            f.ShowDialog();
+            lblWelcome.Text = string.IsNullOrEmpty(Session.UserName) ? "Welcome" : "Welcome, " + Session.UserName;
+            RefreshCartSummary();
+            RefreshCartGrid();
+        }
+
+        private void RefreshCartSummary()
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(conString))
+                {
+                    con.Open();
+                    string q = "SELECT SUM(p.Price * c.Quantity) FROM Cart c JOIN Products p ON c.ProductId = p.Id WHERE c.UserId = @uid";
+                    using (SqlCommand cmd = new SqlCommand(q, con))
+                    {
+                        cmd.Parameters.AddWithValue("@uid", Session.UserId);
+                        object result = cmd.ExecuteScalar();
+                        decimal total = result == DBNull.Value || result == null ? 0 : Convert.ToDecimal(result);
+                        // Use Unicode codepoint for Taka
+                        lblTotal.Text = "Total: \u09F3" + total.ToString();
+
+                        // Update cart button badge
+                        int count = 0;
+                        string cq = "SELECT SUM(Quantity) FROM Cart WHERE UserId = @uid";
+                        using (SqlCommand ccmd = new SqlCommand(cq, con))
+                        {
+                            ccmd.Parameters.AddWithValue("@uid", Session.UserId);
+                            object cres = ccmd.ExecuteScalar();
+                            count = cres == DBNull.Value || cres == null ? 0 : Convert.ToInt32(cres);
+                        }
+                        btnCartBuyNow.Text = $"Buy Now ({count})";
+                    }
+                    con.Close();
+                }
+            }
+            catch
+            {
+                // ignore errors here so UI still loads
+                lblTotal.Text = "Total: \u09F30";
+                btnCartBuyNow.Text = "Buy Now (0)";
+            }
+        }
+
+        private void RefreshCartGrid()
+        {
+            try
+            {
+                if (Session.UserId == 0)
+                {
+                    dgvCart.DataSource = null;
+                    return;
+                }
+
+                using (SqlConnection con = new SqlConnection(conString))
+                {
+                    con.Open();
+                    string q = @"SELECT p.Id AS ProductId, p.Name AS Product, c.Quantity, p.Price, (p.Price * c.Quantity) AS Total
+                                 FROM Cart c
+                                 JOIN Products p ON c.ProductId = p.Id
+                                 WHERE c.UserId = @uid";
+                    using (SqlCommand cmd = new SqlCommand(q, con))
+                    {
+                        cmd.Parameters.AddWithValue("@uid", Session.UserId);
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            DataTable dt = new DataTable();
+                            da.Fill(dt);
+                            dgvCart.DataSource = dt;
+
+                            if (dgvCart.Columns.Contains("Price"))
+                                dgvCart.Columns["Price"].DefaultCellStyle.Format = "N2";
+                            if (dgvCart.Columns.Contains("Total"))
+                                dgvCart.Columns["Total"].DefaultCellStyle.Format = "N2";
+
+                            // Prefix currency symbol via cell formatting event
+                            dgvCart.CellFormatting -= DgvCart_CellFormatting;
+                            dgvCart.CellFormatting += DgvCart_CellFormatting;
+                        }
+                    }
+                    con.Close();
+                }
+            }
+            catch
+            {
+                // ignore
+            }
+        }
+
+        private void DgvCart_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            try
+            {
+                if (dgvCart.Columns[e.ColumnIndex].Name == "Price" || dgvCart.Columns[e.ColumnIndex].Name == "Total")
+                {
+                    if (e.Value != null && decimal.TryParse(e.Value.ToString(), out var dec))
+                    {
+                        e.Value = "\u09F3" + dec.ToString("N2");
+                        e.FormattingApplied = true;
+                    }
+                }
+            }
+            catch { }
+        }
+
+        private void DgvCart_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+            var colName = dgvCart.Columns[e.ColumnIndex].Name;
+            int pid = Convert.ToInt32(dgvCart.Rows[e.RowIndex].Cells["ProductId"].Value);
+
+            if (colName == "Inc")
+            {
+                using (SqlConnection con = new SqlConnection(conString))
+                {
+                    con.Open();
+                    string q = "UPDATE Cart SET Quantity = Quantity + 1 WHERE UserId = @uid AND ProductId = @pid";
+                    using (SqlCommand cmd = new SqlCommand(q, con))
+                    {
+                        cmd.Parameters.AddWithValue("@uid", Session.UserId);
+                        cmd.Parameters.AddWithValue("@pid", pid);
+                        cmd.ExecuteNonQuery();
+                    }
+                    con.Close();
+                }
+                RefreshCartSummary();
+                RefreshCartGrid();
+            }
+            else if (colName == "Dec")
+            {
+                using (SqlConnection con = new SqlConnection(conString))
+                {
+                    con.Open();
+                    // get current qty
+                    int qty = Convert.ToInt32(dgvCart.Rows[e.RowIndex].Cells["Quantity"].Value);
+                    if (qty > 1)
+                    {
+                        string q = "UPDATE Cart SET Quantity = Quantity - 1 WHERE UserId = @uid AND ProductId = @pid";
+                        using (SqlCommand cmd = new SqlCommand(q, con))
+                        {
+                            cmd.Parameters.AddWithValue("@uid", Session.UserId);
+                            cmd.Parameters.AddWithValue("@pid", pid);
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
+                    else
+                    {
+                        string q = "DELETE FROM Cart WHERE UserId = @uid AND ProductId = @pid";
+                        using (SqlCommand cmd = new SqlCommand(q, con))
+                        {
+                            cmd.Parameters.AddWithValue("@uid", Session.UserId);
+                            cmd.Parameters.AddWithValue("@pid", pid);
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
+                    con.Close();
+                }
+                RefreshCartSummary();
+                RefreshCartGrid();
+            }
+            else if (colName == "Rem")
+            {
+                var res = MessageBox.Show("Remove this item from cart?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (res != DialogResult.Yes) return;
+
+                using (SqlConnection con = new SqlConnection(conString))
+                {
+                    con.Open();
+                    string q = "DELETE FROM Cart WHERE UserId = @uid AND ProductId = @pid";
+                    using (SqlCommand cmd = new SqlCommand(q, con))
+                    {
+                        cmd.Parameters.AddWithValue("@uid", Session.UserId);
+                        cmd.Parameters.AddWithValue("@pid", pid);
+                        cmd.ExecuteNonQuery();
+                    }
+                    con.Close();
+                }
+                RefreshCartSummary();
+                RefreshCartGrid();
+            }
+        }
+
+        private void BtnCartBuyNow_Click(object sender, EventArgs e)
+        {
+            if (Session.UserId == 0)
+            {
+                MessageBox.Show("Please login first!");
+                LoginForm login = new LoginForm();
+                login.ShowDialog();
+                if (Session.UserId == 0) return;
+            }
+
+            CheckoutForm co = new CheckoutForm();
+            co.ShowDialog();
+            RefreshCartSummary();
+            RefreshCartGrid();
+        }
+
+        private void CmbSort_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            LoadProducts(txtSearch.Text.Trim(), cmbSort.SelectedItem?.ToString());
+        }
+
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+            LoadProducts(txtSearch.Text.Trim(), cmbSort.SelectedItem?.ToString());
+        }
+
+        // Placeholder stubs (designer may reference these)
+        private void lstMenu_DoubleClick(object sender, EventArgs e) { }
+        private void dgvOrder_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
+        private void btnPlaceOrder_Click(object sender, EventArgs e) { }
+    }
+}

@@ -44,6 +44,17 @@ namespace MobileShop
             dgvOrders.DataSource = dt;
         }
 
+        private decimal ParseDiscount()
+        {
+            string d = txtDiscount.Text.Trim();
+            if (string.IsNullOrWhiteSpace(d)) return 0;
+
+            if (d.EndsWith("%"))
+                d = d.Substring(0, d.Length - 1).Trim();
+
+            return Convert.ToDecimal(d);
+        }
+
         private void btnBrowse_Click(object sender, EventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog();
@@ -56,14 +67,24 @@ namespace MobileShop
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            SqlConnection con = new SqlConnection(conString);
-            con.Open();
-            string q = "INSERT INTO Products (Name, Brand, Model, Price, Stock, ImagePath, Specifications) VALUES ('"
-                + txtPName.Text + "', '" + txtBrand.Text + "', '" + txtModel.Text + "', " + txtPrice.Text + ", "
-                + txtStock.Text + ", '" + txtImage.Text + "', '" + txtSpecs.Text + "')";
-            SqlCommand cmd = new SqlCommand(q, con);
-            cmd.ExecuteNonQuery();
-            con.Close();
+            using (SqlConnection con = new SqlConnection(conString))
+            {
+                con.Open();
+                string q = "INSERT INTO Products (Name, Brand, Model, Price, Discount, Stock, ImagePath, Specifications) VALUES (@name, @brand, @model, @price, @discount, @stock, @image, @specs)";
+                using (SqlCommand cmd = new SqlCommand(q, con))
+                {
+                    cmd.Parameters.AddWithValue("@name", txtPName.Text.Trim());
+                    cmd.Parameters.AddWithValue("@brand", txtBrand.Text.Trim());
+                    cmd.Parameters.AddWithValue("@model", txtModel.Text.Trim());
+                    cmd.Parameters.AddWithValue("@price", Convert.ToDecimal(txtPrice.Text));
+                    cmd.Parameters.AddWithValue("@discount", ParseDiscount());
+                    cmd.Parameters.AddWithValue("@stock", Convert.ToInt32(txtStock.Text));
+                    cmd.Parameters.AddWithValue("@image", txtImage.Text.Trim());
+                    cmd.Parameters.AddWithValue("@specs", txtSpecs.Text.Trim());
+                    cmd.ExecuteNonQuery();
+                }
+                con.Close();
+            }
             MessageBox.Show("Product Added!");
             LoadProducts();
             ClearFields();
@@ -74,14 +95,25 @@ namespace MobileShop
             if (dgvProducts.CurrentRow == null) return;
             int id = Convert.ToInt32(dgvProducts.CurrentRow.Cells["Id"].Value);
 
-            SqlConnection con = new SqlConnection(conString);
-            con.Open();
-            string q = "UPDATE Products SET Name = '" + txtPName.Text + "', Brand = '" + txtBrand.Text
-                + "', Model = '" + txtModel.Text + "', Price = " + txtPrice.Text + ", Stock = " + txtStock.Text
-                + ", ImagePath = '" + txtImage.Text + "', Specifications = '" + txtSpecs.Text + "' WHERE Id = " + id;
-            SqlCommand cmd = new SqlCommand(q, con);
-            cmd.ExecuteNonQuery();
-            con.Close();
+            using (SqlConnection con = new SqlConnection(conString))
+            {
+                con.Open();
+                string q = "UPDATE Products SET Name = @name, Brand = @brand, Model = @model, Price = @price, Discount = @discount, Stock = @stock, ImagePath = @image, Specifications = @specs WHERE Id = @id";
+                using (SqlCommand cmd = new SqlCommand(q, con))
+                {
+                    cmd.Parameters.AddWithValue("@name", txtPName.Text.Trim());
+                    cmd.Parameters.AddWithValue("@brand", txtBrand.Text.Trim());
+                    cmd.Parameters.AddWithValue("@model", txtModel.Text.Trim());
+                    cmd.Parameters.AddWithValue("@price", Convert.ToDecimal(txtPrice.Text));
+                    cmd.Parameters.AddWithValue("@discount", ParseDiscount());
+                    cmd.Parameters.AddWithValue("@stock", Convert.ToInt32(txtStock.Text));
+                    cmd.Parameters.AddWithValue("@image", txtImage.Text.Trim());
+                    cmd.Parameters.AddWithValue("@specs", txtSpecs.Text.Trim());
+                    cmd.Parameters.AddWithValue("@id", id);
+                    cmd.ExecuteNonQuery();
+                }
+                con.Close();
+            }
             MessageBox.Show("Product Updated!");
             LoadProducts();
         }
@@ -91,12 +123,17 @@ namespace MobileShop
             if (dgvProducts.CurrentRow == null) return;
             int id = Convert.ToInt32(dgvProducts.CurrentRow.Cells["Id"].Value);
 
-            SqlConnection con = new SqlConnection(conString);
-            con.Open();
-            string q = "DELETE FROM Products WHERE Id = " + id;
-            SqlCommand cmd = new SqlCommand(q, con);
-            cmd.ExecuteNonQuery();
-            con.Close();
+            using (SqlConnection con = new SqlConnection(conString))
+            {
+                con.Open();
+                string q = "DELETE FROM Products WHERE Id = @id";
+                using (SqlCommand cmd = new SqlCommand(q, con))
+                {
+                    cmd.Parameters.AddWithValue("@id", id);
+                    cmd.ExecuteNonQuery();
+                }
+                con.Close();
+            }
             MessageBox.Show("Product Deleted!");
             LoadProducts();
             ClearFields();
@@ -109,6 +146,7 @@ namespace MobileShop
             txtBrand.Text = dgvProducts.Rows[e.RowIndex].Cells["Brand"].Value.ToString();
             txtModel.Text = dgvProducts.Rows[e.RowIndex].Cells["Model"].Value.ToString();
             txtPrice.Text = dgvProducts.Rows[e.RowIndex].Cells["Price"].Value.ToString();
+            txtDiscount.Text = dgvProducts.Rows[e.RowIndex].Cells["Discount"].Value?.ToString() ?? "";
             txtStock.Text = dgvProducts.Rows[e.RowIndex].Cells["Stock"].Value.ToString();
             txtImage.Text = dgvProducts.Rows[e.RowIndex].Cells["ImagePath"].Value.ToString();
             txtSpecs.Text = dgvProducts.Rows[e.RowIndex].Cells["Specifications"].Value.ToString();
@@ -125,6 +163,7 @@ namespace MobileShop
             txtBrand.Clear();
             txtModel.Clear();
             txtPrice.Clear();
+            txtDiscount.Clear();
             txtStock.Clear();
             txtImage.Clear();
             txtSpecs.Clear();

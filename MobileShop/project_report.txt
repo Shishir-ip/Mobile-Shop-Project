@@ -1,0 +1,198 @@
+Project: MobileShop (Windows Forms, .NET 8)
+Location: D:\Semester 6\C#\MobileShop\MobileShop.csproj
+
+Overview:
+- WinForms desktop application for selling mobile phones.
+- Target framework: .NET 8 (net8.0-windows).
+- Uses SQL Server (local SQLExpress) via System.Data.SqlClient.
+- Connection string used throughout: Data Source=.\SQLEXPRESS;Initial Catalog=MobileShop;Integrated Security=True
+
+Primary assemblies / namespaces:
+- Namespace: MobileShop
+- Entry point: Program.Main -> launches `Form1` (main product listing / cart UI)
+
+Files and detailed descriptions:
+- Program.cs
+  - Entry point. Calls `Application.Run(new Form1());`.
+
+- Session.cs
+  - Static session holder: `UserId` (int), `UserName` (string), `Role` (string).
+  - Helps track current logged-in user across forms.
+
+- Form1.cs (+ Form1.Designer.cs)
+  - Main UI showing product listing (`flowPhones`), search (`txtSearch`), sort (`cmbSort`), cart grid (`dgvCart`) and cart summary controls (`lblTotal`, `btnCartBuyNow`).
+  - Data access: `conString` same as above.
+  - Key methods:
+    - `LoadProducts(string search = null, string sort = null)`:
+      - Queries `Products` table: SELECT Id, Name, Price, Discount, ImagePath FROM Products [WHERE Name LIKE @s] [ORDER BY ...].
+      - Builds product panels dynamically with image, name, price, discount badge, Details and Add buttons.
+    - `Add_Click`:
+      - Ensures user logged in; then checks `Cart` table: SELECT Quantity FROM Cart WHERE UserId=@uid AND ProductId=@pid.
+      - If exists, UPDATE Cart SET Quantity = Quantity + 1; else INSERT INTO Cart(UserId, ProductId, Quantity)
+    - `RefreshCartSummary()`:
+      - Queries total: SELECT SUM(p.Price * (1 - ISNULL(p.Discount,0)/100.0) * c.Quantity) FROM Cart c JOIN Products p ON c.ProductId = p.Id WHERE c.UserId = @uid
+      - Also SELECT SUM(Quantity) FROM Cart WHERE UserId = @uid
+    - `RefreshCartGrid()`:
+      - SELECT p.Id AS ProductId, p.Name AS Product, c.Quantity, (p.Price * (1 - ISNULL(p.Discount,0)/100.0)) AS Price, (...) AS Total FROM Cart c JOIN Products p ... WHERE c.UserId = @uid
+    - Cart grid button handlers (Inc/Dec/Remove): UPDATE/DELETE queries against `Cart` table.
+  - Login/Logout UI actions use `LoginForm` and `Session`.
+
+- LoginForm.cs (+ Designer)
+  - Login UI with `txtEmail`, `txtPassword`, `btnLogin`, `lnkRegister`, `lnkForgot`.
+  - Key SQL: SELECT * FROM Users WHERE Email = @email AND Password = @pass
+    - On success sets `Session.UserId`, `Session.UserName`, `Session.Role`.
+  - Links open `RegisterForm` and `ForgotPasswordForm`.
+
+- RegisterForm.cs (+ Designer)
+  - Registration UI with `txtName`, `txtEmail`, `txtPhone`, `txtPassword`, `btnRegister`.
+  - Key SQL: INSERT INTO Users (Name, Email, Phone, Password, Role) VALUES (@name, @email, @phone, @pass, 'Customer')
+
+- ForgotPasswordForm.cs (+ Designer)
+  - Password recovery flow:
+    - Verify email: SELECT * FROM Users WHERE Email = @email
+    - Verify phone: SELECT * FROM Users WHERE Email = @email AND Phone = @phone
+    - Update password: UPDATE Users SET Password = @pass WHERE Email = @email
+  - Stores `verifiedEmail` during flow.
+
+- ProductDetailsForm.cs (+ Designer)
+  - Shows single product details: Name, Specifications, Price, discount badge, image.
+  - Key SQL: SELECT * FROM Products WHERE Id = @id
+  - Add to cart behavior mirrors Form1 `Add` logic (checks/inserts/updates `Cart`).
+
+- CheckoutForm.cs (+ Designer)
+  - Shows cart summary grid (`dgvSummary`), user info pre-fill, payment method (COD / Online bKash), place order flow.
+  - Key functions:
+    - `RefreshCart()` uses SELECT p.Id AS ProductId, p.Name, c.Quantity, (p.Price * ...) AS Price, (...) as Total FROM Cart c JOIN Products p ... WHERE c.UserId = @uid
+    - Computes total via SELECT SUM(...) FROM Cart c JOIN Products p ... WHERE c.UserId = @uid
+    - `btnPlaceOrder_Click` does order placement:
+      - Inserts into `Orders` using concatenated SQL string (see security note below) with OUTPUT INSERTED.Id to retrieve new Order Id.
+      - Reads Cart rows: SELECT ProductId, Quantity FROM Cart WHERE UserId = {Session.UserId}
+      - For each cart row:
+        - INSERT INTO OrderItems (OrderId, ProductId, Quantity, Price) VALUES (orderId, pid, qty, (SELECT Price * (1 - ISNULL(Discount, 0) / 100.0) FROM Products WHERE Id = pid))
+        - UPDATE Products SET Stock = Stock - qty WHERE Id = pid
+      - DELETE FROM Cart WHERE UserId = {Session.UserId}
+  - Note: Several SQL statements are constructed with string concatenation (orderQ, cartQ, itemQ, stockQ, delQ) which is vulnerable to SQL injection if inputs were not trusted. Session.UserId and pid are integers from code, but better to use parameterized queries.
+
+- AdminForm.cs (+ Designer)
+  - Admin UI for product & order management.
+  - LoadProducts: SELECT * FROM Products
+  - LoadOrders: SELECT * FROM Orders
+  - Add product: INSERT INTO Products (Name, Brand, Model, Price, Discount, Stock, ImagePath, Specifications)
+  - Update product: UPDATE Products SET ... WHERE Id = @id
+  - Delete product: DELETE FROM Products WHERE Id = @id
+  - Supports browsing image files and parsing discount strings (supports '%' suffix).
+
+- OrderSuccessForm.cs (+ Designer + resx)
+  - Simple form displayed after placing an order; button returns to home.
+
+- Form2.cs, Form3.cs (+ Designers)
+  - Empty placeholder forms (no custom logic in .cs). Likely unused.
+
+- Designer files (.Designer.cs)
+  - Define UI controls for each Form. They are standard WinForms designer generated code. Files present for main forms include: `Form1.Designer.cs`, `LoginForm.Designer.cs`, `RegisterForm.Designer.cs`, `CheckoutForm.Designer.cs`, `ProductDetailsForm.Designer.cs`, `AdminForm.Designer.cs`, `OrderSuccessForm.Designer.cs`, `ForgotPasswordForm.Designer.cs`, and others.
+
+- obj/ folder
+  - Build-generated files (AssemblyInfo, GlobalUsings). Not relevant for manual editing.
+
+Inferred Database schema (inferred from SQL usage in code):
+- Users
+  - Id (int, primary key)
+  - Name (nvarchar)
+  - Email (nvarchar, unique?)
+  - Phone (nvarchar)
+  - Password (nvarchar) - currently stored plaintext in code (security risk)
+  - Role (nvarchar) - values used: 'Customer', 'Admin'
+
+- Products
+  - Id (int, primary key)
+  - Name (nvarchar)
+  - Brand (nvarchar)
+  - Model (nvarchar)
+  - Price (decimal)
+  - Discount (decimal, nullable)
+  - Stock (int)
+  - ImagePath (nvarchar)
+  - Specifications (nvarchar or text)
+
+- Cart
+  - (likely) Id (int, primary key) or no Id - code references by UserId+ProductId
+  - UserId (int) -> Users.Id
+  - ProductId (int) -> Products.Id
+  - Quantity (int)
+
+- Orders
+  - Id (int, primary key)
+  - UserId (int)
+  - CustomerName (nvarchar)
+  - Phone (nvarchar)
+  - Address (nvarchar)
+  - TotalAmount (decimal)
+  - PaymentMethod (nvarchar) - values: 'COD', 'Online'
+  - TransactionId (nvarchar) - for online payments
+  - (Possibly OrderDate, Status columns if implemented in DB but not referenced in code)
+
+- OrderItems
+  - Id (int, primary key) (inferred)
+  - OrderId (int) -> Orders.Id
+  - ProductId (int) -> Products.Id
+  - Quantity (int)
+  - Price (decimal) (price at time of order)
+
+List of SQL queries (extracted from source - grouped by file):
+- Form1.cs
+  - SELECT Id, Name, Price, Discount, ImagePath FROM Products
+  - SELECT Quantity FROM Cart WHERE UserId = @uid AND ProductId = @pid
+  - UPDATE Cart SET Quantity = Quantity + 1 WHERE UserId = @uid AND ProductId = @pid
+  - INSERT INTO Cart (UserId, ProductId, Quantity) VALUES (@uid, @pid, 1)
+  - SELECT SUM(p.Price * (1 - ISNULL(p.Discount, 0) / 100.0) * c.Quantity) FROM Cart c JOIN Products p ON c.ProductId = p.Id WHERE c.UserId = @uid
+  - SELECT SUM(Quantity) FROM Cart WHERE UserId = @uid
+  - SELECT p.Id AS ProductId, p.Name AS Product, c.Quantity, (p.Price * (1 - ISNULL(p.Discount, 0) / 100.0)) AS Price, (p.Price * (1 - ISNULL(p.Discount, 0) / 100.0) * c.Quantity) AS Total FROM Cart c JOIN Products p ON c.ProductId = p.Id WHERE c.UserId = @uid
+  - UPDATE Cart SET Quantity = Quantity + 1 / Quantity = Quantity - 1 / DELETE FROM Cart WHERE UserId = @uid AND ProductId = @pid
+
+- LoginForm.cs
+  - SELECT * FROM Users WHERE Email = @email AND Password = @pass
+
+- RegisterForm.cs
+  - INSERT INTO Users (Name, Email, Phone, Password, Role) VALUES (@name, @email, @phone, @pass, 'Customer')
+
+- ForgotPasswordForm.cs
+  - SELECT * FROM Users WHERE Email = @email
+  - SELECT * FROM Users WHERE Email = @email AND Phone = @phone
+  - UPDATE Users SET Password = @pass WHERE Email = @email
+
+- ProductDetailsForm.cs
+  - SELECT * FROM Products WHERE Id = @id
+  - SELECT Quantity FROM Cart WHERE UserId = @uid AND ProductId = @pid
+  - INSERT INTO Cart (UserId, ProductId, Quantity) VALUES (@uid, @pid, 1)
+  - UPDATE Cart SET Quantity = Quantity + 1 WHERE UserId = @uid AND ProductId = @pid
+
+- CheckoutForm.cs
+  - SELECT Name, Phone FROM Users WHERE Id = @id
+  - SELECT p.Id AS ProductId, p.Name, c.Quantity, (p.Price * (1 - ISNULL(p.Discount, 0) / 100.0)) AS Price, (...) as Total FROM Cart c JOIN Products p ON c.ProductId = p.Id WHERE c.UserId = @uid
+  - SELECT SUM(p.Price * (1 - ISNULL(p.Discount, 0) / 100.0) * c.Quantity) FROM Cart c JOIN Products p ON c.ProductId = p.Id WHERE c.UserId = @uid
+  - INSERT INTO Orders (UserId, CustomerName, Phone, Address, TotalAmount, PaymentMethod, TransactionId) OUTPUT INSERTED.Id VALUES (... concatenated string ...)
+  - SELECT ProductId, Quantity FROM Cart WHERE UserId = {Session.UserId}  (string concatenation used)
+  - INSERT INTO OrderItems (OrderId, ProductId, Quantity, Price) VALUES (orderId, pid, qty, (SELECT Price * (1 - ISNULL(Discount, 0) / 100.0) FROM Products WHERE Id = pid))
+  - UPDATE Products SET Stock = Stock - qty WHERE Id = pid
+  - DELETE FROM Cart WHERE UserId = {Session.UserId}
+
+- AdminForm.cs
+  - SELECT * FROM Products
+  - SELECT * FROM Orders
+  - INSERT INTO Products (Name, Brand, Model, Price, Discount, Stock, ImagePath, Specifications) VALUES (@...)
+  - UPDATE Products SET ... WHERE Id = @id
+  - DELETE FROM Products WHERE Id = @id
+
+Security & maintenance notes (brief):
+- Passwords are stored and compared in plaintext. Recommend hashing (e.g., bcrypt/Argon2) and using salted hashes.
+- Several SQL statements are constructed by concatenating strings (not parameterized) in `CheckoutForm` (orderQ, cartQ, itemQ, stockQ, delQ). These can lead to SQL injection if untrusted inputs are present. Replace with parameterized queries.
+- Use using/Dispose patterns consistently (most code does) and validate user inputs.
+
+How to use this report file:
+- `MobileShop\project_report.txt` is saved in the project directory. Open it for a full textual description of the project structure, SQL usage and inferred DB schema.
+
+If you want, I can:
+- Generate a SQL schema script (.sql) to create the inferred tables with recommended types.
+- Produce a list of improvements/fixes (e.g., parameterize queries, hash passwords).
+- Export the queries into a separate file.
+
