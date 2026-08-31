@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
@@ -540,16 +540,6 @@ namespace MobileShop
         private void btnSearch_Click(object sender, EventArgs e)
         {
             LoadProducts(txtSearch.Text.Trim(), cmbSort.SelectedItem?.ToString());
-        }
-
-        private void TxtSearch_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-            {
-                e.Handled = true;
-                e.SuppressKeyPress = true;
-                LoadProducts(txtSearch.Text.Trim(), cmbSort.SelectedItem?.ToString());
-            }
         }
 
         // Placeholder stubs (designer may reference these)

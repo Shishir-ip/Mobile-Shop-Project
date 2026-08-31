@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
@@ -16,17 +16,6 @@ namespace MobileShop
 
             // Wire additional handlers
             cmbSort.SelectedIndexChanged += CmbSort_SelectedIndexChanged;
-            // Populate sort dropdown if empty
-            if (cmbSort.Items.Count == 0)
-            {
-                cmbSort.Items.Add("Price: Low to High");
-                cmbSort.Items.Add("Price: High to Low");
-                // leave unselected by default
-                cmbSort.SelectedIndex = -1;
-            }
-
-            // Enable search on Enter key
-            txtSearch.KeyDown += TxtSearch_KeyDown;
             btnCartBuyNow.Click += BtnCartBuyNow_Click;
             btnLogin.Click += btnLogin_Click_1;
 
@@ -540,16 +529,6 @@ namespace MobileShop
         private void btnSearch_Click(object sender, EventArgs e)
         {
             LoadProducts(txtSearch.Text.Trim(), cmbSort.SelectedItem?.ToString());
-        }
-
-        private void TxtSearch_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-            {
-                e.Handled = true;
-                e.SuppressKeyPress = true;
-                LoadProducts(txtSearch.Text.Trim(), cmbSort.SelectedItem?.ToString());
-            }
         }
 
         // Placeholder stubs (designer may reference these)

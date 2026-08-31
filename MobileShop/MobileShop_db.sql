@@ -1,0 +1,138 @@
+-- MobileShop database creation and seed script
+-- Run this script on a SQL Server instance (e.g. .\SQLEXPRESS)
+
+-- Create database if it does not exist
+IF DB_ID('MobileShop') IS NULL
+BEGIN
+    PRINT 'Creating database MobileShop...';
+    CREATE DATABASE MobileShop;
+END
+GO
+
+USE MobileShop;
+GO
+
+-- Create Users table
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Users]') AND type in (N'U'))
+BEGIN
+    CREATE TABLE [dbo].[Users]
+    (
+        [Id] INT IDENTITY(1,1) PRIMARY KEY,
+        [Name] NVARCHAR(200) NOT NULL,
+        [Email] NVARCHAR(200) NOT NULL UNIQUE,
+        [Phone] NVARCHAR(50) NULL,
+        [Password] NVARCHAR(200) NOT NULL,
+        [Role] NVARCHAR(50) NOT NULL
+    );
+END
+GO
+
+-- Create Products table
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Products]') AND type in (N'U'))
+BEGIN
+    CREATE TABLE [dbo].[Products]
+    (
+        [Id] INT IDENTITY(1,1) PRIMARY KEY,
+        [Name] NVARCHAR(200) NOT NULL,
+        [Brand] NVARCHAR(100) NULL,
+        [Model] NVARCHAR(100) NULL,
+        [Price] DECIMAL(18,2) NOT NULL,
+        [Discount] DECIMAL(5,2) NULL,
+        [Stock] INT NOT NULL DEFAULT 0,
+        [ImagePath] NVARCHAR(500) NULL,
+        [Specifications] NVARCHAR(MAX) NULL
+    );
+END
+GO
+
+-- Create Cart table (composite primary key: UserId + ProductId)
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Cart]') AND type in (N'U'))
+BEGIN
+    CREATE TABLE [dbo].[Cart]
+    (
+        [UserId] INT NOT NULL,
+        [ProductId] INT NOT NULL,
+        [Quantity] INT NOT NULL DEFAULT 1,
+        CONSTRAINT [PK_Cart] PRIMARY KEY ([UserId], [ProductId]),
+        CONSTRAINT [FK_Cart_Users] FOREIGN KEY ([UserId]) REFERENCES [dbo].[Users]([Id]) ON DELETE CASCADE,
+        CONSTRAINT [FK_Cart_Products] FOREIGN KEY ([ProductId]) REFERENCES [dbo].[Products]([Id]) ON DELETE CASCADE
+    );
+END
+GO
+
+-- Create Orders table
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Orders]') AND type in (N'U'))
+BEGIN
+    CREATE TABLE [dbo].[Orders]
+    (
+        [Id] INT IDENTITY(1,1) PRIMARY KEY,
+        [UserId] INT NOT NULL,
+        [CustomerName] NVARCHAR(200) NOT NULL,
+        [Phone] NVARCHAR(50) NOT NULL,
+        [Address] NVARCHAR(MAX) NOT NULL,
+        [TotalAmount] DECIMAL(18,2) NOT NULL,
+        [PaymentMethod] NVARCHAR(50) NOT NULL,
+        [TransactionId] NVARCHAR(200) NULL,
+        [OrderDate] DATETIME NOT NULL DEFAULT GETDATE(),
+        CONSTRAINT [FK_Orders_Users] FOREIGN KEY ([UserId]) REFERENCES [dbo].[Users]([Id]) ON DELETE NO ACTION
+    );
+END
+GO
+
+-- Create OrderItems table
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[OrderItems]') AND type in (N'U'))
+BEGIN
+    CREATE TABLE [dbo].[OrderItems]
+    (
+        [Id] INT IDENTITY(1,1) PRIMARY KEY,
+        [OrderId] INT NOT NULL,
+        [ProductId] INT NOT NULL,
+        [Quantity] INT NOT NULL,
+        [Price] DECIMAL(18,2) NOT NULL,
+        CONSTRAINT [FK_OrderItems_Orders] FOREIGN KEY ([OrderId]) REFERENCES [dbo].[Orders]([Id]) ON DELETE CASCADE,
+        CONSTRAINT [FK_OrderItems_Products] FOREIGN KEY ([ProductId]) REFERENCES [dbo].[Products]([Id]) ON DELETE NO ACTION
+    );
+END
+GO
+
+-- Seed initial users (Admin and a test customer)
+PRINT 'Seeding Users and Products...';
+IF NOT EXISTS (SELECT 1 FROM [dbo].[Users] WHERE [Email] = 'admin@example.com')
+BEGIN
+    INSERT INTO [dbo].[Users] ([Name], [Email], [Phone], [Password], [Role]) VALUES
+    ('Admin User', 'admin@example.com', '0123456789', 'admin', 'Admin');
+END
+
+IF NOT EXISTS (SELECT 1 FROM [dbo].[Users] WHERE [Email] = 'customer@example.com')
+BEGIN
+    INSERT INTO [dbo].[Users] ([Name], [Email], [Phone], [Password], [Role]) VALUES
+    ('Test Customer', 'customer@example.com', '01700000000', 'password', 'Customer');
+END
+GO
+
+-- Seed sample products
+IF NOT EXISTS (SELECT 1 FROM [dbo].[Products])
+BEGIN
+    INSERT INTO [dbo].[Products] ([Name], [Brand], [Model], [Price], [Discount], [Stock], [ImagePath], [Specifications]) VALUES
+    ('Aurora X1', 'Aurora', 'X1', 19999.00, 10.00, 50, '', 'Display: 6.5"; RAM: 4GB; Storage: 64GB'),
+    ('Orion S5', 'Orion', 'S5', 24999.00, 5.00, 30, '', 'Display: 6.1"; RAM: 6GB; Storage: 128GB'),
+    ('Nebula Pro', 'Nebula', 'Pro', 34999.00, NULL, 20, '', 'Display: 6.7"; RAM: 8GB; Storage: 256GB'),
+    ('Comet Lite', 'Comet', 'Lite', 12999.00, 15.00, 80, '', 'Display: 5.8"; RAM: 3GB; Storage: 32GB'),
+    ('Zenith Z', 'Zenith', 'Z', 45999.00, 8.00, 10, '', 'Display: 6.9"; RAM: 12GB; Storage: 512GB');
+END
+GO
+
+-- Optional: create non-clustered indexes to improve common queries
+IF NOT EXISTS (SELECT * FROM sys.indexes WHERE name = 'IX_Products_Name' AND object_id = OBJECT_ID('dbo.Products'))
+BEGIN
+    CREATE NONCLUSTERED INDEX IX_Products_Name ON dbo.Products([Name]);
+END
+GO
+
+PRINT 'MobileShop database and seed data ready.';
+
+-- Notes:
+-- 1) Passwords in this seed are plaintext to match the current application implementation.
+--    For production, update the application to use hashed passwords and replace these entries accordingly.
+-- 2) The sample ImagePath values are empty; update them to point to actual image files if desired.
+-- 3) The script is idempotent and will not recreate objects if they already exist.
