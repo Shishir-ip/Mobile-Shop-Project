@@ -125,7 +125,7 @@ The database is normalized up to **3NF (Third Normal Form)** to eliminate redund
 5. Place the order and receive the Order ID confirmation.
 
 ### Admin Workflow
-1. Login with an Admin account.
+1. Login with an Admin account. (Default username- admin@example.com Password: admin )
 2. Access the Admin Dashboard.
 3. Add new products (including uploading images from your local machine).
 4. Edit existing product details or delete items.
