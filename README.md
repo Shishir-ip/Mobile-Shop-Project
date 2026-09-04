@@ -1,4 +1,4 @@
-# 📱 MobileShop Management System
+<img width="420" height="587" alt="image" src="https://github.com/user-attachments/assets/cc390855-41f2-4b51-87d8-11caa0c658d8" /># 📱 MobileShop Management System
 
 ![.NET](https://img.shields.io/badge/.NET-8.0-512BD4?style=for-the-badge&logo=dotnet&logoColor=white)
 ![C#](https://img.shields.io/badge/C%23-11.0-239120?style=for-the-badge&logo=c-sharp&logoColor=white)
@@ -7,7 +7,7 @@
 
 A comprehensive desktop-based retail management system for mobile phone shops, built with **C#**, **Windows Forms (.NET 8)**, and **SQL Server**. It features complete user authentication, a dynamic product catalog, shopping cart functionality, checkout processing, and a dedicated admin dashboard for inventory management.
 
- **Live Project Overview & Architecture Visualization**: [mobile-shop-project-azure.vercel.app](https://mobile-shop-project-azure.vercel.app)
+ **Live Project Overview & Architecture Visualization**: [mobile-shop-project-azure.vercel.app](https://mobile-shop-project-csharp.vercel.app/)
 
 ---
 
@@ -119,6 +119,7 @@ The database is normalized up to **3NF (Third Normal Form)** to eliminate redund
    ```sql
    UPDATE Users SET Role = 'Admin' WHERE Email = 'your-email@example.com';
    ```
+   -Default username- 
 
 2. **Login**: Use your credentials. Admin users will automatically be routed to the `AdminForm`, while regular users will see the `Form1` storefront.
 
@@ -201,16 +202,16 @@ Mobile-Shop-Project/
 *Add your actual screenshots by replacing the placeholder links below*
 
 ### Login & Registration
-![Login Screen](https://via.placeholder.com/600x400/512BD4/FFFFFF?text=Login+Screen)
+![Login Screen](https://i.ibb.co.com/jPwZPDk0/image.png)
 
 ### Main Storefront
-![Product Catalog](https://via.placeholder.com/600x400/239120/FFFFFF?text=Product+Catalog)
+![Product Catalog](https://i.ibb.co.com/H3Fz3sS/image.png)
 
 ### Shopping Cart
-![Shopping Cart](https://via.placeholder.com/600x400/CC2927/FFFFFF?text=Shopping+Cart)
+![Shopping Cart](https://i.ibb.co.com/S4KGtk29/image.png)
 
 ### Admin Dashboard
-![Admin Panel](https://via.placeholder.com/600x400/0078D4/FFFFFF?text=Admin+Panel)
+![Admin Panel](https://i.ibb.co.com/G3MV4cPw/image.png)
 
 ---
 
