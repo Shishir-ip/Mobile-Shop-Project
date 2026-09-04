@@ -1,4 +1,4 @@
-<img width="420" height="587" alt="image" src="https://github.com/user-attachments/assets/cc390855-41f2-4b51-87d8-11caa0c658d8" /># 📱 MobileShop Management System
+# 📱 MobileShop Management System
 
 ![.NET](https://img.shields.io/badge/.NET-8.0-512BD4?style=for-the-badge&logo=dotnet&logoColor=white)
 ![C#](https://img.shields.io/badge/C%23-11.0-239120?style=for-the-badge&logo=c-sharp&logoColor=white)
@@ -7,11 +7,11 @@
 
 A comprehensive desktop-based retail management system for mobile phone shops, built with **C#**, **Windows Forms (.NET 8)**, and **SQL Server**. It features complete user authentication, a dynamic product catalog, shopping cart functionality, checkout processing, and a dedicated admin dashboard for inventory management.
 
- **Live Project Overview & Architecture Visualization**: [mobile-shop-project-azure.vercel.app](https://mobile-shop-project-csharp.vercel.app/)
+🌐 **Live Project Overview & Architecture Visualization**: [mobile-shop-project-azure.vercel.app](https://mobile-shop-project-csharp.vercel.app)
 
 ---
 
-##  Table of Contents
+## 📋 Table of Contents
 
 - [Features](#-features)
 - [Tech Stack](#-tech-stack)
@@ -44,7 +44,7 @@ A comprehensive desktop-based retail management system for mobile phone shops, b
 
 ---
 
-## ️ Tech Stack
+## 🛠️ Tech Stack
 
 | Technology | Version | Purpose |
 |------------|---------|---------|
@@ -66,6 +66,8 @@ The database is normalized up to **3NF (Third Normal Form)** to eliminate redund
 4. **Orders**: Header information for placed orders (Total, Payment Method, Address).
 5. **OrderItems**: Line items linking Orders to Products with historical pricing.
 
+*(A complete SQL setup script is included in the repository under the `Database/` folder).*
+
 ---
 
 ## 🚀 Installation
@@ -86,151 +88,112 @@ The database is normalized up to **3NF (Third Normal Form)** to eliminate redund
 2. **Set up the database**
    - Open **SQL Server Management Studio (SSMS)** and connect to `.\SQLEXPRESS`.
    - Create a new database named **`MobileShop`**.
-   - Execute the SQL script to create tables and insert sample data.
+   - Open and execute the provided SQL script: `Database/MobileShop_db.sql` (This will create all tables and insert sample data).
 
 3. **Open the project**
    - Launch **Visual Studio 2022**.
    - Open `MobileShop.sln` (solution file in the root directory).
 
 4. **Verify Connection String**
-   
-   The application uses the following default connection string:
-   ```
+   The application uses Windows Authentication by default:
+   ```text
    Data Source=.\SQLEXPRESS;Initial Catalog=MobileShop;Integrated Security=True
    ```
-   
-   If your SQL Server instance name is different, update the `conString` variable in these files:
-   - `MobileShop/Form1.cs`
-   - `MobileShop/LoginForm.cs`
-   - `MobileShop/CheckoutForm.cs`
+   *If your SQL Server instance name is different, update the `conString` variable in `Form1.cs`, `LoginForm.cs`, and `CheckoutForm.cs`.*
 
 5. **Build and Run**
    - Press **F5** or click the **Start** button in Visual Studio to launch the application.
 
 ---
 
-##  Usage Guide
+## 🚀 Usage Guide
 
 ### First-Time Setup
-
-1. **Create an Admin Account**:
+1. **Create an Admin Account**: 
    - Register a new user through the application's Registration form.
-   - Open SQL Server Management Studio and run this query:
-   ```sql
-   UPDATE Users SET Role = 'Admin' WHERE Email = 'your-email@example.com';
-   ```
-   -Default username- 
-
+   - Open SSMS and run this query to grant admin privileges:
+     ```sql
+     UPDATE Users SET Role = 'Admin' WHERE Email = 'your-email@example.com';
+     ```
 2. **Login**: Use your credentials. Admin users will automatically be routed to the `AdminForm`, while regular users will see the `Form1` storefront.
 
 ### Customer Workflow
-
-1. Register → Login → Browse Products
-2. Add desired items to the cart
-3. Click "Buy Now" to proceed to checkout
-4. Enter shipping address and select a payment method (COD or bKash)
-5. Place the order and receive the Order ID confirmation
+1. Register → Login → Browse Products.
+2. Add desired items to the cart.
+3. Click "Buy Now" to proceed to checkout.
+4. Enter shipping address and select a payment method (COD or bKash).
+5. Place the order and receive the Order ID confirmation.
 
 ### Admin Workflow
-
-1. Login with an Admin account
-2. Access the Admin Dashboard
-3. Add new products (including uploading images from your local machine)
-4. Edit existing product details or delete items
-5. Monitor incoming customer orders and inventory stock levels
+1. Login with an Admin account.
+2. Access the Admin Dashboard.
+3. Add new products (including uploading images from your local machine).
+4. Edit existing product details or delete items.
+5. Monitor incoming customer orders and inventory stock levels.
 
 ---
 
 ## 📁 Project Structure
 
-```
+```text
 Mobile-Shop-Project/
 │
-├──  MobileShop.sln                 # Visual Studio Solution file
-├── 📄 MobileShop_db.sql              # Database setup script
-── 📄 index.html                     # Project visualization page
+├── 📄 MobileShop.sln                 # Visual Studio Solution file
+├── 📂 Database/                      # Database scripts
+│   └── 📄 MobileShop_db.sql          # Complete DB schema and sample data
 │
-├──  MobileShop/                    # Main C# Project Folder
-│   ├── 📂 Images/                    # Product images
-│   ├── 📂 bin/Debug/                 # Compiled binaries
-│   ├── 📂 obj/                       # Build objects
+├── 📂 MobileShop/                    # Main C# Project Folder
+│   ├── 📂 bin/                       # Compiled binaries (auto-generated)
+│   ├── 📂 obj/                       # Build objects (auto-generated)
 │   │
 │   ├── 📄 Program.cs                 # Application entry point
-│   ├── 📄 Session.cs                 # User session management
+│   ├── 📄 Session.cs                 # Static class for user session management
 │   │
-│   ├── 📄 Form1.cs                   # Main storefront UI
-│   ├── 📄 Form1.Designer.cs
-│   ├── 📄 Form1.resx
-│   │
+│   ├── 📄 Form1.cs                   # Main storefront UI (Products & Cart)
 │   ├── 📄 LoginForm.cs               # User authentication
-│   ├── 📄 LoginForm.Designer.cs
-│   ├── 📄 LoginForm.resx
+│   ├── 📄 RegisterForm.cs            # New user registration
+│   ├── 📄 ForgotPasswordForm.cs      # Password recovery flow
+│   ├── 📄 ProductDetailsForm.cs      # Single product detailed view
+│   ├── 📄 CheckoutForm.cs            # Order processing and payment
+│   ├── 📄 AdminForm.cs               # Admin dashboard (CRUD operations)
+│   ├── 📄 OrderSuccessForm.cs        # Order confirmation UI
 │   │
-│   ├── 📄 RegisterForm.cs            # User registration
-│   ├── 📄 RegisterForm.Designer.cs
-│   ├── 📄 RegisterForm.resx
-│   │
-│   ├── 📄 ForgotPasswordForm.cs      # Password recovery
-│   ├── 📄 ForgotPasswordForm.Designer.cs
-│   ├── 📄 ForgotPasswordForm.resx
-│   │
-│   ├── 📄 ProductDetailsForm.cs      # Product details view
-│   ├── 📄 ProductDetailsForm.Designer.cs
-│   ├── 📄 ProductDetailsForm.resx
-│   │
-│   ├── 📄 CheckoutForm.cs            # Order processing
-│   ├── 📄 CheckoutForm.Designer.cs
-│   ├── 📄 CheckoutForm.resx
-│   │
-│   ├── 📄 AdminForm.cs               # Admin dashboard
-│   ├── 📄 AdminForm.Designer.cs
-│   ├── 📄 AdminForm.resx
-│   │
-│   ├── 📄 OrderSuccessForm.cs        # Order confirmation
-│   ├── 📄 OrderSuccessForm.Designer.cs
-│   ├── 📄 OrderSuccessForm.resx
-│   │
-│   └──  MobileShop.csproj          # Project file
+│   └── 📄 MobileShop.csproj          # Project configuration file
 │
-└── 📂 .vs/                           # Visual Studio cache
+└── 📄 README.md                      # This file
 ```
 
 ---
 
-##  Screenshots
+## 📸 Screenshots
 
-*Add your actual screenshots by replacing the placeholder links below*
+*(Replace these placeholder links with actual screenshots of your application)*
 
-### Login & Registration
-![Login Screen](https://i.ibb.co.com/jPwZPDk0/image.png)
+| Login & Registration | Main Storefront |
+| :---: | :---: |
+| ![Login](https://i.ibb.co.com/jPwZPDk0/image.png) | ![Storefront](https://i.ibb.co.com/H3Fz3sS/image.png) |
 
-### Main Storefront
-![Product Catalog](https://i.ibb.co.com/H3Fz3sS/image.png)
-
-### Shopping Cart
-![Shopping Cart](https://i.ibb.co.com/S4KGtk29/image.png)
-
-### Admin Dashboard
-![Admin Panel](https://i.ibb.co.com/G3MV4cPw/image.png)
+| Shopping Cart | Admin Dashboard |
+| :---: | :---: |
+| ![Cart](https://i.ibb.co.com/S4KGtk29/image.png) | ![Admin](https://i.ibb.co.com/G3MV4cPw/image.png) |
 
 ---
 
 ## 🔐 Security Notes
 
-> ⚠️ **Disclaimer**: This project was developed primarily for **educational and academic purposes** to demonstrate fundamental desktop application development concepts.
+> ⚠️ **Disclaimer**: This project was developed primarily for **educational and academic purposes** to demonstrate fundamental desktop application development concepts. 
 
-For production environments, the following security improvements are highly recommended:
-
+For production environments, the following security improvements are highly recommended and planned for future iterations:
 1. **Password Hashing**: Currently, passwords are stored in plaintext. Implement `bcrypt` or `Argon2` hashing with per-user salts.
-2. **SQL Injection Prevention**: Some queries in `CheckoutForm.cs` use string concatenation. Refactor to use strictly parameterized `SqlParameter` objects.
-3. **Input Validation**: Add comprehensive Regex validation for emails, phone numbers, and numeric inputs.
+2. **SQL Injection Prevention**: While most queries use parameterized inputs, some legacy queries in `CheckoutForm.cs` use string concatenation. These must be refactored to use strictly parameterized `SqlParameter` objects.
+3. **Input Validation**: Add comprehensive Regex validation for emails, phone numbers, and numeric inputs on the frontend.
 4. **Configuration**: Move the hardcoded connection string to `App.config` or environment variables.
 
 ---
 
 ## 🤝 Contributing
 
-Contributions, issues, and feature requests are welcome!
+Contributions, issues, and feature requests are welcome! 
 
 1. **Fork** the repository
 2. **Create** a feature branch (`git checkout -b feature/AmazingFeature`)
@@ -240,13 +203,13 @@ Contributions, issues, and feature requests are welcome!
 
 ---
 
-##  License
+## 📝 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
-## 👨💻 Author
+## 👨‍💻 Author
 
 **Shishir**  
 - GitHub: [@Shishir-ip](https://github.com/Shishir-ip)  
